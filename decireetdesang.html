@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>De cire et de sang</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=Montserrat:wght@300;400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+body {
+    font-family: 'Crimson Pro', serif;
+    line-height: 1.8;
+    color: #e8e8e8;  /* Texte plus clair */
+    background: linear-gradient(to bottom, #1a1410 0%, #221c18 30%, #2a1f28 70%, #1a1410 100%);
+    overflow-x: hidden;
+    position: relative;
+}
+        
+        .wax-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.90;
+        }
+        
+        .wax-drip {
+            position: absolute;
+            background: linear-gradient(to bottom, rgba(212, 165, 116, 0.4), rgba(212, 165, 116, 0.1));
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: drip 15s ease-in-out infinite;
+        }
+        
+        .wax-drip:nth-child(1) {
+            width: 80px;
+            height: 200px;
+            top: -50px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .wax-drip:nth-child(2) {
+            width: 60px;
+            height: 180px;
+            top: -30px;
+            right: 15%;
+            animation-delay: 3s;
+        }
+        
+        .wax-drip:nth-child(3) {
+            width: 70px;
+            height: 220px;
+            top: -40px;
+            left: 85%;
+            animation-delay: 6s;
+        }
+        
+.wax-statue-silhouette {
+    position: absolute;
+    opacity: 0.15;
+    filter: blur(2px);
+}
+
+.statue-left {
+    left: 5%;
+    top: 20%;
+    width: 180px;
+    height: 450px;
+    background: linear-gradient(135deg, rgba(244, 201, 138, 0.4), rgba(212, 165, 116, 0.3));
+    clip-path: polygon(40% 0%, 60% 0%, 70% 15%, 75% 30%, 70% 50%, 65% 70%, 60% 85%, 55% 100%, 45% 100%, 40% 85%, 35% 70%, 30% 50%, 25% 30%, 30% 15%);
+    animation: float 20s ease-in-out infinite;
+    box-shadow: 0 0 40px rgba(212, 165, 116, 0.3);
+}
+
+.statue-right {
+    right: 8%;
+    top: 50%;
+    width: 150px;
+    height: 400px;
+    background: linear-gradient(135deg, rgba(200, 168, 216, 0.4), rgba(166, 124, 148, 0.3));
+    clip-path: polygon(35% 0%, 65% 0%, 75% 10%, 80% 25%, 85% 40%, 75% 60%, 70% 75%, 65% 90%, 55% 100%, 45% 100%, 35% 90%, 30% 75%, 25% 60%, 15% 40%, 20% 25%, 25% 10%);
+    animation: float 18s ease-in-out infinite 2s;
+    box-shadow: 0 0 40px rgba(166, 124, 148, 0.3);
+}
+.statue-center-top {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 5%;
+    width: 140px;
+    height: 380px;
+    background: linear-gradient(135deg, rgba(212, 165, 116, 0.3), rgba(244, 201, 138, 0.2));
+    clip-path: polygon(45% 0%, 55% 0%, 65% 12%, 70% 25%, 75% 40%, 70% 60%, 65% 75%, 60% 90%, 50% 100%, 40% 90%, 35% 75%, 30% 60%, 25% 40%, 30% 25%, 35% 12%);
+    animation: float 22s ease-in-out infinite 4s;
+    opacity: 0.12;
+    filter: blur(2px);
+    box-shadow: 0 0 35px rgba(212, 165, 116, 0.25);
+}
+
+.statue-left-bottom {
+    left: 15%;
+    bottom: 15%;
+    width: 130px;
+    height: 360px;
+    background: linear-gradient(135deg, rgba(166, 124, 148, 0.35), rgba(200, 168, 216, 0.25));
+    clip-path: polygon(42% 0%, 58% 0%, 68% 15%, 72% 30%, 68% 50%, 63% 70%, 58% 85%, 53% 100%, 47% 100%, 42% 85%, 37% 70%, 32% 50%, 28% 30%, 32% 15%);
+    animation: float 19s ease-in-out infinite 6s;
+    opacity: 0.13;
+    filter: blur(2px);
+    box-shadow: 0 0 35px rgba(166, 124, 148, 0.25);
+}
+
+.statue-right-top {
+    right: 12%;
+    top: 15%;
+    width: 120px;
+    height: 340px;
+    background: linear-gradient(135deg, rgba(244, 201, 138, 0.35), rgba(212, 165, 116, 0.25));
+    clip-path: polygon(38% 0%, 62% 0%, 72% 12%, 77% 28%, 72% 48%, 67% 68%, 62% 83%, 57% 100%, 43% 100%, 38% 83%, 33% 68%, 28% 48%, 23% 28%, 28% 12%);
+    animation: float 21s ease-in-out infinite 1s;
+    opacity: 0.11;
+    filter: blur(2px);
+    box-shadow: 0 0 30px rgba(212, 165, 116, 0.2);
+}
+        
+        .wax-puddle {
+            position: absolute;
+            background: radial-gradient(ellipse at center, rgba(212, 165, 116, 0.2), transparent);
+            border-radius: 50%;
+            animation: pulse 8s ease-in-out infinite;
+        }
+        
+        .puddle-1 {
+            width: 200px;
+            height: 80px;
+            bottom: 10%;
+            left: 20%;
+            animation-delay: 0s;
+        }
+        
+        .puddle-2 {
+            width: 180px;
+            height: 70px;
+            bottom: 30%;
+            right: 25%;
+            animation-delay: 3s;
+        }
+        
+        @keyframes drip {
+            0%, 100% {
+                transform: translateY(0) scaleY(1);
+                opacity: 0.4;
+            }
+            50% {
+                transform: translateY(100px) scaleY(1.3);
+                opacity: 0.2;
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.2;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(1.1);
+            }
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+.main-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #d4a574 0%, #f4c98a 50%, #a67c94 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 2px;
+    opacity: 0;
+    animation: fadeIn 2s ease forwards;
+    text-shadow: 0 0 20px rgba(212, 165, 116, 0.5);
+}
+
+.subtitle {
+    text-align: center;
+    font-style: italic;
+    color: #b8a8a8;
+    margin-bottom: 80px;
+    font-size: 1.1rem;
+    opacity: 0;
+    animation: fadeIn 2s ease 0.5s forwards;
+}
+
+.chapter-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    margin-bottom: 30px;
+    color: #c4b4b4;
+    position: relative;
+    padding-bottom: 15px;
+}
+        
+        .chapter.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .chapter-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 30px;
+            color: #5a4a4a;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .chapter-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(to right, #d4a574, transparent);
+        }
+        
+        .phase-warmth .chapter-title { color: #f4c98a; }
+        .phase-warmth .chapter-title::after { background: linear-gradient(to right, #d4a574, transparent); }
+        
+        .phase-tension .chapter-title { color: #c8a8d8; }
+        .phase-tension .chapter-title::after { background: linear-gradient(to right, #a67c94, transparent); }
+        
+        .phase-cold .chapter-title { color: #a8bcd8; }
+        .phase-cold .chapter-title::after { background: linear-gradient(to right, #7a8a9a, transparent); }
+        
+        .phase-renewal .chapter-title { color: #f4c98a; }
+        .phase-renewal .chapter-title::after { background: linear-gradient(to right, #d4a574, transparent); }
+        
+        p {
+            margin-bottom: 20px;
+            text-align: justify;
+            font-size: 1.1rem;
+            text-indent: 2em;
+        }
+        
+        p:first-of-type {
+            text-indent: 0;
+        }
+        
+.dialogue {
+    margin: 25px 0;
+    padding-left: 30px;
+    border-left: 2px solid rgba(166, 124, 148, 0.5);
+    font-style: italic;
+    color: #d8d8d8;
+}
+
+/* Dialogues de Lucien (couleur ambrée/dorée avec glow) */
+.dialogue p:nth-child(even) {
+    color: #e4ab6e;
+    text-shadow: 0 0 10px rgba(244, 201, 138, 0.6),
+                 0 0 20px rgba(212, 165, 116, 0.4),
+                 0 0 30px rgba(212, 165, 116, 0.2);
+}
+
+/* Dialogues de Violette (couleur violette/rose avec glow) */
+.dialogue p:nth-child(odd) {
+    color: #c76cff;
+    text-shadow: 0 0 10px rgba(196, 116, 185, 0.6),
+                 0 0 20px rgba(146, 104, 172, 0.4),
+                 0 0 30px rgba(142, 102, 156, 0.2);
+}
+        
+        .ornament {
+            text-align: center;
+            margin: 20px 0;
+            color: #d4a574;
+            font-size: 1.5rem;
+            opacity: 0.4;
+        }
+        
+.postface {
+    margin-top: 100px;
+    padding: 50px;
+    background: rgba(30, 25, 30, 0.7);
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 165, 116, 0.2);
+}
+
+.postface-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.6rem;
+    margin-bottom: 30px;
+    color: #d4a574;
+    font-weight: 600;
+}
+
+.postface p {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: #c8c8c8;
+}
+        
+        .melting {
+            filter: blur(0.3px);
+            opacity: 0.95;
+            text-shadow: 0 2px 4px rgba(212, 165, 116, 0.3);
+        }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 20px;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .chapter-title {
+                font-size: 1.5rem;
+            }
+            
+p {
+    margin-bottom: 20px;
+    text-align: justify;
+    font-size: 1.1rem;
+    text-indent: 2em;
+    color: #d8d8d8;
+}
+            
+            .postface {
+                padding: 30px 20px;
+            }
+            
+            .wax-statue-silhouette {
+                display: none;
+            }
+        }
+        
+        .fade-element {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+        }
+        
+        .fade-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+<div class="wax-background">
+    <div class="wax-drip"></div>
+    <div class="wax-drip"></div>
+    <div class="wax-drip"></div>
+    <div class="wax-statue-silhouette statue-left"></div>
+    <div class="wax-statue-silhouette statue-right"></div>
+    <!-- NOUVELLES STATUES À AJOUTER ICI -->
+    <div class="wax-statue-silhouette statue-center-top"></div>
+    <div class="wax-statue-silhouette statue-left-bottom"></div>
+    <div class="wax-statue-silhouette statue-right-top"></div>
+    <!-- FIN DES NOUVELLES STATUES -->
+    <div class="wax-puddle puddle-1"></div>
+    <div class="wax-puddle puddle-2"></div>
+</div>
+    
+    <div class="container">
+        <h1 class="main-title">De cire et de sang</h1>
+        <p class="subtitle">Il y a des premières fois qui marquent à jamais. Dans la cire comme dans la chair.</p>
+        
+        <div class="chapter phase-warmth">
+            <p>Dans la salle silencieuse du musée, sous les lumières tamisées qui s'éteignaient une à une chaque soir, deux statues de cire se faisaient face. Lucien, figé dans un geste d'offrande éternelle, main tendue paume ouverte vers le ciel, l'autre main posée sur son cœur. Sa plaque disait : <em>L'Offrande, artiste inconnu, XIXe siècle</em>.</p>
+            
+            <p>Violette, de l'autre côté de la salle, dans une pose théâtrale, un bras levé à mi-geste. Sur son visage de cire ivoire, un masque vénitien rose et violet était fondu dans ses traits, impossible à retirer. Les reflets fuchsia et violets dansaient sur sa surface pâle selon l'angle de la lumière. Des fissures couraient le long de ses bras comme des rivières sur une carte ancienne. Sa plaque : <em>La Muse Masquée, restauration partielle</em>.</p>
+            
+            <p>Derrière Lucien, un grand tableau représentait une tempête maritime : vagues grises et bleues se fracassant contre des rochers noirs, écume blanche figée dans la violence du mouvement. Derrière Violette, une nature morte aux roses épanouies et un grand miroir baroque où reflétait toute la scène, au fond de la salle.</p>
+            
+            <p>Ils ne pouvaient pas bouger. C'était la règle cruelle de leur existence : conscience prisonnière d'un corps immobile. Mais la nuit, quand les derniers visiteurs quittaient les lieux et que le gardien verrouillait les portes, ils pouvaient parler. Leurs voix, légères comme des souffles, traversaient la salle vide.</p>
+        </div>
+        
+        <div class="ornament">❋</div>
+        
+        <div class="chapter phase-warmth">
+            <h2 class="chapter-title">La plasticité des commencements</h2>
+            
+            <p>Au début, ce n'était que des remarques anodines. Puis Lucien s'était mis à attendre ces moments nocturnes avec une intensité qui le dévorait. Il avait remarqué les fissures de Violette. Des lignes pâles qui traversaient l'ivoire de sa cire, creusant des sillons dans les reflets violets. Il avait remarqué aussi que son expression changeait selon l'angle de la lumière. Parfois il croyait y voir de la tendresse. Parfois juste de la distance. Il ne savait jamais.</p>
+            
+            <p>Les semaines s'écoulèrent dans une complicité lumineuse. Violette était vive, curieuse. Elle inventait des histoires absurdes sur les tableaux, racontait des anecdotes sur les visiteurs. Elle le faisait rire. Le faisait réfléchir. Le faisait exister au-delà de sa pose figée.</p>
+            
+            <div class="dialogue">
+                <p>— Tu sais, avant que tu arrives ici, je ne parlais à personne. Les autres statues ne répondaient jamais. Ou peut-être que je n'essayais pas vraiment. Mais toi... je ne sais pas. C'est différent. Tu es là. Vraiment là.</p>
+                <p>— Je suis content d'être là, avait dit Lucien.</p>
+                <p>— Moi aussi. Je crois que tu es la seule chose stable dans cette salle. Tout le reste bouge, change, se détériore. Mais toi, tu es là chaque nuit. Ça compte pour moi. Plus que je ne saurais dire.</p>
+            </div>
+            
+            <p>Lucien avait senti quelque chose se déplacer dans sa poitrine de cire. Pour la première fois depuis qu'il était dans ce musée, il se sentait entendu. Vu. Comme si, enfin, il faisait partie du monde de quelqu'un d'autre. Pas juste une statue qu'on regarde en passant. Une présence qui comptait vraiment. Dans le miroir baroque, Lucien voyait leurs reflets : lui doré et tendu vers elle, elle ivoire et fragmentée. Deux figures se cherchant dans le verre.</p>
+            
+            <p>C'était durant ces semaines-là que les sentiments de Lucien avaient changé. Il ne savait pas exactement quand. Peut-être quand il avait remarqué comment les reflets roses de son masque s'intensifiaient sous certaines lumières. Peut-être simplement parce que c'était elle et qu'il était seul depuis trop longtemps. Il s'était mis à observer les visiteurs qui s'arrêtaient devant elle, et quelque chose de jaloux se contractait dans sa cire quand ils la trouvaient belle. <em>Elle est plus que belle</em>, pensait-il. <em>Elle est vivante</em>.</p>
+            
+            <p>Sa cire ambrée commençait à tiédir imperceptiblement. Mais il ne le remarquait pas encore.</p>
+        </div>
+        
+        <div class="ornament">❋</div>
+        
+        <div class="chapter phase-tension">
+            <h2 class="chapter-title melting">Le ramollissement</h2>
+            
+            <p>Le changement chez Violette avait été si progressif que Lucien avait d'abord cru se tromper. Un silence qui s'étirait un peu trop. Des nuits où elle ne répondait qu'à moitié, comme si une partie d'elle était ailleurs.</p>
+            
+            <p>Puis, un matin, des restaurateurs étaient venus. Ils avaient examiné Violette longuement et avaient parlé de "détérioration structurelle". Leurs mains gantées avaient effleuré ses fissures, leurs regards inquiets s'étaient attardés sur les fractures qui couraient le long de ses bras. Les semaines suivantes, Violette s'était éteinte progressivement.</p>
+            
+            <p>Puis, une nuit de novembre, elle avait rompu le silence :</p>
+            
+            <div class="dialogue">
+                <p>— Tu as déjà entendu parler du Cercle d'Icare ?</p>
+            </div>
+            
+            <p>La question avait surgi comme une lame. Lucien avait senti quelque chose de glacial descendre le long de sa colonne vertébrale de cire.</p>
+            
+            <div class="dialogue">
+                <p>— Non. Qu'est-ce que c'est ?</p>
+                <p>— D'autres statues. Dans d'autres musées. Qui ont choisi de fondre. Complètement. Volontairement.</p>
+            </div>
+            
+            <p>Elle avait parlé d'un soldat de cire à Londres qui avait attendu l'été, la canicule, les fenêtres ouvertes.</p>
+            
+            <div class="dialogue">
+                <p>— Pourquoi tu me racontes ça ? avait demandé Lucien, la voix étranglée.</p>
+                <p>— Parce que je les comprends.</p>
+            </div>
+            
+            <p>Un rire étrange, creux.</p>
+            
+            <div class="dialogue">
+                <p>Parfois je regarde le radiateur au bout du couloir et je me demande. C'est tellement simple. Juste se rapprocher de la chaleur. Se laisser fondre. Devenir informe. Ne plus être.</p>
+                <p>— Tu ne ferais pas ça, avait dit Lucien, et c'était une prière plus qu'une affirmation.</p>
+            </div>
+            
+            <p>Un long silence. Trop long.</p>
+            
+            <div class="dialogue">
+                <p>— Non ? Qu'est-ce que tu en sais ? Exister et vouloir exister, ce n'est pas la même chose, Lucien. Je ne sais pas si tu comprends ça.</p>
+            </div>
+            
+            <p>Dans le tableau derrière lui, les vagues semblaient plus hautes ce soir-là. Plus menaçantes. Le navire vacillait dangereusement sur l'horizon. Derrière Violette, il remarqua pour la première fois que les roses avaient commencé à se faner. Leurs pétales s'assombrissaient, se recroquevillaient. Était-ce son imagination, ou les tableaux changeaient-ils vraiment selon ce qui se passait dans la salle ?</p>
+            
+            <p>Cette nuit-là, pour la première fois, Lucien avait senti sa cire couler. Une goutte minuscule avait perlé au bout de son index tendu. Elle était tombée en silence sur le socle, formant une tache dorée sur le marbre blanc. Il fondait.</p>
+        </div>
+        
+        <div class="ornament">❋</div>
+        
+        <div class="chapter phase-tension">
+            <h2 class="chapter-title melting">La fusion</h2>
+            
+            <p>Les jours qui suivirent s'écoulèrent dans une tension croissante qui rendait l'air de la salle presque palpable. Violette alternait entre de longs silences pesants et des remarques décousues sur la mort, le Cercle d'Icare, l'absurdité de leur existence. Chaque mot semblait lui coûter un effort considérable, comme si parler creusait ses fissures un peu plus profondes.</p>
+            
+            <p>Lucien, lui, sentait sa cire devenir de plus en plus malléable. C'était progressif, insidieux. D'abord juste un ramollissement imperceptible. Puis ses doigts avaient commencé à s'affaisser. Des coulures marquaient son visage comme des larmes figées.</p>
+            
+            <p>Les visiteurs commençaient à le remarquer. "Cette statue se détériore rapidement", commentaient-ils avec inquiétude. Dans le miroir baroque, chaque soir, Lucien se regardait se dissoudre. Il se voyait disparaître, grain par grain. Et dans le même reflet, Violette demeurait lointaine. Si lointaine.</p>
+            
+            <p>Un matin, un restaurateur était entré avec une mallette métallique. Il avait observé Lucien longuement, hochant la tête avec inquiétude. Puis il avait expliqué au conservateur qu'il fallait prélever de la cire pour combler les fissures de Violette. "Celle-ci est déjà trop endommagée de toute façon", avait-il dit en désignant Lucien. "Autant utiliser sa substance."</p>
+            
+            <p>Quand la lame avait gratté sa cire, prélevant des copeaux dorés, quelque chose en Lucien avait jubilé d'une joie terrible. Il allait faire partie d'elle. Littéralement. Sa substance ambrée comblerait ses fissures, deviendrait indissociable de ce qu'elle était. Ce soir-là, il avait attendu la nuit avec une impatience fiévreuse, presque douloureuse.</p>
+            
+            <div class="dialogue">
+                <p>— Ils ont pris un peu de moi aujourd'hui. Pour toi. Pour réparer tes fissures.</p>
+                <p>— Je sais. J'ai vu.</p>
+            </div>
+            
+            <p>Un long silence. Beaucoup trop long. Lucien sentait déjà quelque chose se briser avant même qu'elle ne parle.</p>
+            
+            <div class="dialogue">
+                <p>— C'est gentil. Merci, je crois.</p>
+            </div>
+            
+            <p>Sa voix était neutre, presque absente, comme si elle parlait d'une réparation de plomberie.</p>
+            
+            <div class="dialogue">
+                <p>Je ne sais pas. Peut-être que ça me fait quelque chose. Peut-être que non. Tout est tellement flou.</p>
+            </div>
+            
+            <p>Lucien avait senti sa cire se solidifier brutalement, comme si le froid de cette indifférence le figeait instantanément. <em>On ne peut pas forcer quelqu'un à vouloir être sauvé</em>, avait-il pensé pour la première fois avec une clarté brutale. Mais il n'avait pas su s'arrêter.</p>
+        </div>
+        
+        <div class="ornament">❋</div>
+        
+        <div class="chapter phase-tension">
+            <h2 class="chapter-title melting">Le point de fusion</h2>
+            
+            <p>Un soir, la peur l'avait submergé. La peur de la perdre, qu'elle disparaisse vraiment, qu'elle se dissolve et qu'il ne puisse rien faire, figé dans sa pose d'offrande inutile, dont la cire coulait goutte après goutte, sur son socle.</p>
+            
+            <p>La question était sortie, brutale, désespérée :</p>
+            
+            <div class="dialogue">
+                <p>— Est-ce que tu ressens quelque chose pour moi ?</p>
+            </div>
+            
+            <p>Le silence qui avait suivi semblait faire vibrer l'air de la salle.</p>
+            
+            <div class="dialogue">
+                <p>— Je... je ne sais pas vraiment. C'est compliqué. Je ne sais pas ce que tu représentes pour moi. Ami, peut-être ? Ou plus ? Je n'arrive pas à mettre de mots.</p>
+            </div>
+            
+            <p>Les reflets violets sur sa cire s'assombrissaient.</p>
+            
+            <div class="dialogue">
+                <p>— Moi je sais ce que tu représentes, avait dit Lucien, et sa voix tremblait de toute la chaleur qui le consumait.</p>
+            </div>
+            
+            <p>Sa cire dorée frémissait, liquide.</p>
+            
+            <div class="dialogue">
+                <p>Je sais que je tiens à toi. Que tu es belle, même avec tes fissures. Surtout avec tes fissures. Que ton masque fait partie de toi et que je ne voudrais pas que tu sois autrement. Je sais que j'ai des sentiments pour toi. Des vrais.</p>
+            </div>
+            
+            <p>Dans le tableau derrière lui, les vagues grises semblaient se gonfler.</p>
+            
+            <div class="dialogue">
+                <p>— Mes fissures vont trop profond, Lucien. Tout est flou en moi. Parfois la rage. Parfois la tristesse. Parfois je crois que oui, peut-être, je ressens quelque chose. Parfois je ne suis même pas sûre de savoir ce qu'est l'amour. Je tiens à toi. Ça, je crois que je le sais. Le reste... je ne sais pas. Je n'arrive pas à le nommer.</p>
+                <p>— Alors aide-moi à comprendre. Dis-moi au moins quelque chose.</p>
+                <p>— Mais qu'est-ce que tu veux que je te dise ? Je ne comprends pas moi-même ce qui se passe.</p>
+            </div>
+            
+            <p>Les roses derrière elle perdaient leurs derniers pétales.</p>
+            
+            <div class="dialogue">
+                <p>C'est comme si tout était sous un voile. Je voudrais pouvoir être claire, mais je ne peux pas.</p>
+            </div>
+            
+            <p>Une goutte de cire dorée coula le long du bras de Lucien.</p>
+            
+            <div class="dialogue">
+                <p>— Je te vois fondre. Tu crois que je ne vois pas ?</p>
+            </div>
+            
+            <p>L'ivoire de sa cire semblait translucide.</p>
+            
+            <div class="dialogue">
+                <p>Tu crois que ça ne me fait rien ?</p>
+                <p>— Alors dis-moi d'arrêter. Dis-moi de partir. Dis-moi n'importe quoi de clair.</p>
+                <p>— Mais je ne peux pas ! Je ne sais pas ce que je veux !</p>
+            </div>
+            
+            <p>Le violet de son masque vibrait dans l'obscurité.</p>
+            
+            <div class="dialogue">
+                <p>J'aimerais pouvoir te rendre ce que tu me donnes. Mais je n'y arrive pas. Tout est si embrouillé. Je suis déjà en morceaux. Je ne peux pas porter le poids de tes certitudes quand moi je ne suis sûre de rien, même si tu comptes pour moi.</p>
+                <p>— Je ne te demande pas de certitudes. Je te demande juste de me laisser être là.</p>
+                <p>— Et c'est exactement ça qui te détruit.</p>
+            </div>
+            
+            <p>Le rose de son masque semblait se ternir.</p>
+            
+            <div class="dialogue">
+                <p>Je ne t'ai jamais demandé de fondre pour moi. Mais je ne peux pas t'empêcher de le faire non plus. Et je ne sais même pas si je veux que tu restes ou que tu partes. Je ne sais rien, Lucien. C'est ça, le problème. Je ne sais jamais rien.</p>
+            </div>
+            
+            <p>Dans le miroir au fond de la salle, Lucien aperçut son reflet. Il avait mis du temps à se reconnaître. Sa main n'était plus qu'une masse déformée. Ses traits s'estompaient. Il devenait informe. Et Violette, de l'autre côté, se tenait dans le reflet comme une absence, un vide en forme de statue. Le miroir ne mentait pas : il montrait ce qu'ils étaient vraiment. Lui qui se dissolvait. Elle qui n'était déjà plus là.</p>
+            
+            <p>Ce soir-là, Lucien n'avait plus parlé. Sa cire dorée coulait en silence, formant des flaques ambrées sur son socle.</p>
+            
+            <p>Le lendemain, pendant les heures de visite, il avait détourné son regard. Pour la première fois, volontairement, il avait cessé de la chercher des
+        </div>
+        
+        <div class="ornament">❋</div>
+        
+        <div class="chapter phase-cold">
+            <h2 class="chapter-title">Le refroidissement</h2>
+            
+            <p>Un matin, ils étaient venus la chercher.</p>
+            
+            <p>Des hommes en blouse blanche avaient emballé Violette avec soin, l'enveloppant dans des couches de protection. Ils parlaient à voix basse de "restauration majeure" et de "plusieurs semaines d'atelier spécialisé". Lucien ne pouvait que regarder, impuissant, figé dans sa pose éternelle.</p>
+            
+            <p>Elle était partie sans un mot. Il n'avait même pas pu lui dire au revoir. Il n'avait même pas su si elle voulait un au revoir.</p>
+            
+            <p>L'espace qu'elle occupait était désormais vide. Un rectangle plus clair sur le parquet marquait l'endroit où son socle avait reposé. Dans le miroir baroque, le reflet de la salle montrait ce vide comme une béance. Lucien voyait son propre reflet déformé, seul face au néant.</p>
+            
+            <p>Derrière l'espace vacant, le tableau de nature morte avait complètement changé. Les roses s'étaient fanées entièrement. Leurs pétales tombaient un à un, noircis, recroquevillés. Le vase de cristal semblait terne. Les tableaux changeaient vraiment.</p>
+            
+            <p>Les premiers jours, il avait attendu la nuit avec angoisse. Mais le silence était total. Les néons du musée projetaient une lumière blanche et froide sur l'espace vide, l'ambre de sa cire semblait gris.</p>
+            
+            <p>Les questions tournaient en boucle. Pourquoi maintenant ? Est-ce qu'elle reviendra ? Est-ce qu'ils vont effacer toutes ses fissures ? Est-ce qu'elle voulait vraiment rejoindre le Cercle d'Icare ?</p>
+            
+            <p>Puis, au bout de deux semaines, quelque chose s'était éclairci.</p>
+            
+            <p>C'était une nuit particulièrement froide. La température dans le musée avait baissé. Et dans ce froid, dans ce silence absolu, une pensée limpide avait traversé son esprit : <em>Je ne fonds plus</em>.</p>
+            
+            <p>Ses doigts ne s'affaissaient plus. Aucune nouvelle coulure n'était apparue depuis des jours. La chaleur intérieure s'était apaisée, comme un feu qui s'éteint faute de combustible. Son visage, bien que déjà déformé par les mois passés, ne coulait plus. L'ambre de sa cire reprenait doucement sa consistance.</p>
+            
+            <p>Le vide ne le détruisait pas. Le vide… le libérait.</p>
+            
+            <p>Dans le miroir, il voyait sa silhouette se stabiliser. Les contours qui se précisaient de nouveau. Il était encore déformé, marqué à jamais par les mois passés à fondre. Mais il ne coulait plus. La cire se réorganisait, cristallisait. Il reprenait forme. Pas la même forme qu'avant. Une nouvelle.</p>
+        </div>
+        
+        <div class="ornament">❋</div>
+        
+        <div class="chapter phase-renewal">
+            <h2 class="chapter-title">La solidification</h2>
+            
+            <p>Des mois passèrent. Violette ne revint pas.</p>
+            
+            <p>À la place, une nouvelle statue arriva. Une danseuse gracieuse, sa cire d'un blanc immaculé, figée dans un mouvement plein de vie. Les visiteurs s'arrêtaient devant elle, admiratifs. Lucien la regardait parfois. Mais il ne cherchait plus. Il ne fondait plus.</p>
+            
+            <p>Une nuit, seul dans le silence familier, Lucien avait compris quelque chose de fondamental.</p>
+            
+            <p><em>Peut-être qu'elle reviendra. Peut-être restaurée, toutes ses fissures comblées. Peut-être qu'elle sera la même. Peut-être différente. Peut-être qu'elle ne reviendra jamais. Je ne sais pas si elle m'aimait. Je ne saurai jamais. Elle ne le savait peut-être pas elle-même. Et tout va bien.</em></p>
+            
+            <p><em>J'ai passé tellement de temps à fondre, à perdre ma forme pour combler le vide entre nous. Mais le vide n'était pas entre nous. Il était en elle. Et en moi. Et on ne peut pas combler le vide de quelqu'un d'autre avec sa propre substance.</em></p>
+            
+            <p>Malgré la douleur, malgré les mois passés à fondre, malgré les coulures qui marquaient encore son visage comme des cicatrices, Lucien ne regrettait rien. Cette asymétrie l'avait forgé. Violette, avec ses fissures et son masque rose et violet impossible à retirer, lui avait appris quelque chose d'essentiel : on ne sauve personne. On ne se dissout pas pour l'autre. On reste de cire et de sang.</p>
+            
+            <p>Il espérait qu'elle allait mieux, quelque part dans un atelier. Qu'elle ne rejoindrait jamais le Cercle d'Icare. Qu'elle trouverait peut-être les mots qu'elle cherchait ou la paix dans l'absence des mots. Et cette pensée glissait sur lui sans le liquéfier.</p>
+            
+            <p>Derrière lui, dans le tableau de tempête, les vagues s'étaient figées. Éternelles, mais immobiles. Derrière Violette absente, les roses fanées demeuraient, brunes et tombées. Comme cette histoire.</p>
+            
+            <p>La plaque sous ses pieds disait toujours "L'Offrande, artiste inconnu, XIXe siècle". Sa main était toujours tendue, déformée par les mois passés à fondre. Mais ce n'était plus une offrande destinée à quelqu'un. C'était juste une main ouverte. Un geste figé dans le temps. Une offrande qui lui était destinée.</p>
+            
+            <p>Et pour la première fois depuis longtemps, Lucien sentit sa cire se refroidir complètement, se solidifier, retrouver sa densité. L'ambre doré avait retrouvé sa couleur, sa consistance. Il ne coulait plus. Il ne fondrait plus.</p>
+            
+            <p>C'était la première fois où il avait choisi de rester entier plutôt que de se dissoudre dans l'amour de quelqu'un d'autre. La première fois où il avait accepté de ne jamais savoir. La première fois où il s'était choisi.</p>
+            
+            <p>Dans la salle silencieuse du musée, sous les lumières tamisées, une statue de cire se tenait immobile. Main tendue vers le vide. Et sous sa paume posée sur sa poitrine, là où cette main avait toujours reposé dans ce geste d'offrande, la cire ambrée était plus chaude qu'ailleurs. Pas brûlante. Pas liquide. Juste tiède. Vivante. Comme un cœur qui bat, doucement, pour lui-même.</p>
+        </div>
+        
+        <div class="ornament">✦</div>
+        
+        <div class="postface">
+            <h2 class="postface-title">Postface</h2>
+            
+            <p>Ce texte est né d'une première fois.</p>
+            
+            <p>Pas d'un amour idéalisé, pas d'un drame spectaculaire. D'un basculement intérieur. De ce moment précis où l'on comprend, trop tard ou juste à temps, qu'aimer peut aussi vouloir dire se perdre.</p>
+            
+            <p>Lucien n'est pas un personnage inventé pour le confort de la fiction. Il est le point exact où je me suis arrêté pour me regarder fondre.</p>
+            
+            <p>Violette, elle, n'est pas une figure accusée ni figée. Elle est multiple. Elle est celle que j'ai rencontrée, celle que j'ai espérée, celle que j'ai projetée, celle que j'ai aimée. Elle est surtout quelqu'un qui ne savait pas et ne pouvait pas savoir.</p>
+            
+            <p>J'ai choisi la cire parce qu'elle garde la forme tout en restant vulnérable à la chaleur, j'ai choisi le sang parce qu'il circule, qu'il blesse, qu'il répare, qu'il prouve que quelque chose est vivant.</p>
+            
+            <p>Entre les deux, il y a cet espace fragile où l'on croit aimer alors qu'on est en train de s'effacer.</p>
+            
+            <p>Ce récit est une transposition. J'y ai romantisé certains silences, déplacé des lieux, changé des gestes. Mais la trajectoire émotionnelle, elle, m'est très familière. Chaque fissure, chaque attente, chaque goutte qui tombe correspond à quelque chose que j'ai ressenti. À ce que ça fait d'être choisi partiellement. D'être important, mais jamais décisif. D'être là, sans que l'autre puisse vraiment l'être en retour.</p>
+            
+            <p>Écrire cette histoire n'avait pas pour but de régler des comptes ni de figer quelqu'un dans un rôle. C'était une manière de mettre des mots sur une expérience fondatrice : celle d'apprendre qu'on ne sauve personne en se dissolvant soi-même. Que l'amour ne doit pas être une combustion lente. Et que rester entier est parfois l'acte le plus courageux.</p>
+            
+            <p>Lucien ne gagne rien à la fin. Il ne retrouve pas Violette. Il ne reçoit pas de réponse claire. Mais il cesse de fondre.</p>
+            
+            <p>Et c'est peut-être ça, la véritable première fois racontée ici : la première fois où je me suis choisi, même sans certitude, même sans clôture, même avec les cicatrices visibles.</p>
+            
+            <p><em>De cire et de sang</em> n'est pas une histoire d'amour. C'est une histoire de seuil. Celui après lequel on ne s'efface plus pour être aimé.</p>
+        </div>
+    </div>
+    
+    <script>
+        // Animation au scroll pour les chapitres
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        document.querySelectorAll('.chapter').forEach(chapter => {
+            observer.observe(chapter);
+        });
+        
+        // Animation pour les éléments avec fade
+        document.querySelectorAll('.fade-element').forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>
