@@ -28,27 +28,9 @@
         /* ========== THEMES ========== */
 
 
-        @keyframes glitch {
-            0%, 100% { transform: translate(0); opacity: 1; }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-        }
-
-        @keyframes liquidBorder {
-            0%, 100% { border-color: rgba(0, 153, 255, 0.25); }
-            50% { border-color: rgba(0, 153, 255, 0.6); }
-        }
-
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
-        }
-
-        @keyframes shimmer {
-            0%, 100% { background-position: -1000px 0; }
-            100% { background-position: 1000px 0; }
         }
 
         @keyframes scanlines {
@@ -223,6 +205,8 @@
         .nav-link:hover::after {
             width: 100%;
         }
+
+        /* Nav Controls - REMOVED */
 
         /* Mobile responsiveness */
         @media (max-width: 768px) {
@@ -472,17 +456,6 @@
             padding-bottom: 15px;
         }
 
-        @keyframes slideInTitle {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
         .section-title::after {
             content: '';
             position: absolute;
@@ -633,6 +606,99 @@
             z-index: 9999;
             transition: width 0.1s ease;
             box-shadow: 0 0 15px #0099ff;
+        }
+
+        /* ========== FUTURISTIC SFX EFFECTS ========== */
+        .sfx-ripple {
+            position: fixed;
+            border: 2px solid #0099ff;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sfxRippleAnim 0.8s ease-out forwards;
+            box-shadow: 0 0 10px #0099ff;
+        }
+
+        @keyframes sfxRippleAnim {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+
+        .sfx-particle {
+            position: fixed;
+            pointer-events: none;
+            border-radius: 50%;
+            animation: sfxParticleFloat 1.2s ease-out forwards;
+        }
+
+        @keyframes sfxParticleFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .sfx-glitch {
+            animation: sfxGlitchEffect 0.3s ease;
+        }
+
+        @keyframes sfxGlitchEffect {
+            0%, 100% {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+            20% {
+                clip-path: polygon(0 10%, 100% 0, 100% 90%, 0 100%);
+            }
+            40% {
+                clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);
+            }
+            60% {
+                clip-path: polygon(0 3%, 100% 0, 100% 97%, 0 100%);
+            }
+            80% {
+                clip-path: polygon(0 0, 100% 8%, 100% 100%, 0 92%);
+            }
+        }
+
+        .sfx-pulse {
+            animation: sfxPulseEffect 0.4s ease;
+        }
+
+        @keyframes sfxPulseEffect {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(0, 153, 255, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 20px rgba(0, 153, 255, 0);
+            }
+        }
+
+        .sfx-scan {
+            animation: sfxScanEffect 0.5s ease;
+        }
+
+        @keyframes sfxScanEffect {
+            0% {
+                text-shadow: 0 0 5px #0099ff;
+                transform: scaleY(0.95);
+            }
+            50% {
+                text-shadow: 0 0 20px #0099ff, 0 0 40px rgbargba(0, 153, 255, 0.5);
+                transform: scaleY(1.05);
+            }
+            100% {
+                text-shadow: 0 0 5px #0099ff;
+                transform: scaleY(1);
+            }
         }
 
 
@@ -1592,12 +1658,6 @@
             letter-spacing: 2px;
         }
 
-        /* Minimap */
-        #minimap-nav:hover {
-            pointer-events: auto;
-            display: block;
-        }
-
         /* Enhanced gradient backgrounds for light mode */
         body.light-mode {
             background: #f5f5f8;
@@ -1941,20 +2001,30 @@
             header.innerHTML = originalText; // Direct display without animation
         }
 
-        // ========== DYNAMIC GLOW EFFECT (follows mouse) ==========
-        const glowElements = document.querySelectorAll('.texte-card, .quote-card, .stat-card, .gallery-item, .contact-link');
+        // ========== DYNAMIC GLOW EFFECT (follows mouse) - OPTIMIZED ==========
+        const glowElements = document.querySelectorAll('.texte-card, .quote-card, .stat-card, .contact-link');
+        let lastMouseX = 0, lastMouseY = 0, rafId = null;
+        
         document.addEventListener('mousemove', (e) => {
-            glowElements.forEach(el => {
-                const rect = el.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                const distance = Math.sqrt(x * x + y * y);
-                const maxDistance = Math.sqrt(Math.pow(rect.width, 2) + Math.pow(rect.height, 2)) / 2;
-                const intensity = Math.max(0, 1 - distance / maxDistance) * 0.5;
-                
-                el.style.boxShadow = `0 ${intensity * 20}px ${intensity * 40}px rgba(0, 153, 255, ${0.1 + intensity * 0.2}), inset 0 0 ${intensity * 30}px rgba(0, 153, 255, ${intensity * 0.1})`;
-            });
-        });
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+            
+            if (!rafId) {
+                rafId = requestAnimationFrame(() => {
+                    glowElements.forEach(el => {
+                        const rect = el.getBoundingClientRect();
+                        const x = lastMouseX - rect.left - rect.width / 2;
+                        const y = lastMouseY - rect.top - rect.height / 2;
+                        const distance = Math.sqrt(x * x + y * y);
+                        const maxDistance = Math.sqrt(Math.pow(rect.width, 2) + Math.pow(rect.height, 2)) / 2;
+                        const intensity = Math.max(0, 1 - distance / maxDistance) * 0.5;
+                        
+                        el.style.boxShadow = `0 ${intensity * 20}px ${intensity * 40}px rgba(0, 153, 255, ${0.1 + intensity * 0.2}), inset 0 0 ${intensity * 30}px rgba(0, 153, 255, ${intensity * 0.1})`;
+                    });
+                    rafId = null;
+                });
+            }
+        }, { passive: true });
 
         // ========== HIDDEN MODES (Easter eggs) ==========
         let keySequence = '';
@@ -1995,53 +2065,58 @@
             document.body.appendChild(zenBg);
         };
 
+        // ========== UNIFIED KEYBOARD SHORTCUTS & EASTER EGGS - ALL IN ONE ==========
         document.addEventListener('keydown', (e) => {
+            // Easter egg sequences
             keySequence += e.key.toLowerCase();
             if (keySequence.includes('konami')) { hackerMode(); keySequence = ''; }
             if (keySequence.includes('zen')) { zenMode(); keySequence = ''; }
             if (keySequence.length > 50) keySequence = keySequence.slice(-10);
+            
+            // Ctrl+H = Hacker Mode, Ctrl+Z = Zen Mode
+            if (e.ctrlKey) {
+                if (e.key.toLowerCase() === 'h') {
+                    e.preventDefault();
+                    hackerMode();
+                }
+                if (e.key.toLowerCase() === 'z') {
+                    e.preventDefault();
+                    zenMode();
+                }
+            }
+            
+            // J/K shortcuts = navigate
+            if (e.key.toLowerCase() === 'j') {
+                const cards = Array.from(document.querySelectorAll('.texte-card'));
+                const firstCard = cards[0];
+                if (firstCard) firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            if (e.key.toLowerCase() === 'k') {
+                const cards = Array.from(document.querySelectorAll('.texte-card'));
+                const lastCard = cards[cards.length - 1];
+                if (lastCard) lastCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            
+            // C = copy last quote
+            if (e.key.toLowerCase() === 'c') {
+                const lastQuote = document.querySelector('.quote-text');
+                if (lastQuote) {
+                    navigator.clipboard.writeText(lastQuote.textContent);
+                    showCopyNotification('Citation copiée!');
+                }
+            }
+            
+            // / or ? = toggle search or show help
+            if (e.key === '/' || e.key === '?') {
+                e.preventDefault();
+                if (typeof toggleSearch === 'function') toggleSearch();
+                else alert('🎹 Shortcuts:\nCtrl+H: Hacker Mode\nCtrl+Z: Zen Mode\nJ: First text\nK: Last text\nC: Copy quote\n/: Search');
+            }
         });
 
-        // ========== INTERACTIVE TIMELINE ==========
-        document.querySelectorAll('.timeline-item').forEach((item, idx) => {
-            item.style.cursor = 'pointer';
-            item.addEventListener('click', (e) => {
-                item.style.transform = 'scale(1.02)';
-                setTimeout(() => item.style.transform = '', 300);
-                playClickSound();
-            });
-        });
 
-        // ========== MOUSE-BASED COLOR HUE ==========
-        let mouseHueX = 0;
-        document.addEventListener('mousemove', (e) => {
-            mouseHueX = (e.clientX / window.innerWidth) * 360;
-            // Subtle hue shift on hover elements
-            document.querySelectorAll('.texte-card:hover, .quote-card:hover').forEach(el => {
-                el.style.filter = `hue-rotate(${mouseHueX % 30}deg)`;
-            });
-        });
 
         // ========== SCROLL ANIMATIONS & DECRYPTION EFFECT - DISABLED FOR PERFORMANCE ==========
-
-        // ========== MINIMAP NAVIGATION ==========
-        const minimapNav = document.createElement('div');
-        minimapNav.id = 'minimap-nav';
-        minimapNav.style.cssText = `
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 100px;
-            height: 400px;
-            background: rgba(10, 10, 20, 0.8);
-            border: 1px solid rgba(0, 153, 255, 0.4);
-            border-radius: 10px;
-            backdrop-filter: blur(20px);
-            z-index: 90;
-            pointer-events: none;
-            display: none;
-        `;
-        document.body.appendChild(minimapNav);
 
         // ========== SCANLINES EFFECT ==========
         const scanlines = document.createElement('div');
@@ -2146,6 +2221,148 @@
             setTimeout(() => playSound(800, 0.1, 'sine', 0.15), 80);
         }
 
+        // ========== FUTURISTIC SFX LIBRARY ==========
+        class FuturisticSFX {
+            constructor() {
+                this.enabled = localStorage.getItem('sfxEnabled') !== 'false';
+            }
+
+            // Sci-fi whoosh sound
+            playScanEffect() {
+                if (!this.enabled) return;
+                playSound(1400, 0.08, 'sine', 0.15);
+                setTimeout(() => playSound(900, 0.08, 'sine', 0.12), 30);
+            }
+
+            // High-tech chirp
+            playChirpEffect() {
+                if (!this.enabled) return;
+                playSound(1600, 0.1, 'sine', 0.18);
+                setTimeout(() => playSound(1200, 0.08, 'sine', 0.15), 50);
+            }
+
+            // Warp drive sound
+            playWarpEffect() {
+                if (!this.enabled) return;
+                playSound(800, 0.12, 'sine', 0.25);
+                setTimeout(() => playSound(1200, 0.1, 'sine', 0.2), 80);
+                setTimeout(() => playSound(1600, 0.08, 'sine', 0.15), 160);
+            }
+
+            // Tech pulse
+            playPulseEffect() {
+                if (!this.enabled) return;
+                playSound(1100, 0.1, 'sine', 0.12);
+                setTimeout(() => playSound(1400, 0.08, 'sine', 0.1), 70);
+            }
+
+            // Error/negative sound
+            playErrorEffect() {
+                if (!this.enabled) return;
+                playSound(400, 0.08, 'sine', 0.2);
+                setTimeout(() => playSound(300, 0.08, 'sine', 0.2), 120);
+            }
+
+            // Success/positive sound
+            playSuccessEffect() {
+                if (!this.enabled) return;
+                playSound(1200, 0.1, 'sine', 0.15);
+                setTimeout(() => playSound(1500, 0.1, 'sine', 0.18), 100);
+            }
+
+            // Create ripple visual effect
+            createRipple(event) {
+                const ripple = document.createElement('div');
+                ripple.className = 'sfx-ripple';
+                
+                const rect = event.target.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                
+                ripple.style.cssText = `
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${event.clientX - size / 2}px;
+                    top: ${event.clientY - size / 2}px;
+                `;
+                
+                document.body.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 800);
+            }
+
+            // Create floating particles
+            createParticles(event, count = 5) {
+                for (let i = 0; i < count; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'sfx-particle';
+                    
+                    const angle = (i / count) * Math.PI * 2;
+                    const distance = 50 + Math.random() * 100;
+                    const tx = Math.cos(angle) * distance;
+                    const ty = Math.sin(angle) * distance;
+                    
+                    const size = 3 + Math.random() * 6;
+                    particle.style.cssText = `
+                        width: ${size}px;
+                        height: ${size}px;
+                        background: #0099ff;
+                        left: ${event.clientX}px;
+                        top: ${event.clientY}px;
+                        --tx: ${tx}px;
+                        --ty: ${ty}px;
+                        box-shadow: 0 0 ${size * 2}px #0099ff;
+                    `;
+                    
+                    document.body.appendChild(particle);
+                    setTimeout(() => particle.remove(), 1200);
+                }
+            }
+
+            // Glitch effect on element
+            addGlitch(element) {
+                element.classList.add('sfx-glitch');
+                setTimeout(() => element.classList.remove('sfx-glitch'), 300);
+            }
+
+            // Pulse effect on element
+            addPulse(element) {
+                element.classList.add('sfx-pulse');
+                setTimeout(() => element.classList.remove('sfx-pulse'), 400);
+            }
+
+            // Scan effect on text
+            addScan(element) {
+                element.classList.add('sfx-scan');
+                setTimeout(() => element.classList.remove('sfx-scan'), 500);
+            }
+        }
+
+        const sfx = new FuturisticSFX();
+
+        // Add SFX to interactive elements with event delegation
+        document.addEventListener('click', (e) => {
+            const element = e.target.closest('.card-link, .contact-link, button, a');
+            if (element && !e.target.closest('.nav-link')) {
+                sfx.playChirpEffect();
+                sfx.createRipple(e);
+                sfx.createParticles(e, 5);
+                sfx.addPulse(element);
+            }
+        }, { passive: true });
+
+        // Hover effects on cards with throttling
+        let lastHoverTime = 0;
+        document.addEventListener('mouseover', (e) => {
+            const now = Date.now();
+            if (now - lastHoverTime > 150) {
+                const card = e.target.closest('.texte-card, .quote-card, .stat-card, .about-section');
+                if (card) {
+                    sfx.playScanEffect();
+                    sfx.addScan(card.querySelector('h3') || card.querySelector('h2'));
+                    lastHoverTime = now;
+                }
+            }
+        }, { passive: true });
+
         function playAmbient() {
             try {
                 const osc = audioContext.createOscillator();
@@ -2171,29 +2388,15 @@
         }
 
         // ========== INTERACTIVE ELEMENTS SOUND ==========
-        const interactiveElements = document.querySelectorAll(
-            '.texte-card, .card-link, .about-section, .gallery-item, ' +
-            '.timeline-item, .quote-card, .stat-card, .contact-link, ' +
-            '.easter-egg, .egg-close'
-        );
-
-        interactiveElements.forEach(element => {
-            element.addEventListener('mouseenter', () => {
+        // ========== CONSOLIDATED INTERACTIVE SOUNDS ==========
+        // Use event delegation instead of adding listeners to each element
+        document.addEventListener('mouseenter', (e) => {
+            const element = e.target.closest('.texte-card, .card-link, .about-section, .quote-card, .stat-card, .contact-link, .easter-egg, .egg-close');
+            if (element) {
                 playHoverSound();
-            });
-        });
+            }
+        }, true); // Use capture phase for efficiency
 
-        document.querySelectorAll('.card-link, .contact-link').forEach(link => {
-            link.addEventListener('click', () => {
-                playClickSound();
-            });
-        });
-
-        document.querySelectorAll('.easter-egg').forEach(egg => {
-            egg.addEventListener('click', () => {
-                // Sound already played by showEggPopup
-            });
-        });
 
         // Play ambient sound on page load
         window.addEventListener('load', () => {
@@ -2202,17 +2405,7 @@
 
         // ========== SCROLL ANIMATIONS - DISABLED FOR PERFORMANCE ==========
 
-        // ========== PARALLAX ORBS EFFECT ==========
-        document.addEventListener('mousemove', (e) => {
-            // Parallaxe orbs
-            const orbs = document.querySelectorAll('.glow-orb');
-            orbs.forEach((orb, index) => {
-                const strength = (index + 1) * 15;
-                const x = (window.innerWidth - e.clientX * strength) / 150;
-                const y = (window.innerHeight - e.clientY * strength) / 150;
-                orb.style.transform = `translate(${x}px, ${y}px)`;
-            });
-        });
+
 
         // ========== WORD COUNT & READING TIME ==========
         function addMetadata() {
@@ -2287,63 +2480,20 @@
         }
         addTags();
 
-        // ========== KEYBOARD SHORTCUTS ==========
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'h' && e.ctrlKey) {
-                e.preventDefault();
-                hackerMode();
-                console.log('🎮 Hacker mode activated');
-            }
-            if (e.key === 'z' && e.ctrlKey) {
-                e.preventDefault();
-                zenMode();
-                console.log('🧘 Zen mode activated');
-            }
-            if (e.key === '?') {
-                alert('🎹 Shortcuts:\nCtrl+H: Hacker Mode\nCtrl+Z: Zen Mode\n↑↓←→: Smooth navigation\n♥: Add to favorites');
-            }
-        });
+        // Particles initialization
 
-        // ========== ENHANCED 3D PERSPECTIVE ==========
-        function setup3D() {
-            document.querySelectorAll('.texte-card').forEach(card => {
-                const layer = document.createElement('div');
-                layer.style.cssText = `
-                    position: absolute;
-                    top: 0; left: 0;
-                    width: 100%;
-                    height: 100%;
-                    pointer-events: none;
-                    border-radius: 20px;
-                    background: linear-gradient(135deg, rgba(0, 153, 255, 0), rgba(0, 153, 255, 0.05));
-                `;
-                card.appendChild(layer);
-            });
-        }
-        setup3D();
 
-        // ========== MOUSE PARALLAX 3D ==========
-        document.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth - 0.5) * 30;
-            const y = (e.clientY / window.innerHeight - 0.5) * 30;
-            
-            document.querySelectorAll('.texte-card').forEach(card => {
-                if (card.querySelector('h2')) {
-                    const h2 = card.querySelector('h2');
-                    h2.style.transform = `perspective(1000px) rotateX(${y * 0.5}deg) rotateY(${-x * 0.5}deg)`;
-                }
-            });
-        });
 
-        // ========== DATA PARTICLES EFFECT ==========
+        // ========== DATA PARTICLES EFFECT - OPTIMIZED ==========
         function createDataParticles() {
-            const particleCount = 20;
+            // Reduced particle count from 20 to 8 for performance
+            const particleCount = 8;
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'data-particle';
                 
-                const randomDelay = Math.random() * 15;
+                const randomDelay = Math.random() * 10;
                 const randomX = Math.random() * window.innerWidth;
                 const randomY = Math.random() * window.innerHeight;
                 
@@ -2351,55 +2501,23 @@
                     left: ${randomX}px;
                     top: ${randomY}px;
                     animation-delay: ${randomDelay}s;
-                    animation-duration: ${10 + Math.random() * 8}s;
+                    animation-duration: ${10 + Math.random() * 6}s;
                 `;
                 
                 document.body.appendChild(particle);
                 
-                // Remove after animation completes, don't respawn
+                // Remove after animation completes
                 setTimeout(() => {
                     particle.remove();
-                }, (10 + Math.random() * 8) * 1000 + 500);
+                }, (10 + Math.random() * 6) * 1000 + 500);
             }
         }
         
         createDataParticles();
 
-        // ========== INTERACTIVE GLOWING TEXT (mouse influence) - OPTIMIZED ==========
-        let lastMouseX = 0;
-        let lastMouseY = 0;
-        let rafId = null;
-        
-        document.addEventListener('mousemove', (e) => {
-            lastMouseX = e.clientX;
-            lastMouseY = e.clientY;
-            
-            if (!rafId) {
-                rafId = requestAnimationFrame(() => {
-                    const glowingBg = document.querySelector('.glowing-text-bg');
-                    if (glowingBg) {
-                        const influence = (lastMouseX / window.innerWidth) * 0.15;
-                        glowingBg.style.textShadow = `0 0 ${10 + influence * 20}px #0099ff, 0 0 ${20 + influence * 30}px rgba(0, 153, 255, ${0.6 + influence})`;
-                    }
-                    rafId = null;
-                });
-            }
-        });
+        console.log('%c🚀 Portfolio chargé with maximum style!', 'color: #0099ff; font-size: 16px; font-weight: bold;');
+        console.log('%cTry: / (Search), J/K (Navigation), C (Copy)', 'color: #00ffff;');
 
-
-
-        // ========== NEON TEXT TRAIL ==========
-        document.addEventListener('keypress', (e) => {
-            if (e.key.length === 1) {
-                const trail = document.createElement('div');
-                trail.className = 'neon-trail';
-                trail.textContent = e.key.toUpperCase();
-                trail.style.left = Math.random() * window.innerWidth + 'px';
-                trail.style.top = Math.random() * window.innerHeight + 'px';
-                document.body.appendChild(trail);
-                setTimeout(() => trail.remove(), 1000);
-            }
-        });
 
         console.log('%c🚀 Portfolio chargé with maximum style!', 'color: #0099ff; font-size: 16px; font-weight: bold;');
         console.log('%cTry: / (Search), J/K (Navigation), C (Copy)', 'color: #00ffff;');
@@ -2426,13 +2544,30 @@
             document.documentElement.style.fontSize = (savedSize / 100) * 16 + 'px';
         }
 
-        // ========== READING PROGRESS BAR ==========
-        window.addEventListener('scroll', () => {
+        // ========== UNIFIED SCROLL LISTENER (reading progress + parallax + achievements) ==========\n        window.addEventListener('scroll', () => {
+            // Update reading progress bar
             const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
-            document.querySelector('.reading-progress').style.width = scrolled + '%';
-        });
+            const progressBar = document.querySelector('.reading-progress');
+            if (progressBar) progressBar.style.width = scrolled + '%';
+            
+            // Parallax scrolling for orbs
+            const parallaxElements = document.querySelectorAll('.glow-orb');
+            parallaxElements.forEach((el, index) => {
+                const speed = 0.5 + (index * 0.1);
+                el.style.transform = `translateY(${winScroll * speed}px)`;
+            });
+            
+            // Check achievements on bottom scroll
+            let achievements = JSON.parse(localStorage.getItem('achievements')) || {visited: 0, textsRead: 0, feedbackSent: 0, citationsBookmarked: 0, scrolledToBottom: false};
+            if ((window.innerHeight + winScroll) >= document.body.offsetHeight - 500) {
+                if (!achievements.scrolledToBottom) {
+                    achievements.scrolledToBottom = true;
+                    localStorage.setItem('achievements', JSON.stringify(achievements));
+                    showCopyNotification('🏆 Achievement: End of Line Reached!');\n                }
+            }
+        }, { passive: true });
 
         // ========== SEARCH & FILTER ==========
         function toggleSearch() {
@@ -2538,62 +2673,9 @@
             playClickSound();
         }
 
-        // ========== MOOD FILTER ==========
-        function filterByMood(mood) {
-            const moodTags = document.querySelectorAll('.mood-tag');
-            const card = event.target;
-            
-            moodTags.forEach(tag => tag.classList.remove('active'));
-            card.classList.add('active');
 
-            // Filter cards based on mood (add data-mood attributes to cards)
-            const cards = document.querySelectorAll('.texte-card');
-            cards.forEach(c => {
-                if (c.dataset.mood === mood || mood === 'all') {
-                    c.style.display = 'block';
-                } else {
-                    c.style.display = 'none';
-                }
-            });
-            
-            playClickSound();
-        }
 
-        // Add data-mood attributes to cards
-        const card1 = document.querySelectorAll('.texte-card')[0];
-        const card2 = document.querySelectorAll('.texte-card')[1];
-        const card3 = document.querySelectorAll('.texte-card')[2];
-        if (card1) card1.dataset.mood = 'cyberpunk';
-        if (card2) card2.dataset.mood = 'poetic';
-        if (card3) card3.dataset.mood = 'melancholic';
 
-        // ========== KEYBOARD SHORTCUTS ==========
-        document.addEventListener('keydown', (e) => {
-            // J = previous text, K = next text
-            if (e.key.toLowerCase() === 'j') {
-                const cards = Array.from(document.querySelectorAll('.texte-card'));
-                const firstCard = cards[0];
-                if (firstCard) firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-            if (e.key.toLowerCase() === 'k') {
-                const cards = Array.from(document.querySelectorAll('.texte-card'));
-                const lastCard = cards[cards.length - 1];
-                if (lastCard) lastCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-            // C = copy last quote
-            if (e.key.toLowerCase() === 'c') {
-                const lastQuote = document.querySelector('.quote-text');
-                if (lastQuote) {
-                    navigator.clipboard.writeText(lastQuote.textContent);
-                    showCopyNotification('Citation copiée!');
-                }
-            }
-            // / or ? = toggle search
-            if (e.key === '/' || e.key === '?') {
-                e.preventDefault();
-                toggleSearch();
-            }
-        });
 
         // ========== COPY TO CLIPBOARD ==========
         function copyToClipboard(text) {
@@ -2619,63 +2701,9 @@
             });
         });
 
-        // ========== SHARE BUTTONS (prepare for later) ==========
-        function shareOnTwitter(text) {
-            const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
-            window.open(url, '_blank');
-        }
 
-        function shareOnLinkedin(text) {
-            const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}&title=${encodeURIComponent(text)}`;
-            window.open(url, '_blank');
-        }
 
-        // ========== CLI MODE ==========
-        function toggleCliMode() {
-            const html = document.documentElement;
-            const isCliMode = html.getAttribute('data-cli-mode') === 'true';
-            
-            if (!isCliMode) {
-                html.setAttribute('data-cli-mode', 'true');
-                document.body.style.fontFamily = 'monospace';
-                document.body.style.filter = 'contrast(1.2)';
-                showCopyNotification('🖥️  CLI Mode activated!');
-            } else {
-                html.setAttribute('data-cli-mode', 'false');
-                document.body.style.fontFamily = "'DM Sans', sans-serif";
-                document.body.style.filter = 'contrast(1)';
-                showCopyNotification('🖥️  CLI Mode deactivated');
-            }
-            playClickSound();
-            localStorage.setItem('cliMode', !isCliMode);
-        }
 
-        // ========== ACHIEVEMENT SYSTEM ==========
-        function initAchievements() {
-            let achievements = JSON.parse(localStorage.getItem('achievements')) || {
-                visited: 0,
-                textsRead: 0,
-                feedbackSent: 0,
-                citationsBookmarked: 0,
-                scrolledToBottom: false
-            };
-
-            achievements.visited++;
-            localStorage.setItem('achievements', JSON.stringify(achievements));
-
-            // Check if scrolled to bottom
-            window.addEventListener('scroll', () => {
-                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
-                    if (!achievements.scrolledToBottom) {
-                        achievements.scrolledToBottom = true;
-                        localStorage.setItem('achievements', JSON.stringify(achievements));
-                        showCopyNotification('🏆 Achievement: End of Line Reached!');
-                    }
-                }
-            });
-        }
-
-        initAchievements();
 
         // ========== STREAK COUNTER ==========
         function updateStreak() {
@@ -2708,37 +2736,29 @@
             }
         }
 
-        updateStreak();
+        // ========== ACHIEVEMENT COUNTER ==========
+        function initAchievements() {
+            let achievements = JSON.parse(localStorage.getItem('achievements')) || {
+                visited: 0,
+                textsRead: 0,
+                feedbackSent: 0,
+                citationsBookmarked: 0,
+                scrolledToBottom: false
+            };
+            achievements.visited++;
+            localStorage.setItem('achievements', JSON.stringify(achievements));
+        }
+        initAchievements();
 
-        // ========== PARALLAX SCROLLING ==========
-        document.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallaxElements = document.querySelectorAll('.glow-orb');
-            
-            parallaxElements.forEach((el, index) => {
-                const speed = 0.5 + (index * 0.1);
-                el.style.transform = `translateY(${scrolled * speed}px)`;
-            });
-        });
+
 
         // ========== GLITCH ANIMATIONS ON TITLE HOVER - DISABLED FOR PERFORMANCE ==========
 
-        // ========== PARTICLE INTERACTIVITY ==========
-        document.addEventListener('mousemove', (e) => {
-            const particles = document.querySelectorAll('.data-particle');
-            particles.forEach(particle => {
-                const rect = particle.getBoundingClientRect();
-                const distance = Math.sqrt(
-                    Math.pow(e.clientX - (rect.left + rect.width / 2), 2) +
-                    Math.pow(e.clientY - (rect.top + rect.height / 2), 2)
-                );
 
-                if (distance < 100) {
-                    particle.style.opacity = '1';
-                    particle.style.boxShadow = `0 0 ${20 + distance}px #0099ff, 0 0 ${40 - distance}px rgba(0, 153, 255, 0.6)`;
-                }
-            });
-        });
+
+        // ========== AUDIO TOGGLES IN NAVBAR ==========
+        // SFX always enabled by default
+        sfx.enabled = true;
 
     </script>
 </body>
