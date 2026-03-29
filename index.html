@@ -67,21 +67,43 @@
 
         /* Scrollbar styling */
         ::-webkit-scrollbar {
-            width: 10px;
+            width: 14px;
         }
 
         ::-webkit-scrollbar-track {
-            background: rgba(0, 153, 255, 0.05);
+            background: rgba(0, 153, 255, 0.03);
+            backdrop-filter: blur(10px);
         }
 
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(180deg, #0099ff, #0066ff);
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 153, 255, 0.6);
+            border-radius: 7px;
+            box-shadow: 
+                0 0 12px rgba(0, 153, 255, 1),
+                0 0 20px rgba(0, 153, 255, 0.8),
+                0 0 35px rgba(0, 153, 255, 0.6),
+                0 0 50px rgba(0, 153, 255, 0.4),
+                inset 0 0 8px rgba(255, 255, 255, 0.15);
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            box-shadow: 0 0 20px rgba(0, 153, 255, 0.8), 0 0 30px rgba(0, 153, 255, 0.6);
+            background: linear-gradient(180deg, #00ccff, #0088ff);
+            box-shadow: 
+                0 0 16px rgba(0, 204, 255, 1),
+                0 0 30px rgba(0, 153, 255, 0.9),
+                0 0 50px rgba(0, 153, 255, 0.7),
+                0 0 70px rgba(0, 153, 255, 0.5),
+                inset 0 0 12px rgba(255, 255, 255, 0.25);
+        }
+
+        ::-webkit-scrollbar-thumb:active {
+            background: linear-gradient(180deg, #00ddff, #0099ff);
+            box-shadow: 
+                0 0 20px rgba(0, 221, 255, 1),
+                0 0 40px rgba(0, 153, 255, 1),
+                0 0 60px rgba(0, 153, 255, 0.8),
+                0 0 80px rgba(0, 153, 255, 0.6),
+                inset 0 0 16px rgba(255, 255, 255, 0.3);
         }
 
         /* Minimal background */
@@ -769,117 +791,9 @@
             to { transform: translateX(400px); opacity: 0; }
         }
 
-        /* ========== WORD CLOUD ========== */
-        .word-cloud {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
-        }
 
-        .word-cloud-item {
-            padding: 8px 16px;
-            background: rgba(0, 153, 255, 0.1);
-            border: 1px solid rgba(0, 153, 255, 0.3);
-            border-radius: 20px;
-            color: #0099ff;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9em;
-        }
 
-        .word-cloud-item:hover {
-            background: #0099ff;
-            color: #0a0a0f;
-            box-shadow: 0 0 20px rgba(0, 153, 255, 0.5);
-            transform: scale(1.1);
-        }
 
-        /* ========== MATRIX RAIN ========== */
-        .matrix-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0a0a0f;
-            z-index: 10002;
-            display: none;
-            overflow: hidden;
-        }
-
-        .matrix-container.active {
-            display: block;
-        }
-
-        .matrix-char {
-            position: absolute;
-            color: #0099ff;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.2em;
-            opacity: 0.8;
-            text-shadow: 0 0 10px #0099ff;
-        }
-
-        /* ========== ASCII ART ========== */
-        .ascii-modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            background: #0a1a2f;
-            border: 2px solid #0099ff;
-            border-radius: 12px;
-            padding: 30px;
-            z-index: 10000;
-            backdrop-filter: blur(10px);
-            max-width: 700px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            transition: all 0.3s ease;
-        }
-
-        .ascii-modal.active {
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .ascii-art {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8em;
-            line-height: 1.2;
-            color: #0099ff;
-            white-space: pre;
-            background: #051525;
-            padding: 15px;
-            border-radius: 6px;
-            overflow-x: auto;
-        }
-
-        /* ========== READING LIST ========== */
-        .reading-list-modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            background: #0a1a2f;
-            border: 1px solid rgba(0, 153, 255, 0.3);
-            border-radius: 12px;
-            padding: 30px;
-            z-index: 10000;
-            backdrop-filter: blur(10px);
-            max-width: 500px;
-            width: 90%;
-            max-height: 70vh;
-            overflow-y: auto;
-            transition: all 0.3s ease;
-        }
-
-        .reading-list-modal.active {
-            transform: translate(-50%, -50%) scale(1);
-        }
 
         /* ========== NEON TEXT TRAIL ========== */
         .neon-trail {
@@ -1239,183 +1153,9 @@
             100% { transform: translate(0, 0); }
         }
 
-        /* ===== GALERIE VISUELLE ===== */
-        .gallery-section {
-            margin: 40px 0;
-            padding: 40px 30px;
-            border-top: 1px solid rgba(0, 153, 255, 0.2);
-        }
 
-        .gallery-container {
-            display: flex;
-            align-items: center;
-            gap: 60px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
 
-        .gallery-image {
-            flex: 0 0 400px;
-            border-radius: 16px;
-            overflow: visible;
-            position: relative;
-            transition: all 0.5s ease;
-        }
 
-        .gallery-image::before {
-            content: '';
-            position: absolute;
-            top: -3px;
-            left: -3px;
-            right: -3px;
-            bottom: -3px;
-            background: linear-gradient(90deg,
-                #0099ff 0%,
-                #0099ff 20%,
-                transparent 40%,
-                transparent 60%,
-                #0099ff 80%,
-                #0099ff 100%);
-            border-radius: 16px;
-            z-index: -1;
-            opacity: 0;
-            animation: flowingBorder 5s linear infinite;
-            pointer-events: none;
-        }
-
-        .gallery-image img {
-            width: 100%;
-            height: auto;
-            border-radius: 16px;
-            box-shadow: 0 0 40px rgba(0, 153, 255, 0.3);
-            transition: all 0.5s ease;
-            display: block;
-        }
-
-        .gallery-image:hover img {
-            transform: scale(1.05);
-            box-shadow: 0 0 80px rgba(0, 153, 255, 0.6), inset 0 0 30px rgba(0, 153, 255, 0.2);
-        }
-
-        .gallery-text h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.2em;
-            color: #0099ff;
-            margin-bottom: 20px;
-        }
-
-        .gallery-text p {
-            color: #c0c0d8;
-            line-height: 1.8;
-            font-size: 1.05em;
-            margin-bottom: 15px;
-        }
-
-        /* ===== TIMELINE/PARCOURS ===== */
-        .timeline-section {
-            margin: 20px 0;
-            padding: 40px 30px;
-            border-top: 1px solid rgba(0, 153, 255, 0.2);
-        }
-
-        .timeline-section h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.2em;
-            color: #0099ff;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .timeline {
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
-            padding: 0 40px;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 100%;
-            background: linear-gradient(180deg, transparent, #0099ff, transparent);
-            box-shadow: 0 0 20px #0099ff;
-        }
-
-        .timeline-item {
-            margin-bottom: 50px;
-            opacity: 0;
-            animation: slideInTimeline 0.8s ease-out forwards;
-        }
-
-        .timeline-item:nth-child(odd) {
-            margin-left: 0;
-            margin-right: 50%;
-            text-align: right;
-        }
-
-        .timeline-item:nth-child(even) {
-            margin-left: 50%;
-            margin-right: 0;
-            text-align: left;
-        }
-
-        @keyframes slideInTimeline {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .timeline-item:nth-child(even) {
-            animation-delay: 0.2s;
-        }
-
-        .timeline-dot {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 20px;
-            background: #0099ff;
-            border: 2px solid #0a0a0f;
-            border-radius: 50%;
-            box-shadow: 0 0 20px #0099ff;
-            margin-top: 5px;
-        }
-
-        .timeline-content {
-            background: #0a1a2f;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid rgba(0, 153, 255, 0.25);
-            transition: all 0.3s ease;
-        }
-
-        .timeline-content:hover {
-            background: #0a243d;
-            border-color: #0099ff;
-            box-shadow: 0 0 20px rgba(0, 153, 255, 0.4),
-                        0 0 40px rgba(0, 153, 255, 0.3),
-                        0 0 60px rgba(0, 153, 255, 0.2);
-        }
-
-        .timeline-content h4 {
-            color: #0099ff;
-            font-family: 'Orbitron', sans-serif;
-            margin-bottom: 8px;
-        }
-
-        .timeline-content p {
-            color: #b8b8d5;
-            font-size: 0.95em;
-        }
 
         /* ===== CITATIONS ===== */
         .quotes-section {
@@ -1471,10 +1211,6 @@
             pointer-events: none;
         }
 
-        .quote-card:hover::after {
-            opacity: 0;
-        }
-
         .quote-card:hover {
             background: #0a243d;
             border-color: #0099ff;
@@ -1483,28 +1219,6 @@
                         0 0 60px rgba(0, 153, 255, 0.2),
                         inset 0 0 48px rgba(0, 153, 255, 0.08);
             transform: translateY(-5px);
-        }
-
-        .quote-card::after {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(135deg,
-                #0099ff 0%,
-                transparent 45%,
-                transparent 55%,
-                #0099ff 100%);
-            border-radius: 16px;
-            z-index: -1;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .quote-card:hover::after {
-            opacity: 0;
         }
 
         .quote-card::before {
@@ -2097,6 +1811,14 @@
                     <p class="quote-text">« Essayer désespérément, même face à l'échec certain. C'est ça aussi, l'humanité. »</p>
                     <p class="quote-source">01 - Entre deux états</p>
                 </div>
+                <div class="quote-card">
+                    <p class="quote-text">« On ne peut pas vraiment effacer ce qu'on écrit dans un carnet. On ne peut que le recouvrir. »</p>
+                    <p class="quote-source">La dernière page</p>
+                </div>
+                <div class="quote-card">
+                    <p class="quote-text">« Seize rectangles de verre qui clignotent. Seize fenêtres. Seize vies qui ne sont pas vraiment des vies. »</p>
+                    <p class="quote-source">Réflɘxions</p>
+                </div>
             </div>
         </section>
     </div>
@@ -2111,7 +1833,7 @@
                     <div class="stat-label">Textes</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">~15K</div>
+                    <div class="stat-number">~20K</div>
                     <div class="stat-label">Mots totaux</div>
                 </div>
                 <div class="stat-card">
@@ -2634,64 +2356,37 @@
                 
                 document.body.appendChild(particle);
                 
-                // Re-spawn particles periodically
+                // Remove after animation completes, don't respawn
                 setTimeout(() => {
                     particle.remove();
-                    createDataParticles();
-                }, (10 + Math.random() * 8) * 1000);
+                }, (10 + Math.random() * 8) * 1000 + 500);
             }
         }
         
         createDataParticles();
 
-        // ========== INTERACTIVE GLOWING TEXT (mouse influence) ==========
+        // ========== INTERACTIVE GLOWING TEXT (mouse influence) - OPTIMIZED ==========
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+        let rafId = null;
+        
         document.addEventListener('mousemove', (e) => {
-            const glowingBg = document.querySelector('.glowing-text-bg');
-            if (glowingBg) {
-                const influence = (e.clientX / window.innerWidth) * 0.15;
-                glowingBg.style.textShadow = `0 0 ${10 + influence * 20}px #0099ff, 0 0 ${20 + influence * 30}px rgba(0, 153, 255, ${0.6 + influence})`;
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+            
+            if (!rafId) {
+                rafId = requestAnimationFrame(() => {
+                    const glowingBg = document.querySelector('.glowing-text-bg');
+                    if (glowingBg) {
+                        const influence = (lastMouseX / window.innerWidth) * 0.15;
+                        glowingBg.style.textShadow = `0 0 ${10 + influence * 20}px #0099ff, 0 0 ${20 + influence * 30}px rgba(0, 153, 255, ${0.6 + influence})`;
+                    }
+                    rafId = null;
+                });
             }
         });
 
-        // ========== WORD CLOUD GENERATION ==========
-        function generateWordCloud() {
-            const keywords = [
-                { text: 'Cyberpunk', freq: 15 },
-                { text: 'Conscience', freq: 12 },
-                { text: 'Code', freq: 14 },
-                { text: 'Poésie', freq: 13 },
-                { text: 'Synthétique', freq: 10 },
-                { text: 'Âme', freq: 11 },
-                { text: 'Musée', freq: 9 },
-                { text: 'Cire', freq: 8 },
-                { text: 'Fissure', freq: 10 },
-                { text: 'Éclosion', freq: 9 },
-                { text: 'Algorithme', freq: 8 },
-                { text: 'Nuit', freq: 7 },
-                { text: 'Silence', freq: 9 },
-                { text: 'Tokyo', freq: 6 },
-                { text: 'Debugging', freq: 8 }
-            ];
 
-            const cloudContainer = document.getElementById('wordCloud');
-            if (cloudContainer) {
-                cloudContainer.innerHTML = '';
-                keywords.forEach(kw => {
-                    const size = 0.8 + (kw.freq / 20);
-                    const item = document.createElement('div');
-                    item.className = 'word-cloud-item';
-                    item.textContent = kw.text;
-                    item.style.fontSize = size + 'em';
-                    item.onclick = () => {
-                        searchInput.value = kw.text;
-                        searchInput.dispatchEvent(new Event('input'));
-                        showCopyNotification(`Recherche: ${kw.text}`);
-                    };
-                    cloudContainer.appendChild(item);
-                });
-            }
-        }
-        generateWordCloud();
 
         // ========== NEON TEXT TRAIL ==========
         document.addEventListener('keypress', (e) => {
