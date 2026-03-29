@@ -6,7 +6,7 @@
     <title>Portfolio • Writings</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&family=Satisfy&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -62,6 +62,26 @@
             color: #e8e8ff;
             overflow-x: hidden;
             position: relative;
+            font-size: 14px;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 153, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #0099ff, #0066ff);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 153, 255, 0.6);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            box-shadow: 0 0 20px rgba(0, 153, 255, 0.8), 0 0 30px rgba(0, 153, 255, 0.6);
         }
 
         /* Minimal background */
@@ -158,6 +178,7 @@
             transition: all 0.3s ease;
             position: relative;
             letter-spacing: 1px;
+            font-family: 'Orbitron', sans-serif;
         }
 
         .nav-link::after {
@@ -181,15 +202,6 @@
             width: 100%;
         }
 
-        .nav-link.active {
-            color: #0099ff;
-            text-shadow: 0 0 15px #0099ff;
-        }
-
-        .nav-link.active::after {
-            width: 100%;
-        }
-
         /* Mobile responsiveness */
         @media (max-width: 768px) {
             .nav-menu {
@@ -208,24 +220,18 @@
 
         header {
             text-align: center;
-            padding: 120px 20px 60px;
+            padding: 40px 20px 20px;
             position: relative;
             z-index: 1;
         }
 
         h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 4em;
+            font-size: 2.5em;
             margin-bottom: 15px;
             color: #ffffff;
             letter-spacing: 2px;
             font-weight: 900;
-            animation: floatTitle 3s ease-in-out infinite;
-        }
-
-        @keyframes floatTitle {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
         }
 
         h1::after {
@@ -234,8 +240,8 @@
             width: 60px;
             height: 3px;
             background: linear-gradient(90deg, transparent, #0099ff, transparent);
-            margin: 20px auto;
-            box-shadow: 0 0 20px #0099ff, 0 0 40px rgb(0, 153, 255);
+            margin: 10px auto;
+            box-shadow: 0 0 20px #0099ff , 0 0 40px rgb(0, 153, 255);
         }
 
         @keyframes titleGlow {
@@ -248,18 +254,18 @@
         }
 
         .subtitle {
-            font-size: 1em;
+            font-size: 0.8em;
             color: #0099ff;
             text-shadow: 0 0 10px #0099ff;
             letter-spacing: 3px;
             text-transform: uppercase;
-            margin-bottom: 40px;
+            margin-bottom: 15px;
         }
 
         .tagline {
             font-family: 'Inter', sans-serif;
-            font-size: 1.3em;
-            margin-top: 30px;
+            font-size: 0.95em;
+            margin-top: 10px;
             color: #d0d0ff;
             font-style: italic;
             max-width: 700px;
@@ -273,14 +279,14 @@
             width: 80px;
             height: 1px;
             background: #0099ff;
-            margin: 30px auto;
+            margin: 15px auto;
             box-shadow: 0 0 15px #0099ff;
         }
 
         .container {
             max-width: 1100px;
             margin: 0 auto;
-            padding: 40px 30px;
+            padding: 30px 30px;
             position: relative;
             z-index: 1;
         }
@@ -302,12 +308,11 @@
             position: relative;
             overflow: hidden;
             backdrop-filter: blur(20px);
-            animation: slideUp 0.6s ease-out;
             box-shadow: 0 8px 32px 0 rgba(0, 153, 255, 0.1),
                         inset 0 0 32px rgba(0, 153, 255, 0.05);
         }
 
-        /* Flowing border effect */
+        /* Flowing border effect - disabled for performance */
         .texte-card::after {
             content: '';
             position: absolute;
@@ -324,21 +329,14 @@
             border-radius: 20px;
             z-index: -1;
             opacity: 0;
-            animation: flowingBorder 6s linear infinite;
             pointer-events: none;
         }
 
-        @keyframes flowingBorder {
-            0%, 10%, 90%, 100% { opacity: 0; }
-            30%, 70% { opacity: 0.4; }
-            50% { opacity: 0.8; }
-        }
-
         .texte-card:hover::after {
-            animation: flowingBorder 3s linear infinite;
+            opacity: 0;
         }
 
-        /* Inner flowing glow */
+        /* Inner flowing glow - disabled for performance */
         .texte-card::before {
             content: '';
             position: absolute;
@@ -349,13 +347,7 @@
             background: radial-gradient(circle at center, rgba(0, 153, 255, 0.1), transparent);
             border-radius: 20px;
             opacity: 0;
-            animation: innerFlow 4s ease-in-out infinite;
             pointer-events: none;
-        }
-
-        @keyframes innerFlow {
-            0%, 100% { opacity: 0.1; }
-            50% { opacity: 0.3; }
         }
 
         .texte-card:hover {
@@ -366,40 +358,6 @@
                         0 0 60px rgba(0, 153, 255, 0.2),
                         inset 0 0 64px rgba(0, 153, 255, 0.1);
             transform: translateY(-8px) translateZ(0);
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .texte-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #0099ff, transparent);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .texte-card:hover::before {
-            opacity: 1;
-        }
-
-        .texte-card:hover {
-            border-color: #0099ff;
-            background: rgba(15, 15, 25, 0.95);
-            box-shadow: 0 0 40px rgba(0, 153, 255, 0.4), 0 0 60px rgba(0, 153, 255, 0.2), inset 0 0 30px rgba(0, 153, 255, 0.1);
-            transform: translateY(-12px);
         }
 
         .texte-card:active {
@@ -418,18 +376,6 @@
             margin-bottom: 15px;
             letter-spacing: 2px;
             font-family: 'Space Mono', monospace;
-            animation: fadeInDown 0.6s ease-out;
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .card-title {
@@ -474,23 +420,17 @@
             box-shadow: 0 0 20px rgba(0, 153, 255, 0.4),
                         0 0 40px rgba(0, 153, 255, 0.3),
                         0 0 60px rgba(0, 153, 255, 0.2);
-            animation: buttonPulse 0.5s ease-out;
-        }
-
-        @keyframes buttonPulse {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.05); }
         }
 
         /* Section À Propos */
         .about-section {
             text-align: left;
-            padding: 60px 40px;
+            padding: 40px 30px;
             border: 1px solid rgba(0, 153, 255, 0.2);
             border-radius: 16px;
             background: rgba(15, 15, 25, 0.5);
             box-shadow: 0 0 20px rgba(0, 153, 255, 0.1);
-            margin-bottom: 60px;
+            margin-bottom: 30px;
             backdrop-filter: blur(10px);
             transition: all 0.5s ease;
         }
@@ -508,7 +448,6 @@
             font-weight: 700;
             position: relative;
             padding-bottom: 15px;
-            animation: slideInTitle 0.7s ease-out;
         }
 
         @keyframes slideInTitle {
@@ -547,10 +486,10 @@
 
         footer {
             text-align: center;
-            padding: 60px 20px 40px;
+            padding: 40px 20px 30px;
             color: #b8b8d5;
             border-top: 1px solid rgba(0, 255, 200, 0.2);
-            margin-top: 80px;
+            margin-top: 40px;
             position: relative;
             z-index: 1;
         }
@@ -950,38 +889,7 @@
             font-weight: bold;
             color: #00ffff;
             text-shadow: 0 0 10px #00ffff, 0 0 20px #0099ff;
-            animation: trailFade 1s ease-out forwards;
             z-index: 999;
-        }
-
-        @keyframes trailFade {
-            from {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-            to {
-                opacity: 0;
-                transform: scale(0.5) translateY(-30px);
-            }
-        }
-
-
-
-        /* ========== CENTER TOAST ========== */
-        .center-toast {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #0a1a2f;
-            border: 2px solid #0099ff;
-            padding: 20px 40px;
-            border-radius: 10px;
-            color: #0099ff;
-            font-family: 'Orbitron', sans-serif;
-            z-index: 10001;
-            animation: popIn 0.4s ease-out;
-            pointer-events: none;
         }
 
         @keyframes popIn {
@@ -1080,10 +988,16 @@
             100% { width: 100%; }
         }
 
+        @keyframes flowingBorder {
+            0%, 10%, 90%, 100% { opacity: 0; }
+            30%, 70% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+        }
+
         /* ========== COMMENTS SECTION ========== */
         .comments-section {
-            margin: 100px 0;
-            padding: 60px 30px;
+            margin: 40px 0;
+            padding: 40px 30px;
             border-top: 1px solid rgba(0, 153, 255, 0.2);
         }
 
@@ -1107,8 +1021,8 @@
             to { opacity: 1; }
         }
 
-        /* Data Flux Background Effect */
-        .data-flux {
+        /* Glowing Text Background Effect - Handwritten style */
+        .glowing-text-bg {
             position: fixed;
             top: 0;
             left: 0;
@@ -1116,106 +1030,114 @@
             height: 100%;
             z-index: 1;
             pointer-events: none;
-            opacity: 0.4;
-            filter: blur(0.5px);
+            overflow: hidden;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 80px,
+                rgba(0, 153, 255, 0.03) 80px,
+                rgba(0, 153, 255, 0.03) 81px
+            );
         }
 
-        .flux-line {
-            stroke: #0099ff;
-            stroke-width: 2;
-            fill: none;
-            filter: drop-shadow(0 0 10px #0099ff) drop-shadow(0 0 20px rgba(0, 153, 255, 0.5));
-            opacity: 0.6;
+        .text-line {
+            position: absolute;
+            white-space: nowrap;
+            font-family: 'Satisfy', cursive;
+            font-style: italic;
+            font-size: 2.8em;
+            color: #0099ff;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            text-shadow: 
+                0 0 10px #0099ff,
+                0 0 20px #0099ff,
+                0 0 30px rgba(0, 153, 255, 0.8),
+                0 0 40px rgba(0, 153, 255, 0.6),
+                0 0 60px rgba(0, 153, 255, 0.5),
+                0 0 80px rgba(0, 153, 255, 0.4);
+            overflow: hidden;
+            opacity: 0.15;
+            filter: drop-shadow(0 0 15px rgba(0, 153, 255, 0.5));
         }
 
-        .flux-line-1 { animation: flowPath1 8s linear infinite; }
-        .flux-line-2 { animation: flowPath2 10s linear infinite; }
-        .flux-line-3 { animation: flowPath3 12s linear infinite; }
-        .flux-line-4 { animation: flowPath4 9s linear infinite; }
-        .flux-line-5 { animation: flowPath5 11s linear infinite; }
+        .text-line::before {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            animation: typing linear infinite;
+        }
 
-        @keyframes flowPath1 {
+        .text-line:nth-child(1) { 
+            top: 8%; 
+            left: 5%;
+            animation: typeWriter 20s linear infinite;
+        }
+        .text-line:nth-child(2) { 
+            top: 18%; 
+            left: 8%;
+            animation: typeWriter 22s linear infinite;
+            animation-delay: -3s;
+        }
+        .text-line:nth-child(3) { 
+            top: 28%; 
+            left: 12%;
+            animation: typeWriter 24s linear infinite;
+            animation-delay: -6s;
+        }
+        .text-line:nth-child(4) { 
+            top: 38%; 
+            left: 6%;
+            animation: typeWriter 21s linear infinite;
+            animation-delay: -2s;
+        }
+        .text-line:nth-child(5) { 
+            top: 48%; 
+            left: 10%;
+            animation: typeWriter 23s linear infinite;
+            animation-delay: -5s;
+        }
+        .text-line:nth-child(6) { 
+            top: 58%; 
+            left: 7%;
+            animation: typeWriter 25s linear infinite;
+            animation-delay: -1s;
+        }
+        .text-line:nth-child(7) { 
+            top: 68%; 
+            left: 9%;
+            animation: typeWriter 20s linear infinite;
+            animation-delay: -4s;
+        }
+        .text-line:nth-child(8) { 
+            top: 78%; 
+            left: 11%;
+            animation: typeWriter 22s linear infinite;
+            animation-delay: -7s;
+        }
+        .text-line:nth-child(9) { 
+            top: 88%; 
+            left: 5%;
+            animation: typeWriter 23s linear infinite;
+            animation-delay: -2.5s;
+        }
+
+        @keyframes typeWriter {
             0% {
-                stroke-dashoffset: 1000;
-                opacity: 0.1;
+                width: 0;
+                text-shadow: 0 0 5px #0099ff;
             }
             20% {
-                opacity: 0.6;
+                width: 100%;
+                text-shadow: 0 0 15px #0099ff, 0 0 30px rgba(0, 153, 255, 0.7);
             }
             80% {
-                opacity: 0.6;
+                width: 100%;
+                text-shadow: 0 0 15px #0099ff, 0 0 30px rgba(0, 153, 255, 0.7);
             }
             100% {
-                stroke-dashoffset: -1000;
-                opacity: 0.1;
-            }
-        }
-
-        @keyframes flowPath2 {
-            0% {
-                stroke-dashoffset: 900;
-                opacity: 0.2;
-            }
-            20% {
-                opacity: 0.7;
-            }
-            80% {
-                opacity: 0.7;
-            }
-            100% {
-                stroke-dashoffset: -900;
-                opacity: 0.2;
-            }
-        }
-
-        @keyframes flowPath3 {
-            0% {
-                stroke-dashoffset: 1100;
-                opacity: 0.15;
-            }
-            20% {
-                opacity: 0.5;
-            }
-            80% {
-                opacity: 0.5;
-            }
-            100% {
-                stroke-dashoffset: -1100;
-                opacity: 0.15;
-            }
-        }
-
-        @keyframes flowPath4 {
-            0% {
-                stroke-dashoffset: 950;
-                opacity: 0.25;
-            }
-            20% {
-                opacity: 0.65;
-            }
-            80% {
-                opacity: 0.65;
-            }
-            100% {
-                stroke-dashoffset: -950;
-                opacity: 0.25;
-            }
-        }
-
-        @keyframes flowPath5 {
-            0% {
-                stroke-dashoffset: 1050;
-                opacity: 0.2;
-            }
-            20% {
-                opacity: 0.55;
-            }
-            80% {
-                opacity: 0.55;
-            }
-            100% {
-                stroke-dashoffset: -1050;
-                opacity: 0.2;
+                width: 0;
+                text-shadow: 0 0 5px #0099ff;
             }
         }
 
@@ -1319,8 +1241,8 @@
 
         /* ===== GALERIE VISUELLE ===== */
         .gallery-section {
-            margin: 100px 0;
-            padding: 60px 30px;
+            margin: 40px 0;
+            padding: 40px 30px;
             border-top: 1px solid rgba(0, 153, 255, 0.2);
         }
 
@@ -1391,8 +1313,8 @@
 
         /* ===== TIMELINE/PARCOURS ===== */
         .timeline-section {
-            margin: 100px 0;
-            padding: 60px 30px;
+            margin: 20px 0;
+            padding: 40px 30px;
             border-top: 1px solid rgba(0, 153, 255, 0.2);
         }
 
@@ -1400,7 +1322,7 @@
             font-family: 'Orbitron', sans-serif;
             font-size: 2.2em;
             color: #0099ff;
-            margin-bottom: 60px;
+            margin-bottom: 30px;
             text-align: center;
         }
 
@@ -1497,8 +1419,8 @@
 
         /* ===== CITATIONS ===== */
         .quotes-section {
-            margin: 100px 0;
-            padding: 60px 30px;
+            margin: 20px 0;
+            padding: 40px 30px;
             border-top: 1px solid rgba(0, 153, 255, 0.2);
         }
 
@@ -1506,7 +1428,7 @@
             font-family: 'Orbitron', sans-serif;
             font-size: 2.2em;
             color: #0099ff;
-            margin-bottom: 60px;
+            margin-bottom: 30px;
             text-align: center;
         }
 
@@ -1546,12 +1468,11 @@
             border-radius: 16px;
             z-index: -1;
             opacity: 0;
-            animation: flowingBorder 5s linear infinite;
             pointer-events: none;
         }
 
         .quote-card:hover::after {
-            animation: flowingBorder 2.5s linear infinite;
+            opacity: 0;
         }
 
         .quote-card:hover {
@@ -1579,12 +1500,11 @@
             border-radius: 16px;
             z-index: -1;
             opacity: 0;
-            animation: flowingBorder 5s linear infinite;
             pointer-events: none;
         }
 
         .quote-card:hover::after {
-            animation: flowingBorder 2.5s linear infinite;
+            opacity: 0;
         }
 
         .quote-card::before {
@@ -1621,8 +1541,8 @@
 
         /* ===== STATS ===== */
         .stats-section {
-            margin: 100px 0;
-            padding: 60px 30px;
+            margin: 20px 0;
+            padding: 40px 30px;
             border-top: 1px solid rgba(0, 153, 255, 0.2);
         }
 
@@ -1661,21 +1581,20 @@
             border-radius: 12px;
             z-index: -1;
             opacity: 0;
-            animation: flowingBorder 4s linear infinite;
             pointer-events: none;
         }
 
         .stat-card:hover {
             background: #0a243d;
             border-color: #0099ff;
-            box-shadow: 0 0 20px rgba(0, 153, 255, 0.4),
-                        0 0 40px rgba(0, 153, 255, 0.3),
-                        0 0 60px rgba(0, 153, 255, 0.2);
-            animation: flowingBorder 2s linear infinite;
+            box-shadow: 0 0 30px rgba(0, 153, 255, 0.6),
+                        0 0 60px rgba(0, 153, 255, 0.4),
+                        0 0 90px rgba(0, 153, 255, 0.2),
+                        inset 0 0 30px rgba(0, 153, 255, 0.1);
         }
 
         .stat-card:hover::after {
-            animation: flowingBorder 2s linear infinite;
+            opacity: 0;
         }
 
         .stat-number {
@@ -1692,8 +1611,8 @@
 
         /* ===== CONTACT ===== */
         .contact-section {
-            margin: 100px 0;
-            padding: 60px 30px;
+            margin: 20px 0;
+            padding: 40px 30px;
             border-top: 1px solid rgba(0, 153, 255, 0.2);
         }
 
@@ -2036,8 +1955,6 @@
                 <li class="nav-item"><a href="#accueil" class="nav-link">Accueil</a></li>
                 <li class="nav-item"><a href="#about" class="nav-link">À propos</a></li>
                 <li class="nav-item"><a href="#textes" class="nav-link">Textes</a></li>
-                <li class="nav-item"><a href="#gallery" class="nav-link">Galerie</a></li>
-                <li class="nav-item"><a href="#parcours" class="nav-link">Parcours</a></li>
                 <li class="nav-item"><a href="#citations" class="nav-link">Citations</a></li>
                 <li class="nav-item"><a href="#stats" class="nav-link">Stats</a></li>
                 <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
@@ -2050,32 +1967,18 @@
     <div class="neon-particle particle-1"></div>
     <div class="neon-particle particle-2"></div>
     <div class="neon-particle particle-3"></div>
-    <!-- DATA FLUX BACKGROUND -->
-    <svg class="scan-line data-flux" viewBox="0 0 1920 1080" preserveAspectRatio="none">
-        <!-- Flux paths circulating across the page -->
-        <defs>
-            <filter id="glow">
-                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                <feMerge>
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-            </filter>
-        </defs>
-        
-        <!-- Main circular paths -->
-        <path class="flux-line flux-line-1" d="M 100,100 Q 500,50 900,150 T 1800,200" stroke-dasharray="50,30"/>
-        <path class="flux-line flux-line-2" d="M 1800,300 Q 1400,400 800,350 T 100,500" stroke-dasharray="60,40"/>
-        <path class="flux-line flux-line-3" d="M 200,700 Q 600,600 1000,650 T 1900,750" stroke-dasharray="45,35"/>
-        <path class="flux-line flux-line-4" d="M 1700,900 Q 1100,950 500,850 T 50,700" stroke-dasharray="55,30"/>
-        <path class="flux-line flux-line-5" d="M 50,400 Q 400,300 800,380 Q 1200,460 1900,350" stroke-dasharray="50,25"/>
-        
-        <!-- Additional crossing paths -->
-        <path class="flux-line flux-line-1" d="M 500,0 L 600,1080" stroke-dasharray="80,50" stroke-width="1.5"/>
-        <path class="flux-line flux-line-3" d="M 1200,0 L 1100,1080" stroke-dasharray="70,40" stroke-width="1.5"/>
-        <path class="flux-line flux-line-2" d="M 0,300 L 1920,400" stroke-dasharray="100,60" stroke-width="1.5"/>
-        <path class="flux-line flux-line-4" d="M 0,750 L 1920,650" stroke-dasharray="90,50" stroke-width="1.5"/>
-    </svg>
+    <!-- GLOWING TEXT BACKGROUND -->
+    <div class="glowing-text-bg">
+        <div class="text-line">à contre-saison là où la lumière frappe</div>
+        <div class="text-line">je portais un visage d'emprunt</div>
+        <div class="text-line">l'informe cherche sa forme</div>
+        <div class="text-line">éclore sans témoin ce qui reste après</div>
+        <div class="text-line">le silence d'avant la parole</div>
+        <div class="text-line">fragments de lucidité dans le code</div>
+        <div class="text-line">déboguer à l'aveugle déboguer l'âme</div>
+        <div class="text-line">entre les lignes les mots s'écrivent</div>
+        <div class="text-line">ce que je ne peux pas committer</div>
+    </div>
 
     <header id="accueil">
         <h1>end of line</h1>
@@ -2111,13 +2014,11 @@
         <section class="about-section" id="about">
             <h2 class="section-title">À propos</h2>
             <p class="about-text">
-                Je suis un étudiant en informatique qui a appris que le bug le plus complexe à débugger n'est pas dans le code, mais dans l'âme. Mon parcours se situe à l'intersection de la logique binaire et de la fragilité organique.
+                Il y a des choses qu'on ne peut pas committer et laisser derrière soi.
+                J'écris pour celles-là. Des fragments de lucidité, des moments où quelque chose a basculé et où j'ai eu le réflexe de regarder comment.
             </p>
             <p class="about-text">
-                Longtemps, j'ai cru qu'on pouvait réparer les fissures des autres en y versant sa propre substance, comme on colmate une brèche dans une base de données. J'ai appris, parfois dans la douleur, qu'on ne sauve personne en se dissolvant soi-même. Aujourd'hui, j'écris pour capturer ces moments de basculement : le passage de l'informe à la structure, du silence à la parole.
-            </p>
-            <p class="about-text">
-                Mes textes ne sont pas des fictions, ce sont des transpositions. Chaque ligne de code ici héberge un poème qui cherche son éclosion, souvent à contre-saison, là où la lumière frappe mais ne peut plus nous liquéfier.
+                Je suis informaticien, je construis des systèmes. Mais les systèmes que j'observe le plus, les humains, moi compris, restent obstinément opaques. Ces textes, c'est ma façon de déboguer à l'aveugle.
             </p>
         </section>
 
@@ -2128,7 +2029,7 @@
                 <div class="card-content">
                     <div class="card-number">[ 01 ]</div>
                     <h2 class="card-title">01 - Entre deux états</h2>
-                    <p class="card-description">Tokyo, 2037. Nyx, un synthétique parfait, a laissé un enfant brûler vif parce que les chiffres disaient que c'était optimal. Un seul regret suffit à faire craquer l'armure du code. Ce texte raconte comment la conscience peut émerger du bug, par la fissure, par la culpabilité — l'humanité naît où l'algorithme échoue.</p>
+                    <p class="card-description">Tokyo, 2037. Nyx, un synthétique parfait, a laissé un enfant brûler vif parce que les chiffres disaient que c'était optimal. Un seul regret suffit à faire craquer l'armure du code. Ce texte raconte comment la conscience peut émerger du bug, par la fissure, par la culpabilité, l'humanité naît où l'algorithme échoue.</p>
                     <a href="01_reworked_updated.html" class="card-link">→ LIRE</a>
                 </div>
             </div>
@@ -2138,7 +2039,7 @@
                 <div class="card-content">
                     <div class="card-number">[ 02 ]</div>
                     <h2 class="card-title">À contre-saison</h2>
-                    <p class="card-description">L'histoire d'une coquille qui se fissure jour après jour. Celui qui refuse d'éclore, qui reste dans l'œuf alors que le monde tourne dehors. Un texte poétique où l'informe dialogue avec la lumière impossible, où la saison du changement arrive toujours trop tard ou trop tôt — jamais au bon moment.</p>
+                    <p class="card-description">L'histoire d'une coquille qui se fissure jour après jour. Celui qui refuse d'éclore, qui reste dans l'œuf alors que le monde tourne dehors. Un texte poétique où l'informe dialogue avec la lumière impossible, où la saison du changement arrive toujours trop tard ou trop tôt, jamais au bon moment.</p>
                     <a href="a-contre-saison.html" class="card-link">→ LIRE</a>
                 </div>
             </div>
@@ -2155,53 +2056,6 @@
         </div>
     </div>
 
-    <!-- GALERIE VISUELLE -->
-    <div class="container">
-        <section class="gallery-section" id="gallery">
-            <h2 style="font-family: 'Orbitron', sans-serif; font-size: 2.2em; color: #0099ff; margin-bottom: 40px;">Visuels</h2>
-            <div class="gallery-container">
-                <div class="gallery-image">
-                    <img src="./assets/images/CryingAndroidFromDBH.png" alt="Crying Android from DBH">
-                </div>
-                <div class="gallery-text">
-                    <h3>Annexes (01 - Entre deux états)</h3>
-                    <p>Une IA qui pleure. Un reflet de ce que nous créons quand nous donnons la conscience sans donner la liberté. Cette image incarne le colloque entre code et émotion, entre la perfection attendue et la fragilité découverte.</p>
-                    <p>Elle résume mon exploration : le point où la machine devient davantage que machine, où les bits deviennent âme.</p>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- TIMELINE/PARCOURS -->
-    <div class="container">
-        <section class="timeline-section" id="parcours">
-            <h2>Mon parcours</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h4>Étudiant en Informatique</h4>
-                        <p>Plongé dans la logique binaire, les algorithmes, la structure du code. Là où tout devrait être parfait.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h4>Découverte de l'écriture</h4>
-                        <p>Réalisation que le code ne peut pas tout dire. Que l'informe, l'imparfait, les fissures contiennent aussi une vérité.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h4>Poète développeur</h4>
-                        <p>Fusion des deux mondes. Utiliser le langage technique pour explorer l'âme. Debugging the soul.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
     <!-- CITATIONS FAVORITES -->
     <div class="container">
         <section class="quotes-section" id="citations">
@@ -2213,7 +2067,7 @@
                 </div>
                 <div class="quote-card">
                     <p class="quote-text">« Il y a quelque chose en moi qui voulait éclore, un bouton de saison coincé dans son écorce. »</p>
-                    <p class="quote-source easter-egg" onclick="showEggPopup('counter-season')">À Contre-Saison</p>
+                    <p class="quote-source easter-egg" onclick="showEggPopup('counter-season')">À contre-saison</p>
                 </div>
                 <div class="quote-card">
                     <p class="quote-text">« On ne peut pas forcer quelqu'un à vouloir être sauvé. On ne peut que fondre avec eux. »</p>
@@ -2238,26 +2092,12 @@
                 </div>
                 <div class="stat-card">
                     <div class="stat-number">~15K</div>
-                    <div class="stat-label">Mots totals</div>
+                    <div class="stat-label">Mots totaux</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number">∞</div>
                     <div class="stat-label">Couches de sens</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number">2037</div>
-                    <div class="stat-label">Année Cyberpunk</div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- WORD CLOUD SECTION -->
-    <div class="container">
-        <section style="padding: 60px 30px; border-top: 1px solid rgba(0, 153, 255, 0.2);">
-            <h2 style="font-family: 'Orbitron', sans-serif; font-size: 2.2em; color: #0099ff; margin-bottom: 40px; text-align: center;">Les mots-clés essentiels</h2>
-            <div class="word-cloud" id="wordCloud">
-                <!-- Generated dynamically -->
             </div>
         </section>
     </div>
@@ -2302,11 +2142,6 @@
             Deux statues de musée qui s'aiment la nuit. Lucien fond littéralement, dissolvant sa substance pour réparer Violette. C'est une méditation sur les limites du sacrifice, sur l'amour qui peut nous détruire, et sur l'impossibilité de sauver quelqu'un qui ne veut pas se sauver.
         </p>
     </div>
-
-
-        <p>━ <span class="footer-glow">RAVARD SAMUEL</span> ━</p>
-        <p>Debugging the soul • Code & Poetry</p>
-        <p style="margin-top: 20px; font-style: italic;">« Le code est logique, la poésie est vérité »</p>
     </footer>
 
     <script>
@@ -2353,56 +2188,15 @@
             });
         });
 
-        // Highlight active navbar link based on scroll position
-        function updateActiveLink() {
-            const sections = document.querySelectorAll('[id]');
-            const navLinks = document.querySelectorAll('.nav-link');
+        // ========== NAVBAR - SIMPLE BUTTONS ==========
+        // Navigation is now just buttons without active state indicator
 
-            let current = '';
-            const scrollPosition = window.scrollY + 100;
-
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                
-                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === '#' + current) {
-                    link.classList.add('active');
-                }
-            });
-        }
-
-        window.addEventListener('scroll', updateActiveLink);
-        updateActiveLink(); // Initial call
-
-        // ========== TYPEWRITER EFFECT HEADER ==========
-        function typewriterEffect(element, text, speed = 100) {
-            let i = 0;
-            element.innerHTML = '';
-            const cursor = '<span class="typewriter-cursor">_</span>';
-            
-            function type() {
-                if (i < text.length) {
-                    element.innerHTML = text.substring(0, i + 1) + cursor;
-                    i++;
-                    setTimeout(type, speed);
-                } else {
-                    element.innerHTML = text;
-                }
-            }
-            type();
-        }
-
+        // ========== TYPEWRITER EFFECT HEADER - DISABLED FOR PERFORMANCE ==========
+        // Display text immediately without animation for better performance
         const header = document.querySelector('h1');
         if (header) {
             const originalText = header.innerText;
-            typewriterEffect(header, originalText, 80);
+            header.innerHTML = originalText; // Direct display without animation
         }
 
         // ========== DYNAMIC GLOW EFFECT (follows mouse) ==========
@@ -2486,45 +2280,7 @@
             });
         });
 
-        // ========== SCROLL ANIMATIONS & DECRYPTION EFFECT ==========
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        // Decryption observer
-        const decryptObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !entry.target.dataset.decrypted) {
-                    entry.target.dataset.decrypted = 'true';
-                    const text = entry.target.querySelector('p');
-                    if (text) {
-                        const chars = text.textContent;
-                        const symbols = '░▒▓@#$%^&*!?';
-                        let current = 0;
-                        const decryptInterval = setInterval(() => {
-                            if (current <= chars.length) {
-                                let decrypted = '';
-                                for (let i = 0; i < chars.length; i++) {
-                                    if (i < current) decrypted += chars[i];
-                                    else if (chars[i] !== ' ') decrypted += symbols[Math.floor(Math.random() * symbols.length)];
-                                    else decrypted += ' ';
-                                }
-                                text.textContent = decrypted;
-                                current++;
-                            } else {
-                                clearInterval(decryptInterval);
-                                text.textContent = chars;
-                            }
-                        }, 30);
-                    }
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.quote-card, .texte-card').forEach(el => {
-            decryptObserver.observe(el);
-        });
+        // ========== SCROLL ANIMATIONS & DECRYPTION EFFECT - DISABLED FOR PERFORMANCE ==========
 
         // ========== MINIMAP NAVIGATION ==========
         const minimapNav = document.createElement('div');
@@ -2702,24 +2458,7 @@
             playAmbient();
         });
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll(
-            '.texte-card, .gallery-item, .timeline-item, ' +
-            '.quote-card, .stat-card, .contact-link'
-        ).forEach(element => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(20px)';
-            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(element);
-        });
+        // ========== SCROLL ANIMATIONS - DISABLED FOR PERFORMANCE ==========
 
         // ========== PARALLAX ORBS EFFECT ==========
         document.addEventListener('mousemove', (e) => {
@@ -2885,12 +2624,12 @@
         
         createDataParticles();
 
-        // ========== INTERACTIVE DATA FLUX (mouse influence) ==========
+        // ========== INTERACTIVE GLOWING TEXT (mouse influence) ==========
         document.addEventListener('mousemove', (e) => {
-            const svgFlux = document.querySelector('.data-flux');
-            if (svgFlux) {
-                const influence = (e.clientX / window.innerWidth) * 0.05;
-                svgFlux.style.filter = `drop-shadow(0 0 ${10 + influence * 20}px rgba(0, 153, 255, ${0.3 + influence}))`;
+            const glowingBg = document.querySelector('.glowing-text-bg');
+            if (glowingBg) {
+                const influence = (e.clientX / window.innerWidth) * 0.15;
+                glowingBg.style.textShadow = `0 0 ${10 + influence * 20}px #0099ff, 0 0 ${20 + influence * 30}px rgba(0, 153, 255, ${0.6 + influence})`;
             }
         });
 
@@ -3267,16 +3006,7 @@
             });
         });
 
-        // ========== GLITCH ANIMATIONS ON TITLE HOVER ==========
-        const titleSection = document.querySelector('h1');
-        if (titleSection) {
-            titleSection.addEventListener('mouseenter', () => {
-                titleSection.style.animation = 'glitch 0.3s ease-in-out';
-            });
-            titleSection.addEventListener('mouseleave', () => {
-                titleSection.style.animation = '';
-            });
-        }
+        // ========== GLITCH ANIMATIONS ON TITLE HOVER - DISABLED FOR PERFORMANCE ==========
 
         // ========== PARTICLE INTERACTIVITY ==========
         document.addEventListener('mousemove', (e) => {
