@@ -1756,7 +1756,7 @@
 
     <header id="accueil">
         <h1>end of line</h1>
-        <p class="subtitle">RAVARD SAMUEL • Écrivain › Poète › Développeur</p>
+        <p class="subtitle">RAVARD SAMUEL • j'écris des trucs et du code aussi</p>
         <p class="tagline">« Entre les lignes de code et les poèmes, je navigue. Étudiant en informatique aspirant à capturer l'essence du numérique à travers les mots. »</p>
         <div class="divider"></div>
     </header>
@@ -1847,6 +1847,16 @@
                     <a href="a-contre-saison.html" class="card-link">→ LIRE</a>
                 </div>
             </div>
+
+            <!-- Texte 6 -->
+            <div class="texte-card">
+                <div class="card-content">
+                    <div class="card-number">[ 06 ]</div>
+                    <h2 class="card-title">Idée fixe</h2>
+                    <p class="card-description">Elle s'était installée un soir de novembre et n'a jamais vraiment disparu. L'histoire d'une idée non réalisée qui prend racine dans le quotidien, qui attend patiemment dans le coin du salon, cette colocataire invisible qu'on finit par apprendre à vivre plutôt que d'affronter. Un récit sur le poids des intentions jamais concrétisées.</p>
+                    <a href="idee_fixe.html" class="card-link">→ LIRE</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1879,6 +1889,10 @@
                     <p class="quote-text">« Seize rectangles de verre qui clignotent. Seize fenêtres. Seize vies qui ne sont pas vraiment des vies. »</p>
                     <p class="quote-source">Réflɘxions</p>
                 </div>
+                <div class="quote-card">
+                    <p class="quote-text">« Elle attend. C'est tout ce qu'elle sait faire, et c'est amplement suffisant. »</p>
+                    <p class="quote-source easter-egg" onclick="showEggPopup('fixed-idea')">Idée fixe</p>
+                </div>
             </div>
         </section>
     </div>
@@ -1889,11 +1903,11 @@
             <h2 style="font-family: 'Orbitron', sans-serif; font-size: 2.2em; color: #0099ff; margin-bottom: 40px; text-align: center;">Par les chiffres</h2>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-number">5</div>
+                    <div class="stat-number">6</div>
                     <div class="stat-label">Textes</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">~20K</div>
+                    <div class="stat-number">~23K</div>
                     <div class="stat-label">Mots totaux</div>
                 </div>
                 <div class="stat-card">
@@ -1942,6 +1956,13 @@
         <h3 style="color: #0099ff; margin-bottom: 15px;">DE CIRE ET DE SANG</h3>
         <p style="color: #b8b8d5; line-height: 1.6;">
             Deux statues de musée qui s'aiment la nuit. Lucien fond littéralement, dissolvant sa substance pour réparer Violette. C'est une méditation sur les limites du sacrifice, sur l'amour qui peut nous détruire, et sur l'impossibilité de sauver quelqu'un qui ne veut pas se sauver.
+        </p>
+    </div>
+    <div class="egg-popup" id="fixed-idea">
+        <span class="egg-close" onclick="closeEggPopup('fixed-idea')">×</span>
+        <h3 style="color: #0099ff; margin-bottom: 15px;">IDÉE FIXE</h3>
+        <p style="color: #b8b8d5; line-height: 1.6;">
+            Elle s'était installée un soir de novembre et n'a jamais quitté le coin du salon. C'est l'histoire d'une idée non réalisée transformée en colocataire invisible, celle qu'on évite plutôt que d'affronter. Un texte sur la paralysie de l'intention, sur comment les rêves non concrétisés acquièrent une présence quasi physique et nous enseignent à vivre avec l'inachevé.
         </p>
     </div>
     </footer>
@@ -2749,10 +2770,6 @@
             localStorage.setItem('achievements', JSON.stringify(achievements));
         }
         initAchievements();
-
-
-
-        // ========== GLITCH ANIMATIONS ON TITLE HOVER - DISABLED FOR PERFORMANCE ==========
 
 
 
