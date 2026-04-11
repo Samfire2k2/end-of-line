@@ -491,7 +491,11 @@ function loop() {
   draw();
   requestAnimationFrame(loop);
 }
-loop();
+
+// Luciole désactivée sur mobile pour les perfs
+if (!isMobile) {
+  loop();
+}
 
 // ==================== INPUT HANDLING ====================
 if (!isMobile) {
@@ -696,5 +700,9 @@ function animateBackground() {
     rgb(${Math.round(10 + offset)}, ${Math.round(15 + offset)}, ${Math.round(31 + offset)}) 100%)`;
   requestAnimationFrame(animateBackground);
 }
-animateBackground();
+
+// Text glow et background animations désactivées sur mobile pour les perfs
+if (!isMobile) {
+  animateBackground();
+}
 </script>
