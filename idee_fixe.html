@@ -301,7 +301,7 @@ let time = 0;
 let blinkPhase = 0;
 
 const trail = [];
-const TRAIL_LEN = 25;
+const TRAIL_LEN = isMobile ? 12 : 25;
 const particles = [];
 
 let mouseX = W / 2;
@@ -345,7 +345,7 @@ function update() {
   blinkPhase += 0.05 + Math.sin(time * 0.5) * 0.02; // Scintillement variable
   
   // Créer des particules occasionnelles (réduit pour perfs, encore plus sur mobile)
-  const particleEmissionRate = isMobile ? 0.01 : 0.05;
+  const particleEmissionRate = isMobile ? 0.008 : 0.05;
   if (Math.random() < particleEmissionRate) {
     const angle = Math.random() * Math.PI * 2;
     const dist = 20 + Math.random() * 40;
@@ -503,7 +503,7 @@ const textElements = document.querySelectorAll('.bloc p, .accroche');
 const titre = document.querySelector('.titre');
 const textGlowStates = new Map();
 let lastGlowUpdate = 0;
-const GLOW_UPDATE_INTERVAL = isMobile ? 250 : 100; // Augmenté sur mobile (250ms au lieu de 100ms)
+const GLOW_UPDATE_INTERVAL = isMobile ? 300 : 100; // Throttle optimisé pour perfs
 const GLOW_TRANSITION_TIME = 800; // ms (moins d'une seconde)
 let isPageVisible = true;
 
