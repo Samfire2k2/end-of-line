@@ -516,14 +516,14 @@ function stopLoop() {
   ctx.clearRect(0, 0, W, H);
 }
 
-// Démarrer au mousemove, arrêter après inactivité
+// Démarrer au mousemove (desktop), ou directement (mobile)
 if (!isMobile) {
-  let inactivityTimer;
   window.addEventListener('mousemove', () => {
     if (!loopActive) startLoop();
-    clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(stopLoop, 3000);
   }, { passive: true });
+} else {
+  // Mobile: démarrer tout de suite
+  startLoop();
 }
 
 // ==================== INPUT HANDLING ====================
