@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,700;1,400&family=Satisfy&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: linear-gradient(180deg, #0a0e1a 0%, #0d1428 40%, #0a0f1f 100%);
+    color: #e8eef5;
+    font-family: 'Lora', serif;
+    font-size: 16px;
+    line-height: 1.9;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: 
+      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise"/></filter><rect width="100" height="100" fill="%230a0e1a" filter="url(%23n)" opacity="0.03"/></svg>');
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #luciole-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 6rem 2rem 8rem;
+  }
+
+  .titre {
+    font-family: 'Satisfy', cursive;
+    font-size: 3.2rem;
+    font-weight: 400;
+    color: #4dd0e1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.8rem;
+    opacity: 0;
+    animation: fadeUp 1.3s ease forwards 0.2s;
+    text-shadow: 0 0 20px rgba(77, 208, 225, 0.2);
+    transition: text-shadow 0.15s ease;
+  }
+
+  .bloc {
+    margin-bottom: 4rem;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 1s ease, transform 1s ease, color 0.3s ease;
+    will-change: transform;
+  }
+
+  .bloc.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .bloc:nth-child(1) { transition-delay: 0s; }
+  .bloc:nth-child(2) { transition-delay: 0s; }
+  .bloc:nth-child(3) { transition-delay: 0s; }
+  .bloc:nth-child(4) { transition-delay: 0s; }
+  .bloc:nth-child(5) { transition-delay: 0s; }
+  .bloc:nth-child(6) { transition-delay: 0s; }
+  .bloc:nth-child(7) { transition-delay: 0s; }
+  .bloc:nth-child(8) { transition-delay: 0s; }
+
+  .bloc:hover p {
+    color: #a3d8e8;
+  }
+
+  .bloc p {
+    color: #d0dce8;
+    text-indent: 1.8em;
+    text-align: justify;
+  }
+
+  .bloc p:first-child {
+    text-indent: 0;
+  }
+
+  .separateur {
+    text-align: center;
+    color: #7fd8ed;
+    font-size: 1rem;
+    letter-spacing: 0.6em;
+    margin: 1.5rem 0;
+    opacity: 0.4;
+    font-weight: 300;
+  }
+
+  .accroche {
+    font-family: 'Lora', serif;
+    font-size: 1.45rem;
+    font-style: italic;
+    font-weight: 400;
+    color: #7fd8ed;
+    line-height: 1.6;
+    text-indent: 0 !important;
+    margin-bottom: 1rem;
+  }
+
+  .accroche::first-letter {
+    font-size: 1.8em;
+    color: #4dd0e1;
+    font-weight: 500;
+  }
+
+  .fin {
+    margin-bottom: 4rem;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .fin p {
+    color: #d0dce8;
+    text-indent: 1.8em;
+    text-align: justify;
+  }
+
+  .illustration {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    margin: 4rem auto 0;
+    opacity: 0;
+    animation: fadeUp 1.3s ease forwards 1.2s;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.15); opacity: 0.7; }
+  }
+
+  @keyframes shimmer {
+    0%, 100% { box-shadow: 0 0 12px 2px rgba(208, 220, 232, 0.4), 0 0 30px 6px rgba(208, 220, 232, 0.25), 0 0 60px 12px rgba(208, 220, 232, 0.12); }
+    50% { box-shadow: 0 0 18px 3px rgba(208, 220, 232, 0.6), 0 0 40px 8px rgba(208, 220, 232, 0.35), 0 0 80px 16px rgba(208, 220, 232, 0.15); }
+  }
+
+  .end-point {
+    position: relative;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #d0dce8;
+    animation: pulse 2.5s ease-in-out infinite, shimmer 3s ease-in-out infinite;
+    opacity: 0.8;
+  }
+
+  .particle-orbit {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background-color: #d0dce8;
+    opacity: 0.5;
+  }
+
+  @media (max-width: 768px) {
+    body { font-size: 15px; }
+    .page { padding: 6rem 2rem 8rem; }
+    .titre { font-size: 2.5rem; }
+    .bloc { margin-bottom: 3rem; }
+    .separateur { margin: 2rem 0; }
+    .fin { margin-top: 4rem; padding-top: 2rem; }
+  }
+
+  @media (max-width: 480px) {
+    body { font-size: 14px; }
+    .page { padding: 4rem 1.5rem 6rem; }
+    .titre { font-size: 2rem; }
+    .bloc { margin-bottom: 2.5rem; }
+    .bloc p { text-indent: 1.2em; }
+    .separateur { margin: 1.5rem 0; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="luciole-canvas"></canvas>
+
+<div class="page">
+  <h1 class="titre">Idée fixe</h1>
+
+  <div class="bloc">
+    <p>Elle était là quand j'ai emménagé.</p>
+    <p>Je ne l'avais pas invitée, personne n'invite vraiment ces choses-là. Elle s'était installée un soir de novembre, il y a trois ans, pendant que je fixais le plafond sans dormir. Une idée. Pas une grande, pas une petite. Une idée de celles qui ont l'air simples au début et qui, quand tu t'approches, révèlent un fond que tu n'avais pas vu.</p>
+    <p>Elle occupait le coin gauche du salon.</p>
+  </div>
+
+  <div class="separateur">· · ·</div>
+
+  <div class="bloc">
+    <p>Au début je l'ignorais. Je passais devant elle le matin en faisant semblant de regarder ailleurs, comme on fait avec quelqu'un qu'on ne veut pas croiser. Elle ne disait rien. Elle attendait, dans sa façon à elle d'attendre, qui ressemble beaucoup à de l'évidence tranquille. <em>Tu sais que je suis là. Tu sais que tu devrais.</em></p>
+    <p>Le problème avec les idées comme colocataires, c'est qu'elles ne prennent pas de place physiquement. Pas de vaisselle dans l'évier, pas de cheveux dans la douche. Mais elles ont une présence. Une gravité propre. Les pièces s'organisent autour d'elles sans qu'on s'en rende compte, on évite ce coin du salon, on ne s'assoit plus vraiment sur ce canapé, on fait des détours dans sa propre tête pour ne pas la longer de trop près.</p>
+    <p>J'ai essayé de la noyer dans le bruit. Séries, musique, conversations inutiles à trois heures du matin. Elle attendait que ça se taise. Elle avait le temps. Les idées non réalisées ont tout le temps du monde, c'est leur seul vrai avantage sur nous.</p>
+  </div>
+
+  <div class="separateur">· · ·</div>
+
+  <div class="bloc">
+    <p>Un soir je lui ai parlé.</p>
+    <p>Je lui ai expliqué que ce n'était pas le bon moment. Que j'avais d'autres choses. Que peut-être plus tard, quand les conditions seraient meilleures, quand je serais prêt, quand le sol serait plus stable sous mes pieds. Elle m'a écouté avec cette patience qui m'a toujours mis mal à l'aise chez elle. Puis le silence est revenu, et dans ce silence il y avait quelque chose qui ressemblait à de la compassion. Pas du jugement, pire que ça. De la compassion. Elle savait ce que je savais : qu'il n'y a jamais de bon moment, que le sol ne sera jamais stable, que "plus tard" est la seule promesse qu'on ne tient jamais vraiment.</p>
+  </div>
+
+  <div class="separateur">· · ·</div>
+
+  <div class="bloc">
+    <p>Il y a eu un soir de mars, le premier mars chaud, celui où on ouvre les fenêtres pour la première fois de l'année et où l'air sent quelque chose qui ressemble à un recommencement. J'avais sorti ce qu'il fallait. Tout était là, devant moi, dans le bon ordre, avec la bonne lumière. Elle s'était rapprochée, je le sentais, cette façon qu'elle a de remplir l'espace quand elle croit que le moment est venu. J'avais la main posée sur ce que j'allais faire.</p>
+    <p>Et puis rien.</p>
+    <p>Pas de peur panique, pas de raison valable. Juste une espèce de vide soudain, comme si quelque chose s'était éteint entre l'intention et le geste. Je me suis levé, j'ai fermé la fenêtre, j'ai fait autre chose. Je ne me souviens même plus quoi. Quelque chose d'inutile et d'oubliable, à la hauteur du renoncement.</p>
+    <p>Elle n'a rien dit ce soir-là non plus. Mais elle a mis longtemps à retourner dans son coin.</p>
+  </div>
+
+  <div class="separateur">· · ·</div>
+
+  <div class="bloc">
+    <p>J'ai appris à vivre avec.</p>
+    <p>On a nos habitudes maintenant. Elle ne me réveille plus la nuit, ou alors je ne l'entends plus, ce qui n'est pas exactement la même chose. Je lui laisse son coin. En échange elle me laisse mes journées, la plupart du temps. On cohabite avec cette politesse froide qu'on a avec quelqu'un qu'on respecte trop pour ignorer et qu'on n'est pas prêt à affronter vraiment.</p>
+    <p>Parfois des amis viennent dîner. Ils ne la voient pas, évidemment. Mais parfois l'un d'eux s'arrête au milieu d'une phrase, regarde dans sa direction sans savoir pourquoi, et dit <em>il fait bizarre ici, non ?</em> Je réponds que c'est l'exposition, que l'appartement manque de lumière. Ils acquiescent. On parle d'autre chose.</p>
+    <p>L'année dernière j'ai croisé quelqu'un qui avait eu la même idée. Il l'avait faite, lui. On était dans un endroit bruyant, des gens partout, des verres qui se remplissaient et se vidaient, et lui parlait de ça comme on parle d'un meuble qu'on a enfin trouvé la bonne place, avec ce soulagement tranquille des gens qui ont soldé quelque chose. Il ne s'en vantait pas. Il s'en souvenait à peine, presque. Je regardais sa façon d'occuper l'espace, cette légèreté particulière des corps qui ne portent plus certain poids, et j'ai souri aux bons moments de la conversation sans entendre grand-chose de ce qu'il disait.</p>
+    <p>En rentrant ce soir-là elle m'attendait dans l'entrée, ce qu'elle ne fait jamais d'habitude. On s'est regardés un moment. Je n'ai pas allumé la lumière tout de suite.</p>
+  </div>
+
+  <div class="separateur">· · ·</div>
+
+  <div class="bloc">
+    <p>Je me demande parfois si elle est encore la même qu'au début.</p>
+    <p>Trois ans, c'est long. Est-ce qu'elle a changé pendant que je regardais ailleurs, est-ce qu'elle s'est un peu affaissée, un peu ternie ? Ou est-ce que c'est moi qui la reconstruis chaque matin légèrement différente, qui comble les trous de mémoire avec ce que j'aurais voulu qu'elle soit ? Je ne sais plus très bien laquelle des deux versions est la vraie. Peut-être que l'idée que j'évite depuis trois ans n'est déjà plus tout à fait celle qui s'est installée ce soir de novembre. Peut-être que je protège quelque chose qui n'existe plus exactement tel quel, et que c'est pour ça, aussi, que je ne commence pas. Pour ne pas le savoir.</p>
+    <p>Et puis il y a les matins où je la regarde depuis la cuisine sans savoir quoi penser d'elle. Cette lumière de tôt, crue, sans filtre, fait ça aux choses, elle enlève le romanesque. Dans cette lumière-là elle paraît plus petite. Ou peut-être juste plus réelle. Je tiens ma tasse et je reste là à la regarder et je me demande ce qui resterait d'elle si je la touchais vraiment. Une idée non réalisée peut encore être tout ce qu'on veut. Une idée réalisée, c'est juste ce qu'elle est. Je ne sais pas si c'est de la peur ou de la prudence, et je ne suis pas certain de vouloir le savoir.</p>
+  </div>
+
+  <div class="separateur">· · ·</div>
+
+  <div class="bloc fin">
+    <p>Elle est toujours là ce matin.</p>
+    <p>Je lui ai fait du café, enfin, je m'en suis fait un, mais j'ai posé la tasse un peu plus à gauche que d'habitude. Geste idiot. Elle ne boit pas de café. Mais il y a des jours où on a besoin de faire semblant que la cohabitation est normale, que tout va bien, qu'on est deux adultes responsables qui gèrent.</p>
+    <p>Je pense que je finirai par m'en occuper.</p>
+    <p>Pas aujourd'hui. Peut-être demain. Peut-être cet été quand les journées seront plus longues et que j'aurai l'impression d'avoir plus de temps, plus d'élan. Elle le sait, j'imagine. Elle a dû entendre cette phrase des centaines de fois dans d'autres appartements, portée par d'autres voix qui lui ressemblaient à la mienne.</p>
+    <p>Elle attend.</p>
+    <p>C'est tout ce qu'elle sait faire, et c'est amplement suffisant.</p>
+    
+    <div style="margin-top: 3rem; display: flex; justify-content: center;">
+      <div class="end-point" id="endPoint"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('luciole-canvas');
+const ctx = canvas.getContext('2d');
+
+let W, H;
+let scrollY = 0;
+let targetScrollY = 0;
+let cachedDocHeight = 0;
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+  cachedDocHeight = document.body.scrollHeight - window.innerHeight;
+}
+
+resize();
+window.addEventListener('resize', resize, { passive: true });
+window.addEventListener('scroll', () => { targetScrollY = window.scrollY; }, { passive: true });
+
+let lx = W * 0.75;
+let ly = H * 0.3;
+let vx = 2;
+let vy = 1.5;
+let wanderAngle = Math.random() * Math.PI * 2;
+let time = 0;
+let blinkPhase = 0;
+
+const trail = [];
+const TRAIL_LEN = 25;
+const particles = [];
+
+let mouseX = W / 2;
+let mouseY = H / 2;
+
+function lerp(a, b, t) { return a + (b - a) * t; }
+
+function update() {
+  time += 0.012;
+  scrollY = lerp(scrollY, targetScrollY, 0.06);
+
+  const scrollFraction = cachedDocHeight > 0 ? targetScrollY / cachedDocHeight : 0;
+  const targetY = H * 0.15 + scrollFraction * H * 0.7;
+  
+  // Mouvement en montagnes russes : combinaison de sinus pour effet non-linéaire
+  const waveSmooth = Math.sin(scrollFraction * Math.PI * 3) * 0.5 + 
+                     Math.sin(scrollFraction * Math.PI * 1.2) * 0.3 +
+                     Math.sin(scrollFraction * Math.PI * 2.8) * 0.2;
+  const targetX = W * 0.62 + waveSmooth * W * 0.22;
+
+  wanderAngle += (Math.random() - 0.5) * 0.08;
+  const wanderX = Math.cos(wanderAngle) * 0.7;
+  const wanderY = Math.sin(wanderAngle) * 0.5;
+  
+  // Gravité vers le curseur
+  const gravityX = (mouseX - lx) * 0.00008;
+  const gravityY = (mouseY - ly) * 0.00008;
+
+  vx = lerp(vx, (targetX - lx) * 0.004 + wanderX + gravityX, 0.04);
+  vy = lerp(vy, (targetY - ly) * 0.004 + wanderY + gravityY, 0.04);
+
+  lx += vx;
+  ly += vy;
+
+  lx = Math.max(40, Math.min(W - 40, lx));
+  ly = Math.max(40, Math.min(H - 40, ly));
+
+  trail.unshift({ x: lx, y: ly });
+  if (trail.length > TRAIL_LEN) trail.pop();
+
+  blinkPhase += 0.05 + Math.sin(time * 0.5) * 0.02; // Scintillement variable
+  
+  // Créer des particules occasionnelles (réduit pour perfs)
+  if (Math.random() < 0.05) {
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 20 + Math.random() * 40;
+    particles.push({
+      x: lx + Math.cos(angle) * dist,
+      y: ly + Math.sin(angle) * dist,
+      vx: (Math.random() - 0.5) * 3,
+      vy: (Math.random() - 0.5) * 3,
+      life: 1
+    });
+  }
+}
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+
+  for (let i = trail.length - 1; i >= 0; i--) {
+    const t = 1 - i / trail.length;
+    const alpha = t * t * 0.18;
+    const r = t * 6;
+    const grd = ctx.createRadialGradient(trail[i].x, trail[i].y, 0, trail[i].x, trail[i].y, r * 4);
+    grd.addColorStop(0, `rgba(77, 208, 225, ${alpha})`);
+    grd.addColorStop(1, `rgba(33, 150, 243, 0)`);
+    ctx.beginPath();
+    ctx.arc(trail[i].x, trail[i].y, r * 4, 0, Math.PI * 2);
+    ctx.fillStyle = grd;
+    ctx.fill();
+  }
+
+  const blink = Math.max(0.5, 0.72 + 0.28 * Math.sin(blinkPhase));
+  const glowR = 44 * blink;
+  
+  // Changement de couleur selon le scroll (bleu → cyan → violet)
+  const scrollFraction = cachedDocHeight > 0 ? targetScrollY / cachedDocHeight : 0;
+  let r1, g1, b1, r2, g2, b2;
+  
+  if (scrollFraction < 0.5) {
+    // Bleu → Cyan (plus saturé)
+    const t = scrollFraction * 2;
+    r1 = Math.round(77 + (150 - 77) * t);
+    g1 = Math.round(208 + (245 - 208) * t);
+    b1 = Math.round(225);
+    r2 = Math.round(33 + (100 - 33) * t);
+    g2 = Math.round(150 + (220 - 150) * t);
+    b2 = Math.round(243 + (210 - 243) * t);
+  } else {
+    // Cyan → Violet (plus saturé)
+    const t = (scrollFraction - 0.5) * 2;
+    r1 = Math.round(150 + (200 - 150) * t);
+    g1 = Math.round(245 - (100 * t));
+    b1 = Math.round(225 + (80 * t));
+    r2 = Math.round(100 + (160 - 100) * t);
+    g2 = Math.round(220 - (100 * t));
+    b2 = Math.round(210 + (60 * t));
+  }
+
+  // Glow très large et subtil
+  const ambientGlow = ctx.createRadialGradient(lx, ly, 0, lx, ly, glowR * 2.5);
+  ambientGlow.addColorStop(0,   `rgba(${r1}, ${g1}, ${b1}, ${0.6 * blink})`);
+  ambientGlow.addColorStop(1,   `rgba(30, 136, 229, 0)`);
+  ctx.beginPath();
+  ctx.arc(lx, ly, glowR * 2.5, 0, Math.PI * 2);
+  ctx.fillStyle = ambientGlow;
+  ctx.fill();
+
+  const outer = ctx.createRadialGradient(lx, ly, 0, lx, ly, glowR);
+  outer.addColorStop(0,   `rgba(${r1}, ${g1}, ${b1}, ${0.2 * blink})`);
+  outer.addColorStop(1,   `rgba(30, 136, 229, 0)`);
+  ctx.beginPath();
+  ctx.arc(lx, ly, glowR, 0, Math.PI * 2);
+  ctx.fillStyle = outer;
+  ctx.fill();
+
+  const mid = ctx.createRadialGradient(lx, ly, 0, lx, ly, 12 * blink);
+  mid.addColorStop(0,   `rgba(${Math.round(r1 + 40)}, ${Math.round(g1 + 20)}, ${Math.round(b1)}, ${0.5 * blink})`);
+  mid.addColorStop(1,   `rgba(${r2}, ${g2}, ${b2}, 0)`);
+  ctx.beginPath();
+  ctx.arc(lx, ly, 12 * blink, 0, Math.PI * 2);
+  ctx.fillStyle = mid;
+  ctx.fill();
+
+  // Noyau lumineux très visible
+  const core = ctx.createRadialGradient(lx, ly, 0, lx, ly, 8);
+  core.addColorStop(0, `rgba(220, 250, 255, 0.95)`);
+  core.addColorStop(1, `rgba(129, 230, 255, 0)`);
+  ctx.beginPath();
+  ctx.arc(lx, ly, 8, 0, Math.PI * 2);
+  ctx.fillStyle = core;
+  ctx.fill();
+  
+  // Point blanc ultra lumineux au centre
+  ctx.beginPath();
+  ctx.arc(lx, ly, 3, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+  ctx.fill();
+  
+  // Dessiner les particules
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.x += p.vx;
+    p.y += p.vy;
+    p.life -= 0.025;
+    p.vy += 0.1; // Gravité légère
+    
+    if (p.life <= 0) {
+      particles.splice(i, 1);
+    } else {
+      const pGrad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 4);
+      pGrad.addColorStop(0, `rgba(${r1}, ${g1}, ${b1}, ${p.life * 0.4})`);
+      pGrad.addColorStop(1, `rgba(${r2}, ${g2}, ${b2}, 0)`);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = pGrad;
+      ctx.fill();
+    }
+  }
+}
+
+function loop() {
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+loop();
+
+// Suivi de la souris
+window.addEventListener('mousemove', (e) => {
+  const targetMX = e.clientX;
+  const targetMY = e.clientY;
+  mouseX = lerp(mouseX, targetMX, 0.1);
+  mouseY = lerp(mouseY, targetMY, 0.1);
+  
+  // Attraction de la luciole vers la souris
+  const distToMouse = Math.hypot(lx - mouseX, ly - mouseY);
+  if (distToMouse > 100) {
+    const attractionStr = 0.0005 * (200 - Math.min(distToMouse, 200)) / 200;
+    vx += (mouseX - lx) * attractionStr;
+    vy += (mouseY - ly) * attractionStr;
+  }
+  
+});
+
+const blocs = document.querySelectorAll('.bloc, .separateur');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.12 });
+blocs.forEach(b => io.observe(b));
+
+// Reflet de la luciole sur le texte (optimisé avec lazy-load + transition progressive)
+const textElements = document.querySelectorAll('.bloc p, .accroche');
+const titre = document.querySelector('.titre');
+const textGlowStates = new Map();
+let lastGlowUpdate = 0;
+const GLOW_UPDATE_INTERVAL = 100; // ms (augmenté pour perfs)
+const GLOW_TRANSITION_TIME = 800; // ms (moins d'une seconde)
+let isPageVisible = true;
+
+// Initialiser les états de glow
+textElements.forEach(el => {
+  textGlowStates.set(el, { isHovered: false, intensity: 0, hoverStartTime: 0 });
+  el.addEventListener('mouseenter', () => {
+    const state = textGlowStates.get(el);
+    state.isHovered = true;
+    state.hoverStartTime = Date.now();
+  });
+  el.addEventListener('mouseleave', () => {
+    const state = textGlowStates.get(el);
+    state.isHovered = false;
+  });
+});
+
+document.addEventListener('visibilitychange', () => {
+  isPageVisible = !document.hidden;
+});
+
+function updateTextGlow() {
+  if (!isPageVisible) return;
+  
+  const now = Date.now();
+  if (now - lastGlowUpdate < GLOW_UPDATE_INTERVAL) return;
+  lastGlowUpdate = now;
+  
+  // Les particules changent aussi de couleur selon le scroll
+  const scrollFraction = cachedDocHeight > 0 ? targetScrollY / cachedDocHeight : 0;
+  
+  // Glow pour le titre
+  if (titre) {
+    const rect = titre.getBoundingClientRect();
+    const elCenterX = rect.left + rect.width / 2;
+    const elCenterY = rect.top + rect.height / 2;
+    const dist = Math.hypot(mouseX - elCenterX, mouseY - elCenterY);
+    const maxDist = 600;
+    const distGlow = Math.max(0, 1 - dist / maxDist);
+    
+    if (distGlow > 0.05) {
+      const g1 = Math.round(35 * distGlow);
+      const g2 = Math.round(60 * distGlow);
+      const g3 = Math.round(90 * distGlow);
+      const a1 = (1 * distGlow).toFixed(2);
+      const a2 = (0.6 * distGlow).toFixed(2);
+      const a3 = (0.4 * distGlow).toFixed(2);
+      titre.style.textShadow = `0 0 ${g1}px rgba(77, 208, 225, ${a1}), 0 0 ${g2}px rgba(77, 208, 225, ${a2}), 0 0 ${g3}px rgba(33, 150, 243, ${a3})`;
+    } else {
+      titre.style.textShadow = '0 0 20px rgba(77, 208, 225, 0.2)';
+    }
+  }
+  
+  textElements.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    // Lazy-load: seulement mettre à jour les éléments visibles
+    if (rect.bottom < -100 || rect.top > H + 100) {
+      if (el.style.textShadow) el.style.textShadow = 'none';
+      return;
+    }
+    
+    const state = textGlowStates.get(el);
+    const elCenterX = rect.left + rect.width / 2;
+    const elCenterY = rect.top + rect.height / 2;
+    const dist = Math.hypot(mouseX - elCenterX, mouseY - elCenterY);
+    const maxDist = 500;
+    const distGlow = Math.max(0, 1 - dist / maxDist);
+    
+    // Gérer la transition progressive au survol
+    if (state.isHovered) {
+      const elapsed = now - state.hoverStartTime;
+      const progress = Math.min(1, elapsed / GLOW_TRANSITION_TIME);
+      state.intensity = lerp(state.intensity, 1, 0.15); // Easing pour transition smooth
+    } else {
+      state.intensity = lerp(state.intensity, 0, 0.15);
+    }
+    
+    // Combiner l'intensité du hover avec la glow basée sur la distance
+    const glow = Math.max(distGlow, state.intensity * 0.9);
+    
+    if (glow > 0.05) {
+      const g1 = Math.round(25 * glow);
+      const g2 = Math.round(50 * glow);
+      const g3 = Math.round(80 * glow);
+      const a1 = (0.8 * glow).toFixed(2);
+      const a2 = (0.5 * glow).toFixed(2);
+      const a3 = (0.3 * glow).toFixed(2);
+      el.style.textShadow = `0 0 ${g1}px rgba(77, 208, 225, ${a1}), 0 0 ${g2}px rgba(77, 208, 225, ${a2}), 0 0 ${g3}px rgba(33, 150, 243, ${a3})`;
+    } else if (el.style.textShadow) {
+      el.style.textShadow = 'none';
+    }
+  });
+}
+
+requestAnimationFrame(function animateTextGlow() {
+  updateTextGlow();
+  requestAnimationFrame(animateTextGlow);
+});
+
+// Particules orbitales autour du point de fin
+const endPoint = document.getElementById('endPoint');
+const orbitParticles = [];
+const NUM_ORBITS = 6;
+
+for (let i = 0; i < NUM_ORBITS; i++) {
+  orbitParticles.push({
+    angle: (Math.PI * 2 / NUM_ORBITS) * i,
+    offset: 25 + Math.random() * 5
+  });
+}
+
+function animateOrbits() {
+  if (!endPoint) return;
+  
+  const rect = endPoint.getBoundingClientRect();
+  const centerX = rect.left + 6;
+  const centerY = rect.top + 6;
+  
+  orbitParticles.forEach((p, i) => {
+    p.angle += 0.01 + Math.sin(time * 0.001) * 0.002;
+    const px = centerX + Math.cos(p.angle) * p.offset;
+    const py = centerY + Math.sin(p.angle) * p.offset;
+    
+    let particle = document.getElementById(`orbit-particle-${i}`);
+    if (!particle) {
+      particle = document.createElement('div');
+      particle.id = `orbit-particle-${i}`;
+      particle.className = 'particle-orbit';
+      particle.style.position = 'fixed';
+      particle.style.pointerEvents = 'none';
+      document.body.appendChild(particle);
+    }
+    particle.style.left = (px - 1.5) + 'px';
+    particle.style.top = (py - 1.5) + 'px';
+  });
+  
+  requestAnimationFrame(animateOrbits);
+}
+animateOrbits();
+
+// Attraction de la luciole vers le point à la fin
+const endPointObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const rect = entry.target.getBoundingClientRect();
+      const endPointX = rect.left + rect.width / 2;
+      const endPointY = rect.top + rect.height / 2;
+      
+      // Attraction douce vers le point
+      const distToEnd = Math.hypot(lx - endPointX, ly - endPointY);
+      if (distToEnd < 400) {
+        const attractionStr = 0.0008 * (1 - distToEnd / 400);
+        vx += (endPointX - lx) * attractionStr * 0.3;
+        vy += (endPointY - ly) * attractionStr * 0.3;
+      }
+    }
+  });
+}, { threshold: 0.5 });
+
+if (endPoint) endPointObserver.observe(endPoint);
+
+// Animation du fond - vagues subtiles
+const body = document.querySelector('body');
+let bgTime = 0;
+
+function animateBackground() {
+  bgTime += 0.001;
+  const offset = Math.sin(bgTime) * 0.3;
+  const hueShift = Math.sin(bgTime * 0.5) * 2;
+  body.style.backgroundImage = `linear-gradient(${180 + hueShift}deg, 
+    rgb(${Math.round(10 + offset)}, ${Math.round(14 + offset)}, ${Math.round(26 + offset)}) 0%, 
+    rgb(${Math.round(13 + offset)}, ${Math.round(20 + offset)}, ${Math.round(40 + offset)}) 40%, 
+    rgb(${Math.round(10 + offset)}, ${Math.round(15 + offset)}, ${Math.round(31 + offset)}) 100%)`;
+  requestAnimationFrame(animateBackground);
+}
+animateBackground();
+</script>
