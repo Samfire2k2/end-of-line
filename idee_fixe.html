@@ -60,8 +60,7 @@
     color: #4dd0e1;
     letter-spacing: -0.02em;
     margin-bottom: 0.8rem;
-    opacity: 0;
-    animation: fadeUp 1.3s ease forwards 0.2s;
+    opacity: 1;
     text-shadow: 0 0 20px rgba(77, 208, 225, 0.2);
     transition: text-shadow 0.15s ease;
   }
@@ -192,6 +191,8 @@
     .bloc { margin-bottom: 3rem; }
     .separateur { margin: 2rem 0; }
     .fin { margin-top: 4rem; padding-top: 2rem; }
+    .illustration { animation: none; }
+    .end-point { animation: none; }
   }
 
   @media (max-width: 480px) {
@@ -201,6 +202,8 @@
     .bloc { margin-bottom: 2.5rem; }
     .bloc p { text-indent: 1.2em; }
     .separateur { margin: 1.5rem 0; }
+    .illustration { animation: none; }
+    .end-point { animation: none; }
   }
 </style>
 </head>
@@ -486,15 +489,41 @@ function draw() {
   }
 }
 
-function loop() {
-  update();
-  draw();
-  requestAnimationFrame(loop);
+// RAF loop optimisée - démarre uniquement au mousemove, s'arrête après inactivité
+let loopActive = false;
+let loopId = null;
+
+function startLoop() {
+  if (loopActive) return;
+  loopActive = true;
+  
+  function frame() {
+    update();
+    draw();
+    loopId = requestAnimationFrame(frame);
+  }
+  frame();
 }
 
-// Luciole désactivée sur mobile pour les perfs
+function stopLoop() {
+  if (!loopActive) return;
+  loopActive = false;
+  if (loopId) {
+    cancelAnimationFrame(loopId);
+    loopId = null;
+  }
+  // Cleanup canvas
+  ctx.clearRect(0, 0, W, H);
+}
+
+// Démarrer au mousemove, arrêter après inactivité
 if (!isMobile) {
-  loop();
+  let inactivityTimer;
+  window.addEventListener('mousemove', () => {
+    if (!loopActive) startLoop();
+    clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(stopLoop, 3000);
+  }, { passive: true });
 }
 
 // ==================== INPUT HANDLING ====================
@@ -584,7 +613,11 @@ function animateOrbits() {
   
   requestAnimationFrame(animateOrbits);
 }
-animateOrbits();
+
+// Orbits désactivées pour les perfs
+// if (!isMobile) {
+//   animateOrbits();
+// }
 
 // ==================== TEXT GLOW SYSTEM ====================
 const textElements = document.querySelectorAll('.bloc p, .accroche');
@@ -613,7 +646,7 @@ document.addEventListener('visibilitychange', () => {
 });
 
 function updateTextGlow() {
-  if (!isPageVisible) return;
+  if (!isPageVisible || isMobile) return;
   
   const now = Date.now();
   if (now - lastGlowUpdate < GLOW_UPDATE_INTERVAL) return;
@@ -679,10 +712,13 @@ function updateTextGlow() {
   });
 }
 
-requestAnimationFrame(function animateTextGlow() {
-  updateTextGlow();
-  requestAnimationFrame(animateTextGlow);
-});
+// Text glow désactivé pour les perfs - gardé uniquement pour fallback au hover
+// if (!isMobile) {
+//   requestAnimationFrame(function animateTextGlow() {
+//     updateTextGlow();
+//     requestAnimationFrame(animateTextGlow);
+//   });
+// }
 
 // ==================== BACKGROUND ANIMATION (Desktop Only) ====================
 const body = document.querySelector('body');
@@ -701,8 +737,8 @@ function animateBackground() {
   requestAnimationFrame(animateBackground);
 }
 
-// Text glow et background animations désactivées sur mobile pour les perfs
-if (!isMobile) {
-  animateBackground();
-}
+// Background animation désactivée pour les perfs
+// if (!isMobile) {
+//   animateBackground();
+// }
 </script>
