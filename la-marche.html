@@ -3,11 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Marche</title>
+    <title>Le Walkman</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        @font-face {
+            font-family: 'Daft';
+            src: url('./fonts/DaftFont.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
         * {
             margin: 0;
             padding: 0;
@@ -24,8 +30,12 @@
         }
 
         body {
-            font-family: 'Bebas Neue', 'Arial', sans-serif;
+            font-family: 'Daft', 'Arial', sans-serif;
             background: var(--dark);
+            background-image: url('https://upload.wikimedia.org/wikipedia/en/3/3e/Daft_Punk_-_Homework.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             color: var(--text);
             overflow-x: hidden;
             position: relative;
@@ -34,7 +44,7 @@
             letter-spacing: 1px;
         }
 
-        /* NOIR BACKGROUND - Thief style */
+        /* NOIR OVERLAY - Homework background visible */
         body::before {
             content: '';
             position: fixed;
@@ -43,12 +53,12 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(135deg, 
-                #0a0a0c 0%,
-                #0a0a0c 30%,
-                #15151a 40%,
-                #0a0a0c 50%,
-                #1a1a22 60%,
-                #0a0a0c 100%);
+                rgba(10, 10, 12, 0.75) 0%,
+                rgba(10, 10, 12, 0.70) 30%,
+                rgba(21, 21, 26, 0.70) 40%,
+                rgba(10, 10, 12, 0.75) 50%,
+                rgba(26, 26, 34, 0.70) 60%,
+                rgba(10, 10, 12, 0.75) 100%);
             z-index: -2;
             pointer-events: none;
         }
@@ -127,14 +137,14 @@
         }
 
         .title {
-            font-family: 'Bebas Neue', 'Arial Black', 'Arial', sans-serif;
+            font-family: 'Daft', 'Arial Black', 'Arial', sans-serif;
             font-size: 4.5em;
             font-weight: 900;
-            margin-bottom: 30px;
+            margin-bottom: 0px;
             color: #f0e1a6;
             letter-spacing: 2px;
             text-transform: UPPERCASE;
-            line-height: 1;
+            line-height: 0.8;
             text-shadow: 
                 0 4px 0 #ca1f27,
                 0 8px 0 #e08976,
@@ -162,7 +172,7 @@
             letter-spacing: 5px;
             text-transform: UPPERCASE;
             margin-bottom: 30px;
-            font-family: 'Bebas Neue', 'Arial', sans-serif;
+            font-family: 'Daft', 'Arial', sans-serif;
             font-weight: 900;
             text-shadow: 0 0 20px rgba(224, 137, 118, 0.6);
         }
@@ -193,12 +203,6 @@
             box-shadow: 0 0 15px rgba(202, 31, 39, 0.3);
         }
 
-        .equalizer {
-            display: inline-flex;
-            gap: 6px;
-            align-items: flex-end;
-            height: 24px;
-        }
 
         .bar {
             width: 5px;
@@ -236,15 +240,16 @@
             text-align: justify;
             font-weight: 500;
             letter-spacing: 0.5px;
-            font-family: 'Bebas Neue', 'Arial', sans-serif;
+            font-family: 'Daft', 'Arial', sans-serif;
         }
 
         .text-content p {
             margin-bottom: 35px;
             padding: 20px 0 20px 25px;
             border-left: 5px solid transparent;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             position: relative;
+            overflow: hidden;
         }
 
         .text-content p:hover {
@@ -252,6 +257,32 @@
             background: rgba(202, 31, 39, 0.08);
             padding-left: 35px;
             box-shadow: -8px 0 25px rgba(202, 31, 39, 0.3);
+            animation: scratchEffect 0.4s ease-out;
+        }
+
+        @keyframes scratchEffect {
+            0% {
+                background-image: 
+                    linear-gradient(45deg, #ca1f27 0%, #ca1f27 2px, transparent 2px),
+                    linear-gradient(-45deg, #e08976 0%, #e08976 2px, transparent 2px),
+                    linear-gradient(45deg, #ca1f27 0%, #ca1f27 1px, transparent 1px);
+                background-size: 20px 20px, 20px 20px, 15px 15px;
+                background-position: 0 0, 10px 0, 5px 5px;
+                background-repeat: repeat;
+            }
+            50% {
+                background-image: 
+                    linear-gradient(45deg, #ca1f27 0%, #ca1f27 2px, transparent 2px),
+                    linear-gradient(-45deg, #e08976 0%, #e08976 2px, transparent 2px),
+                    linear-gradient(45deg, #ca1f27 0%, #ca1f27 1px, transparent 1px);
+                background-size: 20px 20px, 20px 20px, 15px 15px;
+                background-position: 2px 2px, 10px 10px, 5px 5px;
+                background-repeat: repeat;
+            }
+            100% {
+                background-image: none;
+                background-position: 0 0;
+            }
         }
 
         /* Emphasis on key lines */
@@ -274,7 +305,7 @@
             border-right: 6px solid #ca1f27;
             border-top: 3px solid #f0e1a6;
             border-bottom: 3px solid #ca1f27;
-            font-family: 'Bebas Neue', 'Arial', sans-serif;
+            font-family: 'Daft', 'Arial', sans-serif;
             font-size: 1.05em;
             font-weight: 700;
             text-shadow: 0 0 12px rgba(224, 137, 118, 0.4);
@@ -361,7 +392,7 @@
                 0 0 20px rgba(224, 137, 118, 0.4);
             letter-spacing: 2px;
             text-transform: UPPERCASE;
-            font-family: 'Bebas Neue', 'Arial', sans-serif;
+            font-family: 'Daft', 'Arial', sans-serif;
         }
 
         .action-buttons {
@@ -378,10 +409,10 @@
             color: #ca1f27;
             cursor: pointer;
             border-radius: 0;
-            font-family: 'Bebas Neue', 'Arial Black', 'Arial', sans-serif;
+            font-family: 'Daft', 'Arial Black', 'Arial', sans-serif;
             font-size: 1.05em;
             font-weight: 900;
-            transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             letter-spacing: 3px;
             text-transform: UPPERCASE;
             box-shadow: 
@@ -389,6 +420,7 @@
                 0 8px 20px rgba(202, 31, 39, 0.3),
                 0 0 25px rgba(202, 31, 39, 0.2);
             position: relative;
+            overflow: hidden;
         }
 
         .btn:hover {
@@ -400,6 +432,35 @@
                 0 12px 30px rgba(202, 31, 39, 0.5),
                 0 0 35px rgba(202, 31, 39, 0.4);
             border-color: #e08976;
+            animation: scratchButton 0.5s ease-out;
+        }
+
+        @keyframes scratchButton {
+            0% {
+                background: linear-gradient(90deg,
+                    #ca1f27 0%,
+                    #ca1f27 2px,
+                    transparent 2px,
+                    transparent 4px,
+                    #ca1f27 4px,
+                    #ca1f27 6px
+                );
+                background-size: 100% 3px;
+                background-repeat: repeat-y;
+                background-position: 0 0;
+            }
+            50% {
+                background-color: #ca1f27;
+                background-image: 
+                    linear-gradient(45deg, #0a0a0c 25%, transparent 25%),
+                    linear-gradient(-45deg, #0a0a0c 25%, transparent 25%);
+                background-size: 8px 8px;
+                background-position: 0 0, 4px 4px;
+            }
+            100% {
+                background: #ca1f27;
+                background-image: none;
+            }
         }
 
         .btn.secondary {
@@ -419,6 +480,35 @@
                 0 6px 0 rgba(240, 225, 166, 0.8),
                 0 12px 30px rgba(224, 137, 118, 0.5),
                 0 0 35px rgba(224, 137, 118, 0.4);
+            animation: scratchButtonSecondary 0.5s ease-out;
+        }
+
+        @keyframes scratchButtonSecondary {
+            0% {
+                background: linear-gradient(90deg,
+                    #e08976 0%,
+                    #e08976 2px,
+                    transparent 2px,
+                    transparent 4px,
+                    #e08976 4px,
+                    #e08976 6px
+                );
+                background-size: 100% 3px;
+                background-repeat: repeat-y;
+                background-position: 0 0;
+            }
+            50% {
+                background-color: #e08976;
+                background-image: 
+                    linear-gradient(45deg, #0a0a0c 25%, transparent 25%),
+                    linear-gradient(-45deg, #0a0a0c 25%, transparent 25%);
+                background-size: 8px 8px;
+                background-position: 0 0, 4px 4px;
+            }
+            100% {
+                background: #e08976;
+                background-image: none;
+            }
         }
 
         /* Scrollbar - THIEF NOIR STYLE */
@@ -489,21 +579,7 @@
     <div class="glow-orb orb-2"></div>
 
     <header>
-        <div class="subtitle">🎵 Track 45</div>
-        <h1 class="title">La Marche</h1>
-        <div class="track-info">
-            <span>
-                <div class="equalizer">
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                </div>
-                Da Funk Mode
-            </span>
-            <span>📖 ~15 min</span>
-            <span>🎧 2026</span>
+        <h1 class="title">Le Walkman</h1>
         </div>
     </header>
 
@@ -620,17 +696,6 @@
             <p><span class="key-line">Personne ne l'attendait. C'était très bien comme ça.</span></p>
         </div>
     </div>
-
-    <footer>
-        <div class="footer-text">
-            🎵 Une nuit, une marche, une basse qui persiste dans le silence
-        </div>
-        <div class="action-buttons">
-            <button class="btn" onclick="location.href='index.html'">← Portfolio</button>
-            <button class="btn secondary" onclick="copyToClipboard()">Copier</button>
-            <button class="btn secondary" onclick="downloadText()">Télécharger</button>
-        </div>
-    </footer>
 
     <script>
         // Reading progress bar
