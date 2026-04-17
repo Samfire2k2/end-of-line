@@ -6,7 +6,7 @@
     <title>Le Walkman</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
     <style>
         @font-face {
             font-family: 'Daft';
@@ -30,7 +30,7 @@
         }
 
         body {
-            font-family: 'Daft', 'Arial', sans-serif;
+            font-family: 'VT323', monospace;
             background: var(--dark);
             background-image: url('https://upload.wikimedia.org/wikipedia/en/3/3e/Daft_Punk_-_Homework.jpg');
             background-size: cover;
@@ -121,6 +121,191 @@
         @keyframes barSlide2 {
             0% { transform: translateY(-100%); }
             100% { transform: translateY(100%); }
+        }
+
+        /* SOUND WAVES BACKGROUND */
+        .sound-waves {
+            position: fixed;
+            top: 50%;
+            left: 10%;
+            width: 600px;
+            height: 600px;
+            z-index: 2;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+        }
+
+        .sound-wave {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ca1f27;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            filter: drop-shadow(0 0 10px #ca1f27) drop-shadow(0 0 20px rgba(202, 31, 39, 0.6));
+        }
+
+        .sound-wave:nth-child(1) {
+            animation: soundPulse 1.5s ease-out infinite;
+        }
+
+        .sound-wave:nth-child(2) {
+            animation: soundPulse 1.5s ease-out infinite 0.5s;
+        }
+
+        .sound-wave:nth-child(3) {
+            animation: soundPulse 1.5s ease-out infinite 1s;
+        }
+
+        @keyframes soundPulse {
+            0% {
+                width: 20px;
+                height: 20px;
+                opacity: 1;
+                filter: drop-shadow(0 0 25px #ca1f27) drop-shadow(0 0 40px rgba(202, 31, 39, 0.8));
+            }
+            100% {
+                width: 300px;
+                height: 300px;
+                opacity: 0;
+                filter: drop-shadow(0 0 8px #ca1f27) drop-shadow(0 0 15px rgba(202, 31, 39, 0.2));
+            }
+        }
+
+        /* Second sound wave set on the right */
+        .sound-waves-right {
+            position: fixed;
+            top: 60%;
+            right: 8%;
+            width: 600px;
+            height: 600px;
+            z-index: 2;
+            pointer-events: none;
+            transform: translate(50%, -50%);
+        }
+
+        .sound-waves-right .sound-wave:nth-child(1) {
+            animation: soundPulse 1.8s ease-out infinite 0.3s;
+        }
+
+        .sound-waves-right .sound-wave:nth-child(2) {
+            animation: soundPulse 1.8s ease-out infinite 0.8s;
+        }
+
+        .sound-waves-right .sound-wave:nth-child(3) {
+            animation: soundPulse 1.8s ease-out infinite 1.3s;
+        }
+
+        /* VERTICAL SOUND WAVES - Bottom to Top */
+        .vertical-waves {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            width: 100%;
+            height: 400px;
+            z-index: 2;
+            pointer-events: none;
+            transform: translateX(-50%);
+        }
+
+        .vertical-wave {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 3px;
+            height: 40px;
+            background: linear-gradient(180deg, #ca1f27, transparent);
+            transform: translateX(-50%);
+            opacity: 0.8;
+            filter: drop-shadow(0 0 8px #ca1f27);
+            animation: waveRise 2s ease-out infinite;
+        }
+
+        .vertical-wave:nth-child(1) { left: 25%; animation-delay: 0s; }
+        .vertical-wave:nth-child(2) { left: 35%; animation-delay: 0.3s; }
+        .vertical-wave:nth-child(3) { left: 45%; animation-delay: 0.6s; }
+        .vertical-wave:nth-child(4) { left: 50%; animation-delay: 0.2s; }
+        .vertical-wave:nth-child(5) { left: 55%; animation-delay: 0.5s; }
+        .vertical-wave:nth-child(6) { left: 65%; animation-delay: 0.8s; }
+        .vertical-wave:nth-child(7) { left: 75%; animation-delay: 0.15s; }
+
+        @keyframes waveRise {
+            0% {
+                bottom: 0;
+                height: 40px;
+                opacity: 0.8;
+                filter: drop-shadow(0 0 12px #ca1f27);
+            }
+            50% {
+                height: 100px;
+            }
+            100% {
+                bottom: 400px;
+                height: 60px;
+                opacity: 0;
+                filter: drop-shadow(0 0 3px #ca1f27);
+            }
+        }
+
+        /* HORIZONTAL ECG WAVES */
+        .ecg-waves {
+            position: fixed;
+            top: 25%;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            z-index: 2;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .ecg-line {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            border-top: 2px dashed #ca1f27;
+            filter: drop-shadow(0 0 10px #ca1f27) drop-shadow(0 0 20px rgba(202, 31, 39, 0.5));
+            opacity: 0.9;
+            animation: dashScroll 3s linear infinite;
+        }
+
+        .ecg-line:nth-child(1) {
+            top: 30%;
+            border-top: 3px solid #ca1f27;
+            animation: ecgWave1 4s ease-in-out infinite;
+        }
+
+        .ecg-line:nth-child(2) {
+            top: 65%;
+            border-top: 3px solid #ca1f27;
+            animation: ecgWave2 4s ease-in-out infinite;
+        }
+
+        @keyframes dashScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(100px); }
+        }
+
+        @keyframes ecgWave1 {
+            0%, 100% { 
+                clip-path: polygon(0% 50%, 5% 45%, 10% 40%, 15% 45%, 20% 50%, 25% 50%, 30% 50%, 35% 45%, 40% 30%, 45% 20%, 50% 30%, 55% 50%, 60% 50%, 65% 50%, 70% 45%, 75% 40%, 80% 45%, 85% 50%, 90% 50%, 95% 50%, 100% 50%);
+            }
+            50% { 
+                clip-path: polygon(0% 50%, 5% 48%, 10% 45%, 15% 48%, 20% 50%, 25% 50%, 30% 50%, 35% 48%, 40% 35%, 45% 25%, 50% 35%, 55% 50%, 60% 50%, 65% 50%, 70% 48%, 75% 45%, 80% 48%, 85% 50%, 90% 50%, 95% 50%, 100% 50%);
+            }
+        }
+
+        @keyframes ecgWave2 {
+            0%, 100% { 
+                clip-path: polygon(0% 50%, 5% 48%, 10% 42%, 15% 48%, 20% 50%, 25% 50%, 30% 50%, 35% 48%, 40% 32%, 45% 22%, 50% 32%, 55% 50%, 60% 50%, 65% 50%, 70% 48%, 75% 42%, 80% 48%, 85% 50%, 90% 50%, 95% 50%, 100% 50%);
+            }
+            50% { 
+                clip-path: polygon(0% 50%, 5% 45%, 10% 38%, 15% 45%, 20% 50%, 25% 50%, 30% 50%, 35% 45%, 40% 25%, 45% 10%, 50% 25%, 55% 50%, 60% 50%, 65% 50%, 70% 45%, 75% 38%, 80% 45%, 85% 50%, 90% 50%, 95% 50%, 100% 50%);
+            }
         }
 
         /* Header with THIEF NOIR STYLE */
@@ -225,7 +410,7 @@
 
         /* Main content */
         .container {
-            max-width: 800px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 60px 40px;
             position: relative;
@@ -234,13 +419,13 @@
 
         /* Text styling - THIEF NOIR */
         .text-content {
-            font-size: 1.15em;
+            font-size: 1.75em;
             line-height: 2.15;
             color: #f0e1a6;
             text-align: justify;
             font-weight: 500;
             letter-spacing: 0.5px;
-            font-family: 'Daft', 'Arial', sans-serif;
+            font-family: 'VT323', monospace;
         }
 
         .text-content p {
@@ -305,7 +490,7 @@
             border-right: 6px solid #ca1f27;
             border-top: 3px solid #f0e1a6;
             border-bottom: 3px solid #ca1f27;
-            font-family: 'Daft', 'Arial', sans-serif;
+            font-family: 'VT323', monospace;
             font-size: 1.05em;
             font-weight: 700;
             text-shadow: 0 0 12px rgba(224, 137, 118, 0.4);
@@ -573,10 +758,53 @@
     </style>
 </head>
 <body>
+    <!-- AUDIO AMBIANCE URBAINE (caché) -->
+    <!-- Note: Pour que cela fonctionne, ajoutez vos propres fichiers audio MP3 dans un dossier /audio/ -->
+    <!-- Exemples gratuits: Freesound.org, Zapsplat.com, Pixabay.com -->
+    <audio id="ambient-sound" preload="auto" loop style="display:none;">
+        <source src="./audio/city-ambience.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="siren-sound" preload="auto" style="display:none;">
+        <source src="./audio/siren.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="motor-sound" preload="auto" loop style="display:none;">
+        <source src="./audio/traffic.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="reading-progress"></div>
     
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
+
+    <!-- SOUND WAVES ANIMATION -->
+    <div class="sound-waves">
+        <div class="sound-wave"></div>
+        <div class="sound-wave"></div>
+        <div class="sound-wave"></div>
+    </div>
+
+    <div class="sound-waves-right">
+        <div class="sound-wave"></div>
+        <div class="sound-wave"></div>
+        <div class="sound-wave"></div>
+    </div>
+
+    <!-- VERTICAL SOUND WAVES -->
+    <div class="vertical-waves">
+        <div class="vertical-wave"></div>
+        <div class="vertical-wave"></div>
+        <div class="vertical-wave"></div>
+        <div class="vertical-wave"></div>
+        <div class="vertical-wave"></div>
+        <div class="vertical-wave"></div>
+        <div class="vertical-wave"></div>
+    </div>
+
+    <!-- ECG HEARTBEAT WAVES -->
+    <div class="ecg-waves">
+        <div class="ecg-line"></div>
+        <div class="ecg-line"></div>
+    </div>
 
     <header>
         <h1 class="title">Le Walkman</h1>
@@ -587,53 +815,37 @@
         <div class="text-content">
             <p>À l'intérieur, il y avait de la lumière partout.</p>
 
-            <p>Pas la lumière des ampoules, une lumière fabriquée, pensée, dirigée sur les bonnes surfaces. Les lustres jetaient des éclats sur les verres, les verres renvoyaient ça sur les visages, les visages brillaient d'une façon qui semblait naturelle mais ne l'était pas. La musique était juste assez forte pour couvrir les silences gênants. Les costumes tenaient debout tout seuls. Les gens parlaient avec les mains, riaient au bon moment, se touchaient l'épaule pour signifier quelque chose, appartenance, complicité, hiérarchie, difficile à dire. Tout le monde était exactement qui il fallait être.</p>
+            <p>Pas la lumière des ampoules, une lumière fabriquée, pensée, dirigée sur les bonnes surfaces. Les lustres jetaient des éclats sur les verres, les verres renvoyaient ça sur les visages. La musique était juste assez forte pour couvrir les silences gênants. Les costumes tenaient debout tout seuls. Les gens parlaient avec les mains, riaient au bon moment, se touchaient l'épaule pour signifier quelque chose, appartenance, complicité, hiérarchie. Tout le monde était exactement qui il fallait être.</p>
 
             <p>Lui aussi. Pendant un moment, lui aussi.</p>
 
             <p>Et puis Da Funk a commencé.</p>
 
-            <p>Il ne savait pas ce que ce morceau faisait là, glissé entre deux playlists lisses par quelqu'un qui avait dû trouver ça drôle, ou par accident, peu importe. La basse est arrivée en premier, cette basse basse et grasse qui ne demande pas la permission, et quelque chose en lui avait reconnu ça avant même qu'il mette un nom dessus. Daft Punk. 1995. Une autre espèce de nuit que celle-là.</p>
+            <p>Il ne savait pas ce que ce morceau faisait là, glissé entre deux playlists lisses. La basse est arrivée en premier, cette basse basse et grasse qui ne demande pas la permission, et quelque chose en lui avait reconnu ça avant même qu'il mette un nom dessus. Daft Punk. 1995. Une autre espèce de nuit que celle-là.</p>
 
-            <p>Il a regardé autour de lui. Personne ne semblait l'entendre vraiment, les conversations continuaient, les verres se levaient, un homme en face de lui finissait une anecdote en souriant. La musique passait sur eux sans accrocher.</p>
+            <p>Il a regardé autour de lui. Personne ne semblait l'entendre vraiment, les conversations continuaient, les verres se levaient, un homme en face finissait une anecdote en souriant. La musique passait sur eux sans accrocher.</p>
 
             <p>Lui elle l'avait accroché.</p>
 
-            <p>Il a posé son verre. Il a pris le vieux walkman dans la poche intérieure de sa veste, il l'avait depuis ce matin, sans raison précise, comme ça arrive parfois. Il a cherché son manteau.</p>
+            <p>Il a posé son verre. Il a pris le vieux walkman dans la poche intérieure de sa veste et il a cherché son manteau.</p>
 
-            <div class="break"></div>
+            <p>Il y avait des taxis devant le perron. Tout le monde en prenait un. C'était mécanique, la fin normale d'une soirée comme celle-là, on tendait la main, une portière s'ouvrait, et la nuit se refermait proprement derrière vous.</p>
 
-            <p>Il y avait des taxis devant le perron. Une rangée propre, moteurs au ralenti, intérieurs orangés comme des aquariums. Tout le monde en prenait un. C'était mécanique, la fin normale d'une soirée comme celle-là, on tendait la main, une portière s'ouvrait, et la nuit se refermait proprement derrière vous.</p>
+            <p>Il a dit non merci et il est parti à pied. Le walkman dans la main droite, les écouteurs autour du cou.</p>
 
-            <p>Il a dit non merci et il est parti à pied. Le walkman dans la main droite, les écouteurs autour du cou, pas encore dans les oreilles.</p>
-
-            <div class="break"></div>
-
-            <p>La première rue sentait les poubelles du restaurant d'en face et quelque chose de plus ancien en dessous, pluie séchée dans le béton, huile de moteur, ce fond de ville qui ne disparaît jamais vraiment. Les lampadaires à sodium balançaient leur orange sur les trottoirs mouillés. Une lumière qui n'embellit rien, ne ment pas, éclaire les choses pour ce qu'elles sont.</p>
+            <p>La première rue sentait les poubelles du restaurant d'en face et quelque chose de plus ancien en dessous, pluie séchée dans le béton, huile de moteur. Les lampadaires à sodium balançaient leur orange sur les trottoirs mouillés. Une lumière qui n'embellit rien, éclaire les choses pour ce qu'elles sont.</p>
 
             <p>Il a mis les écouteurs. Da Funk depuis le début, volume à fond.</p>
 
-            <p>La basse prenait toute la place dans sa tête et la rue continuait dehors, muette, comme une image sans son. Les gens qu'il croisait, deux, trois silhouettes, ne le regardaient pas. Un homme en costume avec un walkman à la main à cinq heures du matin, soit c'était banal, soit c'était trop bizarre pour mériter une réaction. Dans les deux cas le résultat était le même.</p>
+            <p>La basse prenait toute la place dans sa tête et la rue continuait dehors, muette, comme une image sans son. Les gens qu'il croisait ne le regardaient pas. Il a desserré sa cravate au premier carrefour.</p>
 
-            <p>Il a desserré sa cravate au premier carrefour. Un feu rouge clignotait en amber au milieu de la rue vide. Il a attendu quand même.</p>
-
-            <div class="break"></div>
-
-            <p>Vers la deuxième avenue il y avait un bar encore ouvert — lumière jaune derrière la vitre, deux ou trois silhouettes au comptoir, une porte entrebâillée qui laissait passer un filet de chaleur et de voix. Il a ralenti. Il n'avait pas vraiment soif. Mais il faisait froid et il restait encore beaucoup de rue devant lui.</p>
-
-            <p>Il a poussé la porte.</p>
+            <p>Vers la deuxième avenue il y avait un bar encore ouvert, lumière jaune derrière la vitre, une porte entrebâillée qui laissait passer un filet de chaleur et de voix. Il a poussé la porte.</p>
 
             <p>Le videur l'a regardé de haut en bas, le costume, le walkman, les écouteurs autour du cou et a fait non de la tête. Pas méchamment. Juste non. Comme on ferme une fenêtre.</p>
 
             <p>Il est ressorti sans dire un mot. Il a remis les écouteurs. La basse était toujours là, indifférente, continue.</p>
 
-            <p>Il a repris la marche.</p>
-
-            <div class="break"></div>
-
-            <p>Il traversait une avenue à mi-chemin quand la voiture est arrivée.</p>
-
-            <p>Pas de klaxon. Pas de crissement. Juste des phares qui ont surgi depuis le bas de la rue et le bruit du moteur qui montait trop vite et lui planté là au milieu des clous, une seconde de trop, qui n'a eu que le temps de faire un pas en arrière. La voiture est passée à moins d'un mètre, souffle d'air chaud sur le côté du visage, et a continué sans ralentir. Feux arrière rouges qui rétrécissent et disparaissent au virage.</p>
+            <p>Il traversait une avenue à mi-chemin quand la voiture est arrivée. Pas de klaxon. Juste des phares qui ont surgi depuis le bas de la rue et le bruit du moteur qui montait trop vite et lui planté là au milieu des clous, qui n'a eu que le temps de faire un pas en arrière. La voiture est passée à moins d'un mètre, souffle d'air chaud sur le côté du visage, et a continué sans ralentir.</p>
 
             <p>Il est resté immobile quelques secondes sur le trottoir.</p>
 
@@ -643,33 +855,23 @@
 
             <p>Il ne se souvenait pas de les avoir retirées.</p>
 
-            <div class="break"></div>
+            <p>La ville à cette heure-là n'est pas silencieuse, elle respire autrement. Un scooter de livraison qui brûle un feu. Une caméra de surveillance qui pivote lentement au-dessus d'une entrée de banque. Un chat qui traverse sans se presser.</p>
 
-            <p>La ville à cette heure-là n'est pas silencieuse, elle respire autrement. Les bennes à ordures sur un axe parallèle. Un scooter de livraison qui brûle un feu, sac isotherme orange dans le dos. Une caméra de surveillance qui pivote lentement sur son axe au-dessus d'une entrée de banque, indifférente à tout. Un chat qui traverse sous une voiture en stationnement sans se presser.</p>
+            <p>Il marchait au milieu de tout ça, pieds nus, walkman à la main, chemise ouverte sur le froid, et la ville ne lui prêtait aucune attention particulière. Ni bienveillante ni hostile. Juste indifférente, occupée par elle-même.</p>
 
-            <p>Il marchait au milieu de tout ça, pieds nus, walkman à la main, chemise ouverte sur le froid, et la ville ne lui prêtait aucune attention particulière. Ni bienveillante ni hostile. Juste indifférente, occupée par elle-même, continuant son travail de ville sans lui demander ce qu'il faisait là.</p>
+            <p>C'était, étrangement, un soulagement.</p>
 
-            <p><span class="key-line">C'était, étrangement, un soulagement.</span></p>
-
-            <div class="break"></div>
-
-            <p>Il a croisé d'autres revenants.</p>
-
-            <p>Une femme en robe longue assise sur les marches d'un Monoprix fermé, talons posés à côté d'elle comme deux bêtes fatiguées, cigarette entre deux doigts. Un groupe de trois qui longeait le mur d'en face, vestes sur l'épaule, le rire rauque de ceux qui n'ont plus rien à prouver pour ce soir. Une fille seule sous l'auvent d'un bar aux rideaux baissés, téléphone en l'air pour capter, mascara légèrement descendu sous l'œil gauche, pas défaite, juste revenue à elle-même.</p>
+            <p>Il a croisé d'autres revenants. Une femme en robe longue assise sur les marches d'un Monoprix fermé, talons posés à côté d'elle. Un groupe de trois qui longeait le mur d'en face, le rire rauque de ceux qui n'ont plus rien à prouver. Une fille seule sous l'auvent d'un bar, mascara légèrement descendu, pas défaite, juste revenue à elle-même.</p>
 
             <p>Chacun rendait quelque chose à la nuit. Sans cérémonie.</p>
 
-            <p>Personne ne lui a parlé. Personne ne l'a regardé vraiment. Il passait dans leur champ de vision et en ressortait, comme un objet en mouvement parmi d'autres.</p>
+            <p>Le banc était au bord du quai. Pas un endroit pittoresque. Il s'y est assis parce que ses jambes avaient décidé avant lui.</p>
 
-            <div class="break"></div>
-
-            <p>Le banc était au bord du quai, entre un vélo cargo enchaîné à un poteau et une poubelle débordante de gobelets. Pas un endroit pittoresque. Il s'y est assis parce que ses jambes avaient décidé avant lui. Il a posé le walkman sur ses genoux. La cassette continuait de tourner en silence — les piles allaient lâcher bientôt.</p>
-
-            <p>Il y avait déjà quelqu'un. Un homme plus âgé, manteau sombre élimé aux coudes, pas habillé pour une fête. Il regardait l'eau ou ce qui se passait derrière l'eau. Il n'avait pas l'air d'attendre quoi que ce soit, juste là, avec la solidité tranquille des gens qui ont depuis longtemps cessé de justifier où ils se trouvent.</p>
+            <p>Il y avait déjà quelqu'un. Un homme plus âgé, manteau sombre élimé aux coudes, pas habillé pour une fête. Il n'avait pas l'air d'attendre quoi que ce soit, juste là, avec la solidité tranquille des gens qui ont cessé de justifier où ils se trouvent.</p>
 
             <p>Il a regardé le walkman. Puis lui. Il n'a pas posé de question.</p>
 
-            <p>Ils sont restés un moment sans se parler. Un bus de nuit a traversé le pont derrière eux dans un bruit de ferraille douce.</p>
+            <p>Ils sont restés un moment sans se parler. Un bus de nuit a traversé le pont derrière eux.</p>
 
             <p>Puis l'homme a dit, sans tourner la tête :</p>
 
@@ -677,23 +879,19 @@
 
             <p>Il n'a pas répondu. C'était une de ces phrases qui n'appellent pas de suite, qui existent juste pour être entendues une fois et portées après, comme un caillou dans la poche.</p>
 
-            <p>L'homme s'est levé, a remonté son col, et est parti vers le bas du quai. Ses pas sur les pavés ont duré plus longtemps qu'il ne l'aurait cru.</p>
-
-            <div class="break"></div>
+            <p>L'homme s'est levé, a remonté son col, et est parti vers le bas du quai.</p>
 
             <p>Il a repris la marche.</p>
 
-            <p>Devant lui la rue montait doucement entre deux rangées d'immeubles aux volets fermés. À l'intérieur de ces fenêtres, des gens dormaient dans le noir sans savoir qu'il passait. Il y avait quelque chose de reposant là-dedans, tous ces gens qui ne savaient pas qu'il existait ce soir, qui n'avaient pas besoin de le savoir.</p>
+            <p>Devant lui la rue montait doucement entre deux rangées d'immeubles aux volets fermés. À l'intérieur, des gens dormaient sans savoir qu'il passait. Il y avait quelque chose de reposant là-dedans, tous ces gens qui n'avaient pas besoin de savoir qu'il existait ce soir.</p>
 
             <p>À la fête, tout le monde savait qu'il était là. C'était le contrat.</p>
 
-            <p>Les piles ont lâché quelque part entre le pont et le bas de sa rue. La basse s'est ralentie, déformée, et puis plus rien, juste le silence et le bruit de ses pieds nus sur le béton.</p>
+            <p>Les piles ont lâché quelque part entre le pont et le bas de sa rue. La basse s'est ralentie, déformée, et puis plus rien.</p>
 
-            <p>Le feu au bout de la rue passa au vert.</p>
+            <p>Il traversa le feu au bout de la rue. Le walkman toujours à la main, inutile, comme on garde un objet qu'on n'a plus de raison de porter mais qu'on ne sait pas encore où poser.</p>
 
-            <p>Il traversa sans se presser. Le walkman toujours à la main, inutile, comme on garde un objet qu'on n'a plus de raison de porter mais qu'on ne sait pas encore où poser.</p>
-
-            <p><span class="key-line">Personne ne l'attendait. C'était très bien comme ça.</span></p>
+            <p>Personne ne l'attendait. C'était très bien comme ça.</p>
         </div>
     </div>
 
@@ -729,36 +927,51 @@
             document.body.removeChild(element);
         }
 
-        // Audio context for ambience (optional)
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        // Audio context for ambience
+        let audioContext;
         
-        function playAmbientTone() {
+        function initAudioContext() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            return audioContext;
+        }
+
+        // LECTEUR AUDIO AMBIENT CACHÉ
+        function playAmbientSounds() {
             try {
-                const osc = audioContext.createOscillator();
-                const gain = audioContext.createGain();
-                const filter = audioContext.createBiquadFilter();
+                // Créer les éléments audio
+                const ambientAudio = document.getElementById('ambient-sound');
+                const sirenAudio = document.getElementById('siren-sound');
+                const motorAudio = document.getElementById('motor-sound');
                 
-                osc.connect(filter);
-                filter.connect(gain);
-                gain.connect(audioContext.destination);
+                // Régler les volumes
+                if (ambientAudio) {
+                    ambientAudio.volume = 0.12;
+                    ambientAudio.play().catch(e => console.log('Ambient son non disponible'));
+                }
                 
-                osc.type = 'sine';
-                osc.frequency.value = 100;
-                filter.type = 'lowpass';
-                filter.frequency.value = 150;
+                // Sirène après 1.5s
+                setTimeout(() => {
+                    if (sirenAudio) {
+                        sirenAudio.volume = 0.15;
+                        sirenAudio.play().catch(e => console.log('Siren non disponible'));
+                    }
+                }, 1500);
                 
-                gain.gain.setValueAtTime(0, audioContext.currentTime);
-                gain.gain.linearRampToValueAtTime(0.03, audioContext.currentTime + 2);
-                
-                osc.start(audioContext.currentTime);
+                // Moteur parallèle
+                if (motorAudio) {
+                    motorAudio.volume = 0.1;
+                    motorAudio.play().catch(e => console.log('Motor son non disponible'));
+                }
             } catch(e) {
-                // Audio context issues
+                console.error('Erreur audio:', e);
             }
         }
 
-        window.addEventListener('load', () => {
-            playAmbientTone();
-        });
+        // Démarrer au chargement
+        window.addEventListener('load', playAmbientSounds);
+        document.addEventListener('click', playAmbientSounds, { once: true });
     </script>
 </body>
 </html>
