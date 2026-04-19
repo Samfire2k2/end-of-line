@@ -1857,6 +1857,16 @@
                     <a href="idee_fixe.html" class="card-link">→ LIRE</a>
                 </div>
             </div>
+
+            <!-- Texte 7 -->
+            <div class="texte-card">
+                <div class="card-content">
+                    <div class="card-number">[ 07 ]</div>
+                    <h2 class="card-title">Le Walkman</h2>
+                    <p class="card-description">Une fête trop brillante. Une musique qui transforme. Un vieux Walkman qui devient une porte. Ce texte raconte la nuit où un costume bien porté se fissure, où Da Funk devient la vraie lumière et où marcher seul en pleine nuit ville devient plus humain que d'exister debout dans une soirée. 8:43 minutes pour quitter complètement le monde.</p>
+                    <a href="le-walkman.html" class="card-link">→ LIRE</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1893,6 +1903,10 @@
                     <p class="quote-text">« Elle attend. C'est tout ce qu'elle sait faire, et c'est amplement suffisant. »</p>
                     <p class="quote-source easter-egg" onclick="showEggPopup('fixed-idea')">Idée fixe</p>
                 </div>
+                <div class="quote-card">
+                    <p class="quote-text">« On ressemble tous à quelqu'un d'autre jusqu'à ce que la nuit finisse. »</p>
+                    <p class="quote-source">Le Walkman</p>
+                </div>
             </div>
         </section>
     </div>
@@ -1903,11 +1917,11 @@
             <h2 style="font-family: 'Orbitron', sans-serif; font-size: 2.2em; color: #0099ff; margin-bottom: 40px; text-align: center;">Par les chiffres</h2>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-number">6</div>
+                    <div class="stat-number">7</div>
                     <div class="stat-label">Textes</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">~23K</div>
+                    <div class="stat-number">~25K</div>
                     <div class="stat-label">Mots totaux</div>
                 </div>
                 <div class="stat-card">
@@ -2580,16 +2594,6 @@
                 el.style.transform = `translateY(${winScroll * speed}px)`;
             });
             
-            // Check achievements on bottom scroll
-            let achievements = JSON.parse(localStorage.getItem('achievements')) || {visited: 0, textsRead: 0, feedbackSent: 0, citationsBookmarked: 0, scrolledToBottom: false};
-            if ((window.innerHeight + winScroll) >= document.body.offsetHeight - 500) {
-                if (!achievements.scrolledToBottom) {
-                    achievements.scrolledToBottom = true;
-                    localStorage.setItem('achievements', JSON.stringify(achievements));
-                    showCopyNotification('🏆 Achievement: End of Line Reached!');\n                }
-            }
-        }, { passive: true });
-
         // ========== SEARCH & FILTER ==========
         function toggleSearch() {
             const searchContainer = document.getElementById('searchContainer');
@@ -2770,6 +2774,10 @@
             localStorage.setItem('achievements', JSON.stringify(achievements));
         }
         initAchievements();
+
+
+
+        // ========== GLITCH ANIMATIONS ON TITLE HOVER - DISABLED FOR PERFORMANCE ==========
 
 
 
