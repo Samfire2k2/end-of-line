@@ -726,6 +726,51 @@
                 inset 0 0 20px rgba(202, 31, 39, 0.4);
         }
 
+        /* PROGRESSIVE DARKNESS OVERLAY */
+        .progressive-darken {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(10, 10, 12, 0) 0%, rgba(10, 10, 12, 0.6) 100%);
+            z-index: 3;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        /* PENSÉES FLOTTANTES */
+        .thought-fragment {
+            position: fixed;
+            font-size: 0.85em;
+            color: #ca1f27;
+            font-family: 'VT323', monospace;
+            text-shadow: 0 0 15px rgba(202, 31, 39, 0.8), 0 0 25px rgba(202, 31, 39, 0.4);
+            pointer-events: none;
+            max-width: 180px;
+            white-space: pre-wrap;
+            word-break: break-word;
+            z-index: 4;
+            opacity: 0;
+            letter-spacing: 0.5px;
+            line-height: 1.4;
+            padding: 10px;
+            border-left: 2px solid #ca1f27;
+            filter: blur(0.8px);
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(20px); }
+            15% { opacity: 0.9; transform: translateY(0); }
+            85% { opacity: 0.9; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-20px); }
+        }
+
+        .thought-fragment.active {
+            animation: fadeInOut 7s ease-in-out forwards;
+        }
+
         /* Mobile */
         @media (max-width: 768px) {
             .title {
@@ -758,18 +803,13 @@
     </style>
 </head>
 <body>
-    <!-- AUDIO AMBIANCE URBAINE (caché) -->
-    <!-- Note: Pour que cela fonctionne, ajoutez vos propres fichiers audio MP3 dans un dossier /audio/ -->
-    <!-- Exemples gratuits: Freesound.org, Zapsplat.com, Pixabay.com -->
-    <audio id="ambient-sound" preload="auto" loop style="display:none;">
-        <source src="./audio/city-ambience.mp3" type="audio/mpeg">
+    <!-- MUSIQUE DE FOND -->
+    <audio id="main-music" autoplay loop preload="auto" style="display:none;">
+        <source src="./audio/music1.mp3" type="audio/mpeg">
     </audio>
-    <audio id="siren-sound" preload="auto" style="display:none;">
-        <source src="./audio/siren.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="motor-sound" preload="auto" loop style="display:none;">
-        <source src="./audio/traffic.mp3" type="audio/mpeg">
-    </audio>
+
+    <!-- PROGRESSIVE DARKNESS -->
+    <div class="progressive-darken" id="progressive-darken"></div>
 
     <div class="reading-progress"></div>
     
@@ -940,34 +980,108 @@
         // LECTEUR AUDIO AMBIENT CACHÉ
         function playAmbientSounds() {
             try {
-                // Créer les éléments audio
-                const ambientAudio = document.getElementById('ambient-sound');
-                const sirenAudio = document.getElementById('siren-sound');
-                const motorAudio = document.getElementById('motor-sound');
+                // Jouer la musique principale
+                const mainMusic = document.getElementById('main-music');
                 
-                // Régler les volumes
-                if (ambientAudio) {
-                    ambientAudio.volume = 0.12;
-                    ambientAudio.play().catch(e => console.log('Ambient son non disponible'));
-                }
-                
-                // Sirène après 1.5s
-                setTimeout(() => {
-                    if (sirenAudio) {
-                        sirenAudio.volume = 0.15;
-                        sirenAudio.play().catch(e => console.log('Siren non disponible'));
+                if (mainMusic) {
+                    mainMusic.volume = 0.5;
+                    
+                    // Créer une promesse pour gérer l'autoplay
+                    const playPromise = mainMusic.play();
+                    
+                    if (playPromise !== undefined) {
+                        playPromise
+                            .then(() => {
+                                console.log('Musique en lecture ✓');
+                            })
+                            .catch(error => {
+                                // Autoplay bloqué - attendre l'interaction utilisateur
+                                console.log('Autoplay bloqué, en attente de l\'interaction utilisateur');
+                                document.addEventListener('click', () => {
+                                    mainMusic.play();
+                                }, { once: true });
+                            });
                     }
-                }, 1500);
-                
-                // Moteur parallèle
-                if (motorAudio) {
-                    motorAudio.volume = 0.1;
-                    motorAudio.play().catch(e => console.log('Motor son non disponible'));
                 }
             } catch(e) {
                 console.error('Erreur audio:', e);
             }
         }
+
+        // PROGRESSIVE DARKNESS WITH SCROLL
+        function updateProgressiveDarkness() {
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            const darkenElement = document.getElementById('progressive-darken');
+            if (darkenElement) {
+                // Map 0-100% scroll to 0-0.6 opacity
+                const opacity = Math.min(scrollPercent / 100 * 0.6, 0.6);
+                darkenElement.style.opacity = opacity;
+            }
+        }
+
+        // FLOATING THOUGHT FRAGMENTS
+        const thoughtFragments = [
+            "Quelqu'un d'autre\njusqu'à la fin\nde la nuit.",
+            "La basse ne\ndemande pas\npermission.",
+            "C'était reposant\nde ne pas\nexister.",
+            "Les pieds\nsur le macadam\nglacé.",
+            "On était si\nmalsain, si\nparfait.",
+            "À qui la\nmusique\nappartient?",
+            "Ce rythme\nest un incendie.",
+            "Je marche\navec ta voix\ndans la tête.",
+            "Où finit\nle danseur?\nOù commence\nla danse?",
+            "Le Walkman\nrespirait\navec nous."
+        ];
+
+        let lastThoughtTime = 0;
+        const thoughtCooldown = 3000; // 3 seconds between thoughts
+
+        function displayRandomThought() {
+            const now = Date.now();
+            if (now - lastThoughtTime < thoughtCooldown) return;
+
+            lastThoughtTime = now;
+
+            const fragment = document.createElement('div');
+            fragment.className = 'thought-fragment';
+
+            // Random position
+            const randomLeft = Math.random() * 80 + 10; // 10-90%
+            const randomTop = Math.random() * 70 + 10; // 10-80%
+
+            fragment.style.left = randomLeft + '%';
+            fragment.style.top = randomTop + '%';
+
+            // Random thought
+            const randomThought = thoughtFragments[Math.floor(Math.random() * thoughtFragments.length)];
+            fragment.textContent = randomThought;
+
+            document.body.appendChild(fragment);
+
+            // Trigger animation
+            requestAnimationFrame(() => {
+                fragment.classList.add('active');
+            });
+
+            // Remove after animation completes
+            setTimeout(() => {
+                fragment.remove();
+            }, 7000);
+        }
+
+        // Scroll listener for darkness and thoughts
+        let scrollListener = null;
+        window.addEventListener('load', () => {
+            scrollListener = () => {
+                updateProgressiveDarkness();
+                
+                // Randomly trigger thoughts during scroll
+                if (Math.random() < 0.05) { // 5% chance per scroll event
+                    displayRandomThought();
+                }
+            };
+            window.addEventListener('scroll', scrollListener);
+        });
 
         // Démarrer au chargement
         window.addEventListener('load', playAmbientSounds);
