@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Musée de la Création - Pygmalion et Galatée</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cormorant+SC:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #d4a574;
+    --gold-light: #e8c699;
+    --blue: #2c4a6f;
+    --orange: #d97e3b;
+    --wall: #e8dcc8;
+    --shadow: rgba(0,0,0,0.1);
+    --text: #2a2420;
+    --text-light: #6b6560;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: linear-gradient(180deg, #e8dcc8 0%, #ddd0c4 50%, #d5c8bc 100%);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 50% at 50% 20%, rgba(212, 165, 116, 0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 80%, rgba(45, 74, 111, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+    animation: glowPulse 6s ease-in-out infinite;
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+
+  /* SPOTLIGHT DYNAMIQUE */
+  .mouse-spotlight {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(212, 165, 116, 0.3) 0%, rgba(212, 165, 116, 0.1) 40%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    filter: blur(40px);
+    display: none;
+    transform: translate(-50%, -50%);
+  }
+
+  .mouse-spotlight.active {
+    display: block;
+  }
+
+  /* GLOW MULTIPLE */
+  .mouse-glow-orange {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(232, 155, 90, 0.25) 0%, rgba(232, 155, 90, 0.05) 50%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    filter: blur(50px);
+    display: none;
+    transform: translate(-50%, -50%);
+  }
+
+  .mouse-glow-orange.active {
+    display: block;
+  }
+
+  /* TRAIL D'ÉTOILES */
+  .star-particle {
+    position: fixed;
+    width: 2px;
+    height: 2px;
+    background: radial-gradient(circle, #e8c699, rgba(232, 198, 153, 0.3));
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 2;
+    box-shadow: 0 0 8px rgba(232, 198, 153, 0.8);
+  }
+
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(0);
+    }
+  }
+
+  /* DISTORTION CONTAINER */
+  .distortion-filter {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .distortion-active body {
+    filter: blur(0.2px);
+  }
+
+  /* EN-TÊTE MUSÉAL */
+  header {
+    background: linear-gradient(135deg, #1f3a52 0%, #2c4a6f 100%);
+    color: white;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    border-bottom: 3px solid var(--gold);
+    box-shadow: 
+      0 8px 25px rgba(0,0,0,0.15), 
+      inset 0 1px 0 rgba(255,255,255,0.1),
+      0 0 40px rgba(212, 165, 116, 0.3),
+      inset 0 0 30px rgba(212, 165, 116, 0.1);
+    position: relative;
+    z-index: 10;
+  }
+
+  header h1 {
+    font-size: 2.2rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 30px rgba(212, 165, 116, 0.4);
+  }
+
+  header .subtitle {
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.9;
+  }
+
+  /* ENTRÉE DU MUSÉE */
+  .museum-entrance {
+    padding: 5rem 2rem;
+    text-align: center;
+    border-bottom: 2px solid var(--gold);
+    background: rgba(255,255,255,0.5);
+    position: relative;
+    z-index: 1;
+  }
+
+  .museum-entrance::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .museum-entrance h2 {
+    font-size: 1.3rem;
+    color: var(--blue);
+    margin-bottom: 1rem;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 15px rgba(212, 165, 116, 0.25);
+  }
+
+  .museum-entrance h2:hover {
+    color: var(--orange);
+    text-shadow: 0 0 20px rgba(217, 126, 59, 0.4);
+  }
+
+  /* CONTENEUR PRINCIPAL */
+  .museum-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* GALERIE 1 - LE TABLEAU */
+  .gallery-room {
+    display: flex;
+    align-items: stretch;
+    min-height: 400px;
+    background: white;
+    box-shadow: 
+      0 20px 50px rgba(0,0,0,0.15),
+      0 0 60px rgba(212, 165, 116, 0.4),
+      0 0 100px rgba(217, 126, 59, 0.2);
+    margin: 3rem 2rem;
+    position: relative;
+    z-index: 1;
+    transition: all 0.4s ease;
+  }
+
+  .gallery-room:hover {
+    box-shadow: 
+      0 25px 60px rgba(0,0,0,0.2),
+      0 0 100px rgba(212, 165, 116, 0.6),
+      0 0 150px rgba(217, 126, 59, 0.35);
+    transform: translateY(-3px);
+  }
+
+  .painting-wall {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    background: #faf8f3;
+    border: 20px solid var(--gold);
+    border-radius: 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+      inset 0 0 30px rgba(0,0,0,0.08),
+      inset 0 0 60px rgba(212, 165, 116, 0.15);
+  }
+
+  .painting-wall::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 2px solid rgba(0,0,0,0.06);
+    pointer-events: none;
+    margin: 6px;
+  }
+
+  .painting-wall::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .painting-wall img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    filter: drop-shadow(0 8px 20px rgba(0,0,0,0.2));
+    position: relative;
+    z-index: 1;
+    transition: filter 0.5s ease;
+  }
+
+  .gallery-room:hover .painting-wall img {
+    filter: drop-shadow(0 12px 28px rgba(0,0,0,0.25)) brightness(1.05);
+  }
+
+  .info-panel {
+    flex: 0.6;
+    padding: 3rem 2.5rem;
+    background: linear-gradient(135deg, #fefdfb 0%, #faf8f3 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-left: 1px solid rgba(212, 165, 116, 0.2);
+    transition: all 0.4s ease;
+  }
+
+  .gallery-room:hover .info-panel {
+    background: linear-gradient(135deg, #ffffff 0%, #faf8f3 100%);
+    border-left-color: var(--gold);
+  }
+
+  .painting-label {
+    border-top: 3px solid var(--orange);
+    border-bottom: 2px solid var(--gold);
+    padding-top: 1.5rem;
+    padding-bottom: 1.8rem;
+    margin-bottom: 1.8rem;
+    transition: all 0.4s ease;
+    box-shadow: 0 0 20px rgba(217, 126, 59, 0.15);
+  }
+
+  .info-panel:hover .painting-label {
+    border-left: 4px solid var(--orange);
+    padding-left: 1rem;
+    box-shadow: 0 0 30px rgba(217, 126, 59, 0.3);
+  }
+
+  .painting-label .title {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .painting-label .artist {
+    font-size: 0.85rem;
+    color: var(--orange);
+    font-style: italic;
+    margin-bottom: 0.8rem;
+  }
+
+  .painting-specs {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    line-height: 1.6;
+    font-family: 'Courier New', monospace;
+  }
+
+  .painting-specs div {
+    margin-bottom: 0.5rem;
+  }
+
+  /* GALERIE 2 - LE TEXTE */
+  .text-room {
+    background: linear-gradient(135deg, #faf7f1 0%, #f5f1eb 100%);
+    padding: 5rem 4rem;
+    margin: 3rem 2rem;
+    border: 1px solid rgba(212, 165, 116, 0.1);
+    box-shadow: 
+      0 20px 50px rgba(0,0,0,0.1),
+      0 0 50px rgba(212, 165, 116, 0.3),
+      0 0 80px rgba(217, 126, 59, 0.15),
+      inset 0 0 40px rgba(212, 165, 116, 0.08);
+    position: relative;
+    z-index: 1;
+    transition: all 0.4s ease;
+  }
+
+  .text-room:hover {
+    box-shadow: 
+      0 25px 60px rgba(0,0,0,0.12),
+      0 0 80px rgba(212, 165, 116, 0.5),
+      0 0 120px rgba(217, 126, 59, 0.25),
+      inset 0 0 40px rgba(212, 165, 116, 0.12);
+    transform: translateY(-2px);
+  }
+
+  .text-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    border-bottom: 2px solid var(--blue);
+    padding-bottom: 2.5rem;
+    position: relative;
+  }
+
+  .text-header::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: var(--orange);
+  }
+
+  .text-header h2 {
+    font-size: 1.8rem;
+    color: var(--blue);
+    margin-bottom: 1rem;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 20px rgba(212, 165, 116, 0.3);
+  }
+
+  .text-room:hover .text-header h2 {
+    color: var(--orange);
+    text-shadow: 0 0 30px rgba(217, 126, 59, 0.5);
+  }
+
+  .text-header .author-note {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    font-style: italic;
+    letter-spacing: 0.05em;
+  }
+
+  /* CONTENU DU TEXTE */
+  .text-content {
+    font-size: 1.1rem;
+    line-height: 2;
+    color: var(--text);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .text-content p {
+    margin-bottom: 2rem;
+    text-align: justify;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .text-content p::first-letter {
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: var(--orange);
+    float: left;
+    line-height: 1.5;
+    padding-right: 0.4rem;
+    margin-top: 0.1rem;
+  }
+
+  .text-content p:hover {
+    color: var(--blue);
+  }
+
+  .text-content em {
+    color: var(--orange);
+    font-weight: 400;
+  }
+
+  .text-divider {
+    text-align: center;
+    margin: 3rem 0;
+    font-size: 1.5rem;
+    color: var(--gold);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    text-shadow: 0 0 15px rgba(212, 165, 116, 0.4);
+  }
+
+  .text-divider::before,
+  .text-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    box-shadow: 0 0 15px rgba(212, 165, 116, 0.3);
+  }
+
+  .text-divider::before {
+    background: linear-gradient(90deg, transparent, var(--gold));
+    box-shadow: 0 0 15px rgba(212, 165, 116, 0.3);
+  }
+
+  .text-divider::after {
+    background: linear-gradient(90deg, var(--gold), transparent);
+    box-shadow: 0 0 15px rgba(212, 165, 116, 0.3);
+  }
+
+  /* NOTES DE VISITE */
+  .visitor-note {
+    background: linear-gradient(135deg, rgba(44, 74, 111, 0.06) 0%, rgba(217, 126, 59, 0.03) 100%);
+    border-left: 5px solid var(--blue);
+    border-top: 1px solid rgba(212, 165, 116, 0.2);
+    border-bottom: 1px solid rgba(212, 165, 116, 0.2);
+    padding: 2rem 2rem 2rem 2.2rem;
+    margin: 3rem 0;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    transition: all 0.4s ease;
+    position: relative;
+    box-shadow: 
+      0 4px 15px rgba(0,0,0,0.05),
+      0 0 30px rgba(212, 165, 116, 0.1),
+      inset 0 0 20px rgba(212, 165, 116, 0.05);
+  }
+
+  .visitor-note:hover {
+    border-left-color: var(--orange);
+    background: linear-gradient(135deg, rgba(44, 74, 111, 0.08) 0%, rgba(217, 126, 59, 0.05) 100%);
+    box-shadow: 
+      0 6px 20px rgba(0,0,0,0.1),
+      0 0 50px rgba(212, 165, 116, 0.25),
+      inset 0 0 20px rgba(217, 126, 59, 0.1);
+  }
+
+  .visitor-note strong {
+    color: var(--blue);
+    font-weight: 400;
+  }
+
+  /* PIED DE MUSÉE */
+  footer {
+    background: linear-gradient(135deg, #1f3a52 0%, #2c4a6f 100%);
+    color: white;
+    text-align: center;
+    padding: 3rem 2rem;
+    margin-top: 5rem;
+    border-top: 3px solid var(--gold);
+    box-shadow: 
+      0 -8px 25px rgba(0,0,0,0.1), 
+      inset 0 1px 0 rgba(255,255,255,0.05),
+      0 0 40px rgba(212, 165, 116, 0.3),
+      inset 0 0 30px rgba(212, 165, 116, 0.1);
+    position: relative;
+    z-index: 10;
+  }
+
+  footer p {
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+  }
+
+  @keyframes fadeInOnScroll {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 900px) {
+    .gallery-room {
+      flex-direction: column;
+      min-height: auto;
+    }
+    .painting-wall {
+      min-height: 300px;
+    }
+    .info-panel {
+      border-left: none;
+      border-top: 2px solid rgba(212, 165, 116, 0.3);
+    }
+    header h1 { font-size: 1.6rem; }
+    .text-header h2 { font-size: 1.4rem; }
+    .text-room { padding: 3rem 2rem; }
+    .text-content p::first-letter { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="mouse-spotlight"></div>
+<div class="mouse-glow-orange"></div>
+
+<header>
+  <h1>MUSÉE DE LA CRÉATION</h1>
+  <div class="subtitle">Exposition Permanente — Mythes et Transformations</div>
+</header>
+
+<div class="museum-entrance">
+  <h2>Salle I : Le Tableau Source</h2>
+  <p style="color: var(--text-light); font-style: italic; font-size: 0.95rem;">Avant de découvrir l'interprétation littéraire, contemplez l'œuvre originale qui l'a inspirée.</p>
+</div>
+
+<div class="museum-container">
+
+  <!-- GALERIE 1 : LE TABLEAU -->
+  <div class="gallery-room">
+    <div class="painting-wall">
+      <img src="assets/images/pygmalion-galatee.jpg" alt="Pygmalion et Galatée - Jean-Léon Gérôme, 1890">
+    </div>
+    <div class="info-panel">
+      <div class="painting-label">
+        <div class="title">Pygmalion et Galatée</div>
+        <div class="artist">Jean-Léon Gérôme, 1890</div>
+      </div>
+      <div class="painting-specs">
+        <div><strong>Technique :</strong> Huile sur toile</div>
+        <div><strong>Dimensions :</strong> 98 × 73 cm</div>
+        <div><strong>Période :</strong> Académisme XIXe siècle</div>
+        <div><strong>Thème :</strong> Mythe antique : transformation du marbre en chair</div>
+        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--gold); font-style: italic; color: var(--blue);">
+          Le moment vertigineux où l'impossible devient réalité.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="museum-entrance" style="margin-top: 2rem;">
+  <h2>Salle II : L'Interprétation Littéraire</h2>
+  <p style="color: var(--text-light); font-style: italic; font-size: 0.95rem;">Une relecture du mythe explorant l'ambivalence du désir créateur.</p>
+</div>
+
+<div class="museum-container">
+
+  <!-- GALERIE 2 : LE TEXTE -->
+  <div class="text-room">
+    
+    <div class="text-header">
+      <h2>Ce que je savais de toi</h2>
+      <div class="author-note">Prose poétique d'après le tableau de Gérôme</div>
+    </div>
+
+    <div class="text-content">
+
+    <div class="body">
+
+      <p>Je t'ai inventée avant de te connaître. C'est ce que personne ne veut admettre.</p>
+
+      <p>L'amour commence souvent comme ça, dans la poussière blanche et le froid du ciseau, avant que l'autre existe vraiment. J'ai frappé la pierre à coups lents, les mains qui saignaient parfois, l'atelier qui sentait le calcaire et la nuit, et j'ai fini par croire que c'était toi qui apparaissais. Par croire que c'était ma loi.</p>
+
+      <div class="text-divider">✴</div>
+
+      <p>Le marbre ne se plaignait pas. Il buvait mes mains sans rien demander, sans partir, sans mentir. Sous le ciseau il devenait le galbe d'une épaule que je n'avais jamais touchée, une bouche que j'avais rêvée avant de la tailler, un visage penché vers moi comme une question sans émoi. Je travaillais la nuit surtout, quand personne ne pouvait voir ce que je faisais de toi.</p>
+
+      <p>Et puis un matin, la pierre a eu chaud.</p>
+
+      <div class="text-divider">✴</div>
+
+      <p>Pas d'un coup. La chaleur montait lentement, comme une aube qui hésite. Je l'ai sentie sous mes paumes avant de la voir. Le bas de ton corps était encore bloc blanc, encore froid comme une dalle, tes jambes toujours scellées dans ce que j'avais voulu pour toi. Mais à la hauteur du ventre quelque chose changeait. La peau prenait une couleur que je ne t'avais pas donnée, une teinte rosée, vivante, étrangère. Tes épaules frémissaient. Ton cou pulsait. Et ton visage, ce visage que j'avais poli cent fois, s'ouvrait vers moi avec des yeux que je n'avais pas sculptés. Des yeux qui n'étaient plus à moi.</p>
+
+      <p>J'ai posé ma bouche sur ta joue de chair neuve avant de comprendre que tu n'étais plus à moi.</p>
+
+      <div class="text-divider">✴</div>
+
+      <p>J'ai reculé d'un pas. Tu respirais. Ce souffle, je ne l'avais pas taillé, pas voulu, pas prévu. Il venait de quelque part en toi que mes mains n'avaient jamais atteint. Et dans ce premier souffle j'ai entendu tout ce que tu allais garder pour toi, tout ce que tu allais être sans moi, loin de l'atelier et de la poussière blanche et du ciseau qui t'avait faite.</p>
+
+      <p>Je t'aimais mieux peut-être quand tu étais froide. C'est une chose horrible à dire. C'est une flamme et une noyade à la fois. C'est vrai quand même.</p>
+
+      <div class="text-divider">✴</div>
+
+      <p><em>Alors je t'ai aimée autrement, comme on aime ce qui déborde du cadre qu'on lui a taillé, comme on aime une lumière qu'on a allumée et qui brûle maintenant sans nous. Tu étais pierre. Tu es devenue voix.</em></p>
+
+      <p><em>Je t'ai aimée vivante. C'était plus difficile. C'était, je crois, ma plus belle joie.</em></p>
+
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>© Musée de la Création | Exposition Permanente</p>
+  <p style="margin-top: 0.8rem; opacity: 0.8;">Texte d'après le tableau « Pygmalion et Galatée » de Jean-Léon Gérôme (1890)</p>
+</footer>
+
+<script>
+  const spotlight = document.querySelector('.mouse-spotlight');
+  const glowOrange = document.querySelector('.mouse-glow-orange');
+  let isActive = false;
+  let lastX = 0;
+  let lastY = 0;
+  let particleCount = 0;
+
+  // Fonction pour créer une étoile
+  function createStar(x, y) {
+    const star = document.createElement('div');
+    star.className = 'star-particle';
+    
+    const randomAngle = Math.random() * Math.PI * 2;
+    const randomDistance = 20 + Math.random() * 40;
+    const tx = Math.cos(randomAngle) * randomDistance;
+    const ty = Math.sin(randomAngle) * randomDistance;
+    
+    star.style.left = x + 'px';
+    star.style.top = y + 'px';
+    star.style.setProperty('--tx', tx + 'px');
+    star.style.setProperty('--ty', ty + 'px');
+    star.style.animation = `fadeOut ${0.8 + Math.random() * 0.4}s ease-out forwards`;
+    
+    document.body.appendChild(star);
+    
+    setTimeout(() => star.remove(), 1200);
+  }
+
+  // Fonction pour la distortion douce
+  function applyDistortion(x, y) {
+    const elements = document.querySelectorAll('.gallery-room, .text-room');
+    
+    elements.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      const elCenterX = rect.left + rect.width / 2;
+      const elCenterY = rect.top + rect.height / 2;
+      
+      const distX = x - elCenterX;
+      const distY = y - elCenterY;
+      const distance = Math.sqrt(distX * distX + distY * distY);
+      
+      // Rayon d'effet de 500px
+      if (distance < 500) {
+        const strength = (1 - distance / 500) * 0.015;
+        const angle = Math.atan2(distY, distX);
+        
+        const skewX = Math.cos(angle) * strength;
+        const skewY = Math.sin(angle) * strength;
+        
+        el.style.transform = `perspective(1000px) rotateX(${skewY * 5}deg) rotateY(${skewX * 5}deg)`;
+        el.style.transition = 'transform 0.1s ease-out';
+      } else {
+        el.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+      }
+    });
+  }
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isActive) {
+      spotlight.classList.add('active');
+      glowOrange.classList.add('active');
+      isActive = true;
+    }
+    
+    const x = e.clientX;
+    const y = e.clientY;
+    
+    lastX = x;
+    lastY = y;
+    
+    // Spotlight doré
+    spotlight.style.left = x + 'px';
+    spotlight.style.top = y + 'px';
+    
+    // Glow orange (décalé légèrement)
+    glowOrange.style.left = (x + 30) + 'px';
+    glowOrange.style.top = (y + 30) + 'px';
+    
+    // Créer des étoiles toutes les 5 mouvements
+    particleCount++;
+    if (particleCount % 5 === 0) {
+      createStar(x, y);
+    }
+    
+    // Appliquer la distortion
+    applyDistortion(x, y);
+  });
+
+  document.addEventListener('mouseleave', () => {
+    spotlight.classList.remove('active');
+    glowOrange.classList.remove('active');
+    isActive = false;
+    
+    // Réinitialiser la distortion
+    const elements = document.querySelectorAll('.gallery-room, .text-room');
+    elements.forEach((el) => {
+      el.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+    });
+  });
+</script>
+
+</body>
+</html>

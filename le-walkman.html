@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Walkman</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Daft';
+            src: url('./fonts/DaftFont.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ca1f27;
+            --secondary: #e08976;
+            --accent: #f0e1a6;
+            --dark: #0a0a0c;
+            --text: #f0e1a6;
+            --gray: #494953;
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            background: var(--dark);
+            background-image: url('https://upload.wikimedia.org/wikipedia/en/3/3e/Daft_Punk_-_Homework.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text);
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.8;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* NOIR OVERLAY - Homework background visible */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(10, 10, 12, 0.75) 0%,
+                rgba(10, 10, 12, 0.70) 30%,
+                rgba(21, 21, 26, 0.70) 40%,
+                rgba(10, 10, 12, 0.75) 50%,
+                rgba(26, 26, 34, 0.70) 60%,
+                rgba(10, 10, 12, 0.75) 100%);
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* RED ACCENT ZONE - Thief style */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(202, 31, 39, 0.06) 100%);
+            z-index: -1;
+            pointer-events: none;
+            animation: zoneShift 20s ease-in-out infinite;
+        }
+
+        @keyframes zoneShift {
+            0%, 100% { opacity: 0.08; }
+            50% { opacity: 0.12; }
+        }
+
+        /* Colored bars - Homework geometric */
+        .glow-orb {
+            position: fixed;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(90deg, #ca1f27 0%, transparent 100%);
+            top: 20%;
+            left: 0;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            opacity: 0.12;
+            filter: none;
+            animation: barSlide1 30s linear infinite;
+        }
+
+        .orb-2 {
+            width: 150px;
+            height: 100%;
+            background: linear-gradient(180deg, #e08976 0%, transparent 100%);
+            top: 0;
+            right: 0;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            opacity: 0.08;
+            filter: none;
+            animation: barSlide2 40s linear infinite;
+        }
+
+        @keyframes barSlide1 {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes barSlide2 {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        /* SOUND WAVES BACKGROUND */
+        .sound-waves {
+            position: fixed;
+            top: 50%;
+            left: 10%;
+            width: 600px;
+            height: 600px;
+            z-index: 2;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+        }
+
+        .sound-wave {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ca1f27;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            filter: drop-shadow(0 0 10px #ca1f27) drop-shadow(0 0 20px rgba(202, 31, 39, 0.6));
+        }
+
+        .sound-wave:nth-child(1) {
+            animation: soundPulse 1.5s ease-out infinite;
+        }
+
+        .sound-wave:nth-child(2) {
+            animation: soundPulse 1.5s ease-out infinite 0.5s;
+        }
+
+        .sound-wave:nth-child(3) {
+            animation: soundPulse 1.5s ease-out infinite 1s;
+        }
+
+        @keyframes soundPulse {
+            0% {
+                width: 20px;
+                height: 20px;
+                opacity: 1;
+                filter: drop-shadow(0 0 25px #ca1f27) drop-shadow(0 0 40px rgba(202, 31, 39, 0.8));
+            }
+            100% {
+                width: 300px;
+                height: 300px;
+                opacity: 0;
+                filter: drop-shadow(0 0 8px #ca1f27) drop-shadow(0 0 15px rgba(202, 31, 39, 0.2));
+            }
+        }
+
+        /* Second sound wave set on the right */
+        .sound-waves-right {
+            position: fixed;
+            top: 60%;
+            right: 8%;
+            width: 600px;
+            height: 600px;
+            z-index: 2;
+            pointer-events: none;
+            transform: translate(50%, -50%);
+        }
+
+        .sound-waves-right .sound-wave:nth-child(1) {
+            animation: soundPulse 1.8s ease-out infinite 0.3s;
+        }
+
+        .sound-waves-right .sound-wave:nth-child(2) {
+            animation: soundPulse 1.8s ease-out infinite 0.8s;
+        }
+
+        .sound-waves-right .sound-wave:nth-child(3) {
+            animation: soundPulse 1.8s ease-out infinite 1.3s;
+        }
+
+        /* VERTICAL SOUND WAVES - Bottom to Top */
+        .vertical-waves {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            width: 100%;
+            height: 400px;
+            z-index: 2;
+            pointer-events: none;
+            transform: translateX(-50%);
+        }
+
+        .vertical-wave {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 3px;
+            height: 40px;
+            background: linear-gradient(180deg, #ca1f27, transparent);
+            transform: translateX(-50%);
+            opacity: 0.8;
+            filter: drop-shadow(0 0 8px #ca1f27);
+            animation: waveRise 2s ease-out infinite;
+        }
+
+        .vertical-wave:nth-child(1) { left: 25%; animation-delay: 0s; }
+        .vertical-wave:nth-child(2) { left: 35%; animation-delay: 0.3s; }
+        .vertical-wave:nth-child(3) { left: 45%; animation-delay: 0.6s; }
+        .vertical-wave:nth-child(4) { left: 50%; animation-delay: 0.2s; }
+        .vertical-wave:nth-child(5) { left: 55%; animation-delay: 0.5s; }
+        .vertical-wave:nth-child(6) { left: 65%; animation-delay: 0.8s; }
+        .vertical-wave:nth-child(7) { left: 75%; animation-delay: 0.15s; }
+
+        @keyframes waveRise {
+            0% {
+                bottom: 0;
+                height: 40px;
+                opacity: 0.8;
+                filter: drop-shadow(0 0 12px #ca1f27);
+            }
+            50% {
+                height: 100px;
+            }
+            100% {
+                bottom: 400px;
+                height: 60px;
+                opacity: 0;
+                filter: drop-shadow(0 0 3px #ca1f27);
+            }
+        }
+
+        /* HORIZONTAL ECG WAVES */
+        .ecg-waves {
+            position: fixed;
+            top: 25%;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            z-index: 2;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .ecg-line {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            border-top: 2px dashed #ca1f27;
+            filter: drop-shadow(0 0 10px #ca1f27) drop-shadow(0 0 20px rgba(202, 31, 39, 0.5));
+            opacity: 0.9;
+            animation: dashScroll 3s linear infinite;
+        }
+
+        .ecg-line:nth-child(1) {
+            top: 30%;
+            border-top: 3px solid #ca1f27;
+            animation: ecgWave1 4s ease-in-out infinite;
+        }
+
+        .ecg-line:nth-child(2) {
+            top: 65%;
+            border-top: 3px solid #ca1f27;
+            animation: ecgWave2 4s ease-in-out infinite;
+        }
+
+        @keyframes dashScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(100px); }
+        }
+
+        @keyframes ecgWave1 {
+            0%, 100% { 
+                clip-path: polygon(0% 50%, 5% 45%, 10% 40%, 15% 45%, 20% 50%, 25% 50%, 30% 50%, 35% 45%, 40% 30%, 45% 20%, 50% 30%, 55% 50%, 60% 50%, 65% 50%, 70% 45%, 75% 40%, 80% 45%, 85% 50%, 90% 50%, 95% 50%, 100% 50%);
+            }
+            50% { 
+                clip-path: polygon(0% 50%, 5% 48%, 10% 45%, 15% 48%, 20% 50%, 25% 50%, 30% 50%, 35% 48%, 40% 35%, 45% 25%, 50% 35%, 55% 50%, 60% 50%, 65% 50%, 70% 48%, 75% 45%, 80% 48%, 85% 50%, 90% 50%, 95% 50%, 100% 50%);
+            }
+        }
+
+        @keyframes ecgWave2 {
+            0%, 100% { 
+                clip-path: polygon(0% 50%, 5% 48%, 10% 42%, 15% 48%, 20% 50%, 25% 50%, 30% 50%, 35% 48%, 40% 32%, 45% 22%, 50% 32%, 55% 50%, 60% 50%, 65% 50%, 70% 48%, 75% 42%, 80% 48%, 85% 50%, 90% 50%, 95% 50%, 100% 50%);
+            }
+            50% { 
+                clip-path: polygon(0% 50%, 5% 45%, 10% 38%, 15% 45%, 20% 50%, 25% 50%, 30% 50%, 35% 45%, 40% 25%, 45% 10%, 50% 25%, 55% 50%, 60% 50%, 65% 50%, 70% 45%, 75% 38%, 80% 45%, 85% 50%, 90% 50%, 95% 50%, 100% 50%);
+            }
+        }
+
+        /* Header with THIEF NOIR STYLE */
+        header {
+            position: relative;
+            z-index: 10;
+            padding: 80px 40px;
+            text-align: center;
+            background: linear-gradient(90deg, #0a0a0c 0%, #15151a 50%, #0a0a0c 100%);
+            border-bottom: 6px solid;
+            border-image: linear-gradient(90deg, #ca1f27, #e08976, #f0e1a6, #ca1f27) 1;
+            box-shadow: 0 0 50px rgba(202, 31, 39, 0.3), inset 0 0 60px rgba(224, 137, 118, 0.05);
+            backdrop-filter: blur(5px);
+        }
+
+        .title {
+            font-family: 'Daft', 'Arial Black', 'Arial', sans-serif;
+            font-size: 4.5em;
+            font-weight: 900;
+            margin-bottom: 0px;
+            color: #f0e1a6;
+            letter-spacing: 2px;
+            text-transform: UPPERCASE;
+            line-height: 0.8;
+            text-shadow: 
+                0 4px 0 #ca1f27,
+                0 8px 0 #e08976,
+                0 12px 20px rgba(0, 0, 0, 0.8);
+            animation: titlePulse 3s ease-in-out infinite;
+            word-spacing: 9999px;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { text-shadow: 
+                0 4px 0 #ca1f27,
+                0 8px 0 #e08976,
+                0 12px 20px rgba(0, 0, 0, 0.8);
+            }
+            50% { text-shadow: 
+                0 6px 0 #ca1f27,
+                0 10px 0 #e08976,
+                0 14px 30px rgba(202, 31, 39, 0.4);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #e08976;
+            letter-spacing: 5px;
+            text-transform: UPPERCASE;
+            margin-bottom: 30px;
+            font-family: 'Daft', 'Arial', sans-serif;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(224, 137, 118, 0.6);
+        }
+
+        .track-info {
+            font-size: 1.1em;
+            color: #f0e1a6;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-shadow: 
+                0 2px 0 rgba(202, 31, 39, 0.8),
+                0 0 20px rgba(240, 225, 166, 0.4);
+            text-transform: UPPERCASE;
+        }
+
+        .track-info span {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 20px;
+            border: 2px solid currentColor;
+            background: rgba(240, 225, 166, 0.08);
+            box-shadow: 0 0 15px rgba(202, 31, 39, 0.3);
+        }
+
+
+        .bar {
+            width: 5px;
+            background: linear-gradient(180deg, #ca1f27, #e08976);
+            border-radius: 1px;
+            animation: beatHard 0.4s ease-in-out infinite;
+            box-shadow: 0 0 12px rgba(202, 31, 39, 0.6);
+        }
+
+        .bar:nth-child(1) { animation-delay: 0s; background: #ca1f27; }
+        .bar:nth-child(2) { animation-delay: 0.08s; background: linear-gradient(180deg, #ca1f27, #f0e1a6); }
+        .bar:nth-child(3) { animation-delay: 0.15s; background: #f0e1a6; box-shadow: 0 0 12px rgba(240, 225, 166, 0.6); }
+        .bar:nth-child(4) { animation-delay: 0.08s; background: linear-gradient(180deg, #f0e1a6, #e08976); }
+        .bar:nth-child(5) { animation-delay: 0s; background: #e08976; }
+
+        @keyframes beatHard {
+            0%, 100% { height: 3px; opacity: 0.5; }
+            50% { height: 24px; opacity: 1; }
+        }
+
+        /* Main content */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Text styling - THIEF NOIR */
+        .text-content {
+            font-size: 1.75em;
+            line-height: 2.15;
+            color: #f0e1a6;
+            text-align: justify;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            font-family: 'VT323', monospace;
+        }
+
+        .text-content p {
+            margin-bottom: 35px;
+            padding: 20px 0 20px 25px;
+            border-left: 5px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .text-content p:hover {
+            border-left-color: #ca1f27;
+            background: rgba(202, 31, 39, 0.08);
+            padding-left: 35px;
+            box-shadow: -8px 0 25px rgba(202, 31, 39, 0.3);
+            animation: scratchEffect 0.4s ease-out;
+        }
+
+        @keyframes scratchEffect {
+            0% {
+                background-image: 
+                    linear-gradient(45deg, #ca1f27 0%, #ca1f27 2px, transparent 2px),
+                    linear-gradient(-45deg, #e08976 0%, #e08976 2px, transparent 2px),
+                    linear-gradient(45deg, #ca1f27 0%, #ca1f27 1px, transparent 1px);
+                background-size: 20px 20px, 20px 20px, 15px 15px;
+                background-position: 0 0, 10px 0, 5px 5px;
+                background-repeat: repeat;
+            }
+            50% {
+                background-image: 
+                    linear-gradient(45deg, #ca1f27 0%, #ca1f27 2px, transparent 2px),
+                    linear-gradient(-45deg, #e08976 0%, #e08976 2px, transparent 2px),
+                    linear-gradient(45deg, #ca1f27 0%, #ca1f27 1px, transparent 1px);
+                background-size: 20px 20px, 20px 20px, 15px 15px;
+                background-position: 2px 2px, 10px 10px, 5px 5px;
+                background-repeat: repeat;
+            }
+            100% {
+                background-image: none;
+                background-position: 0 0;
+            }
+        }
+
+        /* Emphasis on key lines */
+        .key-line {
+            color: #ca1f27;
+            font-weight: 900;
+            font-size: 1.1em;
+            text-shadow: 
+                0 2px 0 rgba(202, 31, 39, 0.8),
+                0 0 15px rgba(224, 137, 118, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .dialogue {
+            color: #e08976;
+            margin: 35px 0;
+            padding: 30px;
+            background: rgba(224, 137, 118, 0.10);
+            border-left: 6px solid #e08976;
+            border-right: 6px solid #ca1f27;
+            border-top: 3px solid #f0e1a6;
+            border-bottom: 3px solid #ca1f27;
+            font-family: 'VT323', monospace;
+            font-size: 1.05em;
+            font-weight: 700;
+            text-shadow: 0 0 12px rgba(224, 137, 118, 0.4);
+            box-shadow: 0 0 30px rgba(202, 31, 39, 0.20);
+            letter-spacing: 0.5px;
+        }
+
+        /* Section breaks */
+        .break {
+            height: 4px;
+            background: linear-gradient(90deg, 
+                #ca1f27 0%, 
+                #e08976 25%, 
+                #f0e1a6 50%, 
+                #e08976 75%, 
+                #ca1f27 100%);
+            margin: 40px 0;
+            box-shadow: 0 0 35px rgba(202, 31, 39, 0.4), 0 0 20px rgba(224, 137, 118, 0.3);
+        }
+
+        /* Reading progress */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 6px;
+            background: linear-gradient(90deg, 
+                #ca1f27 0%, 
+                #e08976 33%, 
+                #f0e1a6 66%, 
+                #e08976 85%, 
+                #ca1f27 100%);
+            background-size: 200% 100%;
+            animation: progressPulse 2.5s ease-in-out infinite;
+            width: 0%;
+            z-index: 100;
+            transition: width 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 
+                0 0 25px rgba(202, 31, 39, 0.6),
+                0 0 15px rgba(224, 137, 118, 0.4),
+                inset 0 0 12px rgba(240, 225, 166, 0.3);
+        }
+
+        @keyframes progressPulse {
+            0%, 100% { 
+                background-position: 0% center;
+                box-shadow: 
+                    0 0 25px rgba(202, 31, 39, 0.6),
+                    0 0 15px rgba(224, 137, 118, 0.4),
+                    inset 0 0 12px rgba(240, 225, 166, 0.3);
+            }
+            50% { 
+                background-position: 100% center;
+                box-shadow: 
+                    0 0 35px rgba(202, 31, 39, 0.8),
+                    0 0 25px rgba(224, 137, 118, 0.6),
+                    inset 0 0 20px rgba(240, 225, 166, 0.5);
+            }
+        }
+
+        /* Footer - THIEF NOIR MATCH */
+        footer {
+            text-align: center;
+            padding: 50px 40px;
+            border-top: 6px solid;
+            border-image: linear-gradient(90deg, #e08976, #ca1f27, #f0e1a6, #ca1f27, #e08976) 1;
+            background: linear-gradient(90deg, #0a0a0c 0%, #15151a 50%, #0a0a0c 100%);
+            backdrop-filter: blur(10px);
+            margin-top: 60px;
+            position: relative;
+            z-index: 10;
+            box-shadow: 
+                0 0 50px rgba(202, 31, 39, 0.3),
+                inset 0 0 60px rgba(224, 137, 118, 0.05);
+        }
+
+        .footer-text {
+            color: #e08976;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            font-weight: 900;
+            text-shadow: 
+                0 2px 0 rgba(202, 31, 39, 0.8),
+                0 0 20px rgba(224, 137, 118, 0.4);
+            letter-spacing: 2px;
+            text-transform: UPPERCASE;
+            font-family: 'Daft', 'Arial', sans-serif;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 18px 45px;
+            border: 3px solid #ca1f27;
+            background: #0a0a0c;
+            color: #ca1f27;
+            cursor: pointer;
+            border-radius: 0;
+            font-family: 'Daft', 'Arial Black', 'Arial', sans-serif;
+            font-size: 1.05em;
+            font-weight: 900;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            letter-spacing: 3px;
+            text-transform: UPPERCASE;
+            box-shadow: 
+                0 4px 0 rgba(202, 31, 39, 0.6),
+                0 8px 20px rgba(202, 31, 39, 0.3),
+                0 0 25px rgba(202, 31, 39, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            background: #ca1f27;
+            color: #0a0a0c;
+            transform: translateY(-4px);
+            box-shadow: 
+                0 6px 0 rgba(224, 137, 118, 0.8),
+                0 12px 30px rgba(202, 31, 39, 0.5),
+                0 0 35px rgba(202, 31, 39, 0.4);
+            border-color: #e08976;
+            animation: scratchButton 0.5s ease-out;
+        }
+
+        @keyframes scratchButton {
+            0% {
+                background: linear-gradient(90deg,
+                    #ca1f27 0%,
+                    #ca1f27 2px,
+                    transparent 2px,
+                    transparent 4px,
+                    #ca1f27 4px,
+                    #ca1f27 6px
+                );
+                background-size: 100% 3px;
+                background-repeat: repeat-y;
+                background-position: 0 0;
+            }
+            50% {
+                background-color: #ca1f27;
+                background-image: 
+                    linear-gradient(45deg, #0a0a0c 25%, transparent 25%),
+                    linear-gradient(-45deg, #0a0a0c 25%, transparent 25%);
+                background-size: 8px 8px;
+                background-position: 0 0, 4px 4px;
+            }
+            100% {
+                background: #ca1f27;
+                background-image: none;
+            }
+        }
+
+        .btn.secondary {
+            border-color: #e08976;
+            color: #e08976;
+            box-shadow: 
+                0 4px 0 rgba(224, 137, 118, 0.6),
+                0 8px 20px rgba(224, 137, 118, 0.3),
+                0 0 25px rgba(224, 137, 118, 0.2);
+        }
+
+        .btn.secondary:hover {
+            background: #e08976;
+            color: #0a0a0c;
+            border-color: #f0e1a6;
+            box-shadow: 
+                0 6px 0 rgba(240, 225, 166, 0.8),
+                0 12px 30px rgba(224, 137, 118, 0.5),
+                0 0 35px rgba(224, 137, 118, 0.4);
+            animation: scratchButtonSecondary 0.5s ease-out;
+        }
+
+        @keyframes scratchButtonSecondary {
+            0% {
+                background: linear-gradient(90deg,
+                    #e08976 0%,
+                    #e08976 2px,
+                    transparent 2px,
+                    transparent 4px,
+                    #e08976 4px,
+                    #e08976 6px
+                );
+                background-size: 100% 3px;
+                background-repeat: repeat-y;
+                background-position: 0 0;
+            }
+            50% {
+                background-color: #e08976;
+                background-image: 
+                    linear-gradient(45deg, #0a0a0c 25%, transparent 25%),
+                    linear-gradient(-45deg, #0a0a0c 25%, transparent 25%);
+                background-size: 8px 8px;
+                background-position: 0 0, 4px 4px;
+            }
+            100% {
+                background: #e08976;
+                background-image: none;
+            }
+        }
+
+        /* Scrollbar - THIEF NOIR STYLE */
+        ::-webkit-scrollbar {
+            width: 18px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: linear-gradient(180deg, #0a0a0c 0%, #15151a 100%);
+            box-shadow: inset 0 0 10px rgba(202, 31, 39, 0.08);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ca1f27, #e08976, #f0e1a6, #e08976);
+            border-radius: 0;
+            border: 1px solid #f0e1a6;
+            box-shadow: 
+                0 0 35px rgba(202, 31, 39, 0.6),
+                0 0 25px rgba(224, 137, 118, 0.4),
+                inset 0 0 15px rgba(240, 225, 166, 0.3);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #e08976, #f0e1a6, #ca1f27, #f0e1a6);
+            border: 1px solid #ca1f27;
+            box-shadow: 
+                0 0 50px rgba(202, 31, 39, 0.8),
+                0 0 35px rgba(224, 137, 118, 0.6),
+                0 0 20px rgba(240, 225, 166, 0.5),
+                inset 0 0 20px rgba(202, 31, 39, 0.4);
+        }
+
+        /* PROGRESSIVE DARKNESS OVERLAY */
+        .progressive-darken {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(10, 10, 12, 0) 0%, rgba(10, 10, 12, 0.6) 100%);
+            z-index: 3;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        /* PENSÉES FLOTTANTES */
+        .thought-fragment {
+            position: fixed;
+            font-size: 0.85em;
+            color: #ca1f27;
+            font-family: 'VT323', monospace;
+            text-shadow: 0 0 15px rgba(202, 31, 39, 0.8), 0 0 25px rgba(202, 31, 39, 0.4);
+            pointer-events: none;
+            max-width: 180px;
+            white-space: pre-wrap;
+            word-break: break-word;
+            z-index: 4;
+            opacity: 0;
+            letter-spacing: 0.5px;
+            line-height: 1.4;
+            padding: 10px;
+            border-left: 2px solid #ca1f27;
+            filter: blur(0.8px);
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(20px); }
+            15% { opacity: 0.9; transform: translateY(0); }
+            85% { opacity: 0.9; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-20px); }
+        }
+
+        .thought-fragment.active {
+            animation: fadeInOut 7s ease-in-out forwards;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 3em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            .container {
+                padding: 40px 20px;
+            }
+
+            .text-content {
+                font-size: 1em;
+                line-height: 1.9;
+            }
+
+            header {
+                padding: 50px 20px;
+            }
+
+            .btn {
+                padding: 12px 30px;
+                font-size: 0.95em;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- MUSIQUE DE FOND -->
+    <audio id="main-music" autoplay loop preload="auto" style="display:none;">
+        <source src="./audio/music1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- PROGRESSIVE DARKNESS -->
+    <div class="progressive-darken" id="progressive-darken"></div>
+
+    <div class="reading-progress"></div>
+    
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
+    <!-- SOUND WAVES ANIMATION -->
+    <div class="sound-waves">
+        <div class="sound-wave"></div>
+        <div class="sound-wave"></div>
+        <div class="sound-wave"></div>
+    </div>
+
+    <div class="sound-waves-right">
+        <div class="sound-wave"></div>
+        <div class="sound-wave"></div>
+        <div class="sound-wave"></div>
+    </div>
+
+    <!-- VERTICAL SOUND WAVES -->
+    <div class="vertical-waves">
+        <div class="vertical-wave"></div>
+        <div class="vertical-wave"></div>
+        <div class="vertical-wave"></div>
+        <div class="vertical-wave"></div>
+        <div class="vertical-wave"></div>
+        <div class="vertical-wave"></div>
+        <div class="vertical-wave"></div>
+    </div>
+
+    <!-- ECG HEARTBEAT WAVES -->
+    <div class="ecg-waves">
+        <div class="ecg-line"></div>
+        <div class="ecg-line"></div>
+    </div>
+
+    <header>
+        <h1 class="title">Le Walkman</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="text-content">
+            <p>À l'intérieur, il y avait de la lumière partout.</p>
+
+            <p>Pas la lumière des ampoules, une lumière fabriquée, pensée, dirigée sur les bonnes surfaces. Les lustres jetaient des éclats sur les verres, les verres renvoyaient ça sur les visages. La musique était juste assez forte pour couvrir les silences gênants. Les costumes tenaient debout tout seuls. Les gens parlaient avec les mains, riaient au bon moment, se touchaient l'épaule pour signifier quelque chose, appartenance, complicité, hiérarchie. Tout le monde était exactement qui il fallait être.</p>
+
+            <p>Lui aussi. Pendant un moment, lui aussi.</p>
+
+            <p>Et puis Da Funk a commencé.</p>
+
+            <p>Il ne savait pas ce que ce morceau faisait là, glissé entre deux playlists lisses. La basse est arrivée en premier, cette basse basse et grasse qui ne demande pas la permission, et quelque chose en lui avait reconnu ça avant même qu'il mette un nom dessus. Daft Punk. 1995. Une autre espèce de nuit que celle-là.</p>
+
+            <p>Il a regardé autour de lui. Personne ne semblait l'entendre vraiment, les conversations continuaient, les verres se levaient, un homme en face finissait une anecdote en souriant. La musique passait sur eux sans accrocher.</p>
+
+            <p>Lui elle l'avait accroché.</p>
+
+            <p>Il a posé son verre. Il a pris le vieux walkman dans la poche intérieure de sa veste et il a cherché son manteau.</p>
+
+            <p>Il y avait des taxis devant le perron. Tout le monde en prenait un. C'était mécanique, la fin normale d'une soirée comme celle-là, on tendait la main, une portière s'ouvrait, et la nuit se refermait proprement derrière vous.</p>
+
+            <p>Il a dit non merci et il est parti à pied. Le walkman dans la main droite, les écouteurs autour du cou.</p>
+
+            <p>La première rue sentait les poubelles du restaurant d'en face et quelque chose de plus ancien en dessous, pluie séchée dans le béton, huile de moteur. Les lampadaires à sodium balançaient leur orange sur les trottoirs mouillés. Une lumière qui n'embellit rien, éclaire les choses pour ce qu'elles sont.</p>
+
+            <p>Il a mis les écouteurs. Da Funk depuis le début, volume à fond.</p>
+
+            <p>La basse prenait toute la place dans sa tête et la rue continuait dehors, muette, comme une image sans son. Les gens qu'il croisait ne le regardaient pas. Il a desserré sa cravate au premier carrefour.</p>
+
+            <p>Vers la deuxième avenue il y avait un bar encore ouvert, lumière jaune derrière la vitre, une porte entrebâillée qui laissait passer un filet de chaleur et de voix. Il a poussé la porte.</p>
+
+            <p>Le videur l'a regardé de haut en bas, le costume, le walkman, les écouteurs autour du cou et a fait non de la tête. Pas méchamment. Juste non. Comme on ferme une fenêtre.</p>
+
+            <p>Il est ressorti sans dire un mot. Il a remis les écouteurs. La basse était toujours là, indifférente, continue.</p>
+
+            <p>Il traversait une avenue à mi-chemin quand la voiture est arrivée. Pas de klaxon. Juste des phares qui ont surgi depuis le bas de la rue et le bruit du moteur qui montait trop vite et lui planté là au milieu des clous, qui n'a eu que le temps de faire un pas en arrière. La voiture est passée à moins d'un mètre, souffle d'air chaud sur le côté du visage, et a continué sans ralentir.</p>
+
+            <p>Il est resté immobile quelques secondes sur le trottoir.</p>
+
+            <p>La rue était de nouveau vide. Les feux de signalisation continuaient de faire leur travail, piéton vert, pour personne.</p>
+
+            <p>Il a regardé ses mains. Le walkman dans la droite. Les chaussures dans la gauche.</p>
+
+            <p>Il ne se souvenait pas de les avoir retirées.</p>
+
+            <p>La ville à cette heure-là n'est pas silencieuse, elle respire autrement. Un scooter de livraison qui brûle un feu. Une caméra de surveillance qui pivote lentement au-dessus d'une entrée de banque. Un chat qui traverse sans se presser.</p>
+
+            <p>Il marchait au milieu de tout ça, pieds nus, walkman à la main, chemise ouverte sur le froid, et la ville ne lui prêtait aucune attention particulière. Ni bienveillante ni hostile. Juste indifférente, occupée par elle-même.</p>
+
+            <p>C'était, étrangement, un soulagement.</p>
+
+            <p>Il a croisé d'autres revenants. Une femme en robe longue assise sur les marches d'un Monoprix fermé, talons posés à côté d'elle. Un groupe de trois qui longeait le mur d'en face, le rire rauque de ceux qui n'ont plus rien à prouver. Une fille seule sous l'auvent d'un bar, mascara légèrement descendu, pas défaite, juste revenue à elle-même.</p>
+
+            <p>Chacun rendait quelque chose à la nuit. Sans cérémonie.</p>
+
+            <p>Le banc était au bord du quai. Pas un endroit pittoresque. Il s'y est assis parce que ses jambes avaient décidé avant lui.</p>
+
+            <p>Il y avait déjà quelqu'un. Un homme plus âgé, manteau sombre élimé aux coudes, pas habillé pour une fête. Il n'avait pas l'air d'attendre quoi que ce soit, juste là, avec la solidité tranquille des gens qui ont cessé de justifier où ils se trouvent.</p>
+
+            <p>Il a regardé le walkman. Puis lui. Il n'a pas posé de question.</p>
+
+            <p>Ils sont restés un moment sans se parler. Un bus de nuit a traversé le pont derrière eux.</p>
+
+            <p>Puis l'homme a dit, sans tourner la tête :</p>
+
+            <div class="dialogue">On ressemble tous à quelqu'un d'autre jusqu'à ce que la nuit finisse.</div>
+
+            <p>Il n'a pas répondu. C'était une de ces phrases qui n'appellent pas de suite, qui existent juste pour être entendues une fois et portées après, comme un caillou dans la poche.</p>
+
+            <p>L'homme s'est levé, a remonté son col, et est parti vers le bas du quai.</p>
+
+            <p>Il a repris la marche.</p>
+
+            <p>Devant lui la rue montait doucement entre deux rangées d'immeubles aux volets fermés. À l'intérieur, des gens dormaient sans savoir qu'il passait. Il y avait quelque chose de reposant là-dedans, tous ces gens qui n'avaient pas besoin de savoir qu'il existait ce soir.</p>
+
+            <p>À la fête, tout le monde savait qu'il était là. C'était le contrat.</p>
+
+            <p>Les piles ont lâché quelque part entre le pont et le bas de sa rue. La basse s'est ralentie, déformée, et puis plus rien.</p>
+
+            <p>Il traversa le feu au bout de la rue. Le walkman toujours à la main, inutile, comme on garde un objet qu'on n'a plus de raison de porter mais qu'on ne sait pas encore où poser.</p>
+
+            <p>Personne ne l'attendait. C'était très bien comme ça.</p>
+        </div>
+    </div>
+
+    <script>
+        // Reading progress bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset;
+            const height = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = height > 0 ? (scrollTop / height) * 100 : 0;
+            document.querySelector('.reading-progress').style.width = scrolled + '%';
+        });
+
+        // Copy to clipboard
+        function copyToClipboard() {
+            const textContent = document.querySelector('.text-content').innerText;
+            navigator.clipboard.writeText(textContent).then(() => {
+                const btn = event.target;
+                const original = btn.textContent;
+                btn.textContent = '✓ Copié!';
+                setTimeout(() => btn.textContent = original, 2000);
+            });
+        }
+
+        // Download as .txt
+        function downloadText() {
+            const textContent = document.querySelector('.text-content').innerText;
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textContent));
+            element.setAttribute('download', 'la-marche.txt');
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+
+        // Audio context for ambience
+        let audioContext;
+        
+        function initAudioContext() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            return audioContext;
+        }
+
+        // LECTEUR AUDIO AMBIENT CACHÉ
+        function playAmbientSounds() {
+            try {
+                // Jouer la musique principale
+                const mainMusic = document.getElementById('main-music');
+                
+                if (mainMusic) {
+                    mainMusic.volume = 0.5;
+                    
+                    // Créer une promesse pour gérer l'autoplay
+                    const playPromise = mainMusic.play();
+                    
+                    if (playPromise !== undefined) {
+                        playPromise
+                            .then(() => {
+                                console.log('Musique en lecture ✓');
+                            })
+                            .catch(error => {
+                                // Autoplay bloqué - attendre l'interaction utilisateur
+                                console.log('Autoplay bloqué, en attente de l\'interaction utilisateur');
+                                document.addEventListener('click', () => {
+                                    mainMusic.play();
+                                }, { once: true });
+                            });
+                    }
+                }
+            } catch(e) {
+                console.error('Erreur audio:', e);
+            }
+        }
+
+        // PROGRESSIVE DARKNESS WITH SCROLL
+        function updateProgressiveDarkness() {
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            const darkenElement = document.getElementById('progressive-darken');
+            if (darkenElement) {
+                // Map 0-100% scroll to 0-0.6 opacity
+                const opacity = Math.min(scrollPercent / 100 * 0.6, 0.6);
+                darkenElement.style.opacity = opacity;
+            }
+        }
+
+        // FLOATING THOUGHT FRAGMENTS
+        const thoughtFragments = [
+            "Quelqu'un d'autre\njusqu'à la fin\nde la nuit.",
+            "La basse ne\ndemande pas\npermission.",
+            "C'était reposant\nde ne pas\nexister.",
+            "Les pieds\nsur le macadam\nglacé.",
+            "On était si\nmalsain, si\nparfait.",
+            "À qui la\nmusique\nappartient?",
+            "Ce rythme\nest un incendie.",
+            "Je marche\navec ta voix\ndans la tête.",
+            "Où finit\nle danseur?\nOù commence\nla danse?",
+            "Le Walkman\nrespirait\navec nous."
+        ];
+
+        let lastThoughtTime = 0;
+        const thoughtCooldown = 3000; // 3 seconds between thoughts
+
+        function displayRandomThought() {
+            const now = Date.now();
+            if (now - lastThoughtTime < thoughtCooldown) return;
+
+            lastThoughtTime = now;
+
+            const fragment = document.createElement('div');
+            fragment.className = 'thought-fragment';
+
+            // Random position
+            const randomLeft = Math.random() * 80 + 10; // 10-90%
+            const randomTop = Math.random() * 70 + 10; // 10-80%
+
+            fragment.style.left = randomLeft + '%';
+            fragment.style.top = randomTop + '%';
+
+            // Random thought
+            const randomThought = thoughtFragments[Math.floor(Math.random() * thoughtFragments.length)];
+            fragment.textContent = randomThought;
+
+            document.body.appendChild(fragment);
+
+            // Trigger animation
+            requestAnimationFrame(() => {
+                fragment.classList.add('active');
+            });
+
+            // Remove after animation completes
+            setTimeout(() => {
+                fragment.remove();
+            }, 7000);
+        }
+
+        // Scroll listener for darkness and thoughts
+        let scrollListener = null;
+        window.addEventListener('load', () => {
+            scrollListener = () => {
+                updateProgressiveDarkness();
+                
+                // Randomly trigger thoughts during scroll
+                if (Math.random() < 0.05) { // 5% chance per scroll event
+                    displayRandomThought();
+                }
+            };
+            window.addEventListener('scroll', scrollListener);
+        });
+
+        // Démarrer au chargement
+        window.addEventListener('load', playAmbientSounds);
+        document.addEventListener('click', playAmbientSounds, { once: true });
+    </script>
+</body>
+</html>
