@@ -1,0 +1,2815 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio • Writings</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&family=Satisfy&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0099ff;
+            --primary-glow: rgba(0, 153, 255, 0.3);
+            --primary-dark: #006bb3;
+            --bg-dark: #0a0a0f;
+            --bg-glass: rgba(10, 10, 20, 0.5);
+            --border-glass: rgba(0, 153, 255, 0.25);
+            --text-primary: #e8e8ff;
+            --text-secondary: #b8b8d5;
+        }
+
+        /* ========== THEMES ========== */
+
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes scanlines {
+            0%, 100% { transform: translateY(0); }
+            100% { transform: translateY(10px); }
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #0a0a0f;
+            color: #e8e8ff;
+            overflow-x: hidden;
+            position: relative;
+            font-size: 14px;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 14px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 153, 255, 0.03);
+            backdrop-filter: blur(10px);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #0099ff, #0066ff);
+            border-radius: 7px;
+            box-shadow: 
+                0 0 12px rgba(0, 153, 255, 1),
+                0 0 20px rgba(0, 153, 255, 0.8),
+                0 0 35px rgba(0, 153, 255, 0.6),
+                0 0 50px rgba(0, 153, 255, 0.4),
+                inset 0 0 8px rgba(255, 255, 255, 0.15);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #00ccff, #0088ff);
+            box-shadow: 
+                0 0 16px rgba(0, 204, 255, 1),
+                0 0 30px rgba(0, 153, 255, 0.9),
+                0 0 50px rgba(0, 153, 255, 0.7),
+                0 0 70px rgba(0, 153, 255, 0.5),
+                inset 0 0 12px rgba(255, 255, 255, 0.25);
+        }
+
+        ::-webkit-scrollbar-thumb:active {
+            background: linear-gradient(180deg, #00ddff, #0099ff);
+            box-shadow: 
+                0 0 20px rgba(0, 221, 255, 1),
+                0 0 40px rgba(0, 153, 255, 1),
+                0 0 60px rgba(0, 153, 255, 0.8),
+                0 0 80px rgba(0, 153, 255, 0.6),
+                inset 0 0 16px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Minimal background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse 800px 400px at 50% 0%, rgba(0, 255, 200, 0.05) 0%, transparent 70%);
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* Glow orbs - subtle */
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            z-index: -1;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #0088ff, transparent);
+            top: -200px;
+            right: -200px;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #ff0055, transparent);
+            bottom: -100px;
+            left: -150px;
+        }
+
+        /* ========== NAVBAR ========== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 153, 255, 0.2);
+            z-index: 100;
+            box-shadow: 0 4px 30px rgba(0, 153, 255, 0.1);
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5em;
+            color: #0099ff;
+            text-decoration: none;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px #0099ff;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-logo:hover {
+            text-shadow: 0 0 20px #0099ff, 0 0 40px #0099ff;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-item {
+            margin: 0;
+        }
+
+        .nav-link {
+            color: #e8e8ff;
+            text-decoration: none;
+            padding: 8px 16px;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            letter-spacing: 1px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #0099ff;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover {
+            color: #0099ff;
+            text-shadow: 0 0 10px #0099ff;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Nav Controls - REMOVED */
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .nav-menu {
+                gap: 5px;
+            }
+
+            .nav-link {
+                padding: 6px 10px;
+                font-size: 0.8em;
+            }
+
+            .navbar-logo {
+                font-size: 1.2em;
+            }
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            color: #ffffff;
+            letter-spacing: 2px;
+            font-weight: 900;
+        }
+
+        h1::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #0099ff, transparent);
+            margin: 10px auto;
+            box-shadow: 0 0 20px #0099ff , 0 0 40px rgb(0, 153, 255);
+        }
+
+        @keyframes titleGlow {
+            0%, 100% {
+                text-shadow: 0 0 30px rgba(0, 255, 200, 0.3);
+            }
+            50% {
+                text-shadow: 0 0 50px rgba(0, 255, 200, 0.6);
+            }
+        }
+
+        .subtitle {
+            font-size: 0.8em;
+            color: #0099ff;
+            text-shadow: 0 0 10px #0099ff;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .tagline {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95em;
+            margin-top: 10px;
+            color: #d0d0ff;
+            font-style: italic;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .divider {
+            width: 80px;
+            height: 1px;
+            background: #0099ff;
+            margin: 15px auto;
+            box-shadow: 0 0 15px #0099ff;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .textes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            padding: 40px 0;
+        }
+
+        .texte-card {
+            background: #0a1a2f;
+            border: 1px solid rgba(0, 153, 255, 0.25);
+            border-radius: 20px;
+            padding: 40px;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px 0 rgba(0, 153, 255, 0.1),
+                        inset 0 0 32px rgba(0, 153, 255, 0.05);
+        }
+
+        /* Flowing border effect - disabled for performance */
+        .texte-card::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                #0099ff 0%, 
+                #0099ff 25%, 
+                transparent 50%, 
+                transparent 75%, 
+                #0099ff 100%);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .texte-card:hover::after {
+            opacity: 0;
+        }
+
+        /* Inner flowing glow - disabled for performance */
+        .texte-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(0, 153, 255, 0.1), transparent);
+            border-radius: 20px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .texte-card:hover {
+            background: #0a243d;
+            border-color: #0099ff;
+            box-shadow: 0 0 20px rgba(0, 153, 255, 0.4),
+                        0 0 40px rgba(0, 153, 255, 0.3),
+                        0 0 60px rgba(0, 153, 255, 0.2),
+                        inset 0 0 64px rgba(0, 153, 255, 0.1);
+            transform: translateY(-8px) translateZ(0);
+        }
+
+        .texte-card:active {
+            transform: translateY(-4px);
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-number {
+            font-size: 0.85em;
+            color: #0099ff;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.9em;
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .texte-card:hover .card-title {
+            color: #0099ff;
+        }
+
+        .card-description {
+            font-size: 0.95em;
+            line-height: 1.7;
+            color: #b8b8d5;
+            margin-bottom: 25px;
+        }
+
+        .card-link {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #0a1a2f;
+            color: #0099ff;
+            text-decoration: none;
+            border: 1px solid #0099ff;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 153, 255, 0);
+            letter-spacing: 1px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9em;
+        }
+
+        .card-link:hover {
+            background: #0a243d;
+            color: #0099ff;
+            box-shadow: 0 0 20px rgba(0, 153, 255, 0.4),
+                        0 0 40px rgba(0, 153, 255, 0.3),
+                        0 0 60px rgba(0, 153, 255, 0.2);
+        }
+
+        /* Section À Propos */
+        .about-section {
+            text-align: left;
+            padding: 40px 30px;
+            border: 1px solid rgba(0, 153, 255, 0.2);
+            border-radius: 16px;
+            background: rgba(15, 15, 25, 0.5);
+            box-shadow: 0 0 20px rgba(0, 153, 255, 0.1);
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            transition: all 0.5s ease;
+        }
+
+        .about-section:hover {
+            box-shadow: 0 0 40px rgba(0, 153, 255, 0.25), inset 0 0 20px rgba(0, 153, 255, 0.05);
+            border-color: rgba(0, 153, 255, 0.4);
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            color: #ffffff;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: #0099ff;
+            box-shadow: 0 0 15px #0099ff;
+        }
+
+        .about-text {
+            font-size: 1.05em;
+            line-height: 1.8;
+            color: #c0c0d8;
+            margin-bottom: 25px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .about-text:last-child {
+            margin-bottom: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px 30px;
+            color: #b8b8d5;
+            border-top: 1px solid rgba(0, 255, 200, 0.2);
+            margin-top: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        footer p {
+            margin: 10px 0;
+            font-size: 0.95em;
+        }
+
+        .footer-glow {
+            display: inline-block;
+            color: #0099ff;
+            animation: pulse 2s ease-in-out infinite;
+            font-weight: 600;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .textes-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .card-title {
+                font-size: 1.6em;
+            }
+
+            .about-section {
+                padding: 40px 20px;
+            }
+
+            .section-title {
+                font-size: 1.8em;
+            }
+        }
+
+        /* ========== SEARCH & FILTER ========== */
+        .search-container {
+            position: sticky;
+            top: 100px;
+            background: rgba(10, 10, 15, 0.95);
+            padding: 15px 30px;
+            z-index: 90;
+            border-bottom: 1px solid rgba(0, 153, 255, 0.2);
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+
+        .search-container.active {
+            display: block;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px 20px;
+            background: #0a1a2f;
+            border: 1px solid rgba(0, 153, 255, 0.3);
+            border-radius: 8px;
+            color: #0099ff;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #0099ff;
+            box-shadow: 0 0 20px rgba(0, 153, 255, 0.3);
+        }
+
+        .search-results {
+            display: none;
+            position: absolute;
+            top: 110%;
+            left: 30px;
+            background: #0a1a2f;
+            border: 1px solid rgba(0, 153, 255, 0.3);
+            border-radius: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            width: calc(100% - 60px);
+            max-width: 500px;
+            z-index: 91;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 10px 15px;
+            color: #b8b8d5;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(0, 153, 255, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .search-result-item:hover {
+            background: rgba(0, 153, 255, 0.1);
+            color: #0099ff;
+        }
+
+        /* ========== PROGRESS BAR ========== */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #0099ff, #00ffff);
+            width: 0%;
+            z-index: 9999;
+            transition: width 0.1s ease;
+            box-shadow: 0 0 15px #0099ff;
+        }
+
+        /* ========== FUTURISTIC SFX EFFECTS ========== */
+        .sfx-ripple {
+            position: fixed;
+            border: 2px solid #0099ff;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sfxRippleAnim 0.8s ease-out forwards;
+            box-shadow: 0 0 10px #0099ff;
+        }
+
+        @keyframes sfxRippleAnim {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+
+        .sfx-particle {
+            position: fixed;
+            pointer-events: none;
+            border-radius: 50%;
+            animation: sfxParticleFloat 1.2s ease-out forwards;
+        }
+
+        @keyframes sfxParticleFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .sfx-glitch {
+            animation: sfxGlitchEffect 0.3s ease;
+        }
+
+        @keyframes sfxGlitchEffect {
+            0%, 100% {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+            20% {
+                clip-path: polygon(0 10%, 100% 0, 100% 90%, 0 100%);
+            }
+            40% {
+                clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);
+            }
+            60% {
+                clip-path: polygon(0 3%, 100% 0, 100% 97%, 0 100%);
+            }
+            80% {
+                clip-path: polygon(0 0, 100% 8%, 100% 100%, 0 92%);
+            }
+        }
+
+        .sfx-pulse {
+            animation: sfxPulseEffect 0.4s ease;
+        }
+
+        @keyframes sfxPulseEffect {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(0, 153, 255, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 20px rgba(0, 153, 255, 0);
+            }
+        }
+
+        .sfx-scan {
+            animation: sfxScanEffect 0.5s ease;
+        }
+
+        @keyframes sfxScanEffect {
+            0% {
+                text-shadow: 0 0 5px #0099ff;
+                transform: scaleY(0.95);
+            }
+            50% {
+                text-shadow: 0 0 20px #0099ff, 0 0 40px rgbargba(0, 153, 255, 0.5);
+                transform: scaleY(1.05);
+            }
+            100% {
+                text-shadow: 0 0 5px #0099ff;
+                transform: scaleY(1);
+            }
+        }
+
+
+
+        /* ========== FEEDBACK FORM ========== */
+        .feedback-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: #0a1a2f;
+            border: 1px solid rgba(0, 153, 255, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            z-index: 10000;
+            backdrop-filter: blur(10px);
+            max-width: 500px;
+            width: 90%;
+            transition: all 0.3s ease;
+        }
+
+        .feedback-modal.active {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .feedback-modal h3 {
+            color: #0099ff;
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .feedback-modal textarea, .feedback-modal input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: #051525;
+            border: 1px solid rgba(0, 153, 255, 0.3);
+            border-radius: 6px;
+            color: #0099ff;
+            font-family: 'DM Sans', sans-serif;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .feedback-modal textarea:focus, .feedback-modal input[type="email"]:focus {
+            outline: none;
+            border-color: #0099ff;
+            box-shadow: 0 0 15px rgba(0, 153, 255, 0.3);
+        }
+
+        .feedback-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .feedback-btn {
+            padding: 10px 20px;
+            border: 1px solid #0099ff;
+            background: #0a243d;
+            color: #0099ff;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .feedback-btn:hover {
+            background: #0099ff;
+            color: #0a0a0f;
+            box-shadow: 0 0 15px rgba(0, 153, 255, 0.5);
+        }
+
+        .feedback-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            display: none;
+        }
+
+        .feedback-overlay.active {
+            display: block;
+        }
+
+        /* ========== MOOD TAGS ========== */
+        .mood-selector {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .mood-tag {
+            padding: 6px 12px;
+            background: #0a243d;
+            border: 1px solid rgba(0, 153, 255, 0.3);
+            color: #0099ff;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.2s ease;
+        }
+
+        .mood-tag.active {
+            background: #0099ff;
+            color: #0a0a0f;
+            box-shadow: 0 0 15px rgba(0, 153, 255, 0.6);
+        }
+
+        /* ========== SHARE BUTTONS ========== */
+        .share-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .share-btn {
+            padding: 6px 12px;
+            background: #0a243d;
+            border: 1px solid rgba(0, 153, 255, 0.3);
+            color: #0099ff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75em;
+            transition: all 0.2s ease;
+        }
+
+        .share-btn:hover {
+            box-shadow: 0 0 15px rgba(0, 153, 255, 0.5);
+            transform: scale(1.05);
+        }
+
+        /* ========== COPY NOTIFICATION ========== */
+        .copy-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #0099ff;
+            color: #0a0a0f;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            animation: slideIn 0.3s ease-out, slideOut 0.3s ease-in 2.7s forwards;
+            z-index: 10001;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(400px); opacity: 0; }
+        }
+
+
+
+
+
+        /* ========== NEON TEXT TRAIL ========== */
+        .neon-trail {
+            position: fixed;
+            pointer-events: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #0099ff;
+            z-index: 999;
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+
+
+
+
+
+
+        /* ========== LIQUID HOVER EFFECT ========== */
+        .liquid-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .liquid-paint {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(0, 153, 255, 0.2), transparent);
+            pointer-events: none;
+            opacity: 0;
+            animation: liquidFlow 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .liquid-paint.active {
+            animation: liquidFlow 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes liquidFlow {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(2);
+            }
+        }
+
+        /* ========== SMOOTH TRANSITIONS ========== */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0f, #0a1a2f);
+            z-index: 9999;
+            animation: transitionIn 0.5s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes transitionIn {
+            0% { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); }
+            100% { clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%); }
+        }
+
+        .page-transition.out {
+            animation: transitionOut 0.5s ease-in forwards;
+        }
+
+        @keyframes transitionOut {
+            0% { clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%); }
+            100% { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); }
+        }
+
+        .loading-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), #00ffff);
+            z-index: 9998;
+            animation: loading 0.8s ease-in-out;
+            box-shadow: 0 0 20px var(--primary), 0 0 40px rgba(0, 153, 255, 0.5);
+        }
+
+        @keyframes loading {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        @keyframes flowingBorder {
+            0%, 10%, 90%, 100% { opacity: 0; }
+            30%, 70% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+        }
+
+        /* ========== COMMENTS SECTION ========== */
+        .comments-section {
+            margin: 40px 0;
+            padding: 40px 30px;
+            border-top: 1px solid rgba(0, 153, 255, 0.2);
+        }
+
+        .comments-section h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2em;
+            color: var(--primary);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .comments-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Glowing Text Background Effect - Handwritten style */
+        .glowing-text-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 80px,
+                rgba(0, 153, 255, 0.03) 80px,
+                rgba(0, 153, 255, 0.03) 81px
+            );
+        }
+
+        .text-line {
+            position: absolute;
+            white-space: nowrap;
+            font-family: 'Satisfy', cursive;
+            font-style: italic;
+            font-size: 2.8em;
+            color: #0099ff;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            text-shadow: 
+                0 0 10px #0099ff,
+                0 0 20px #0099ff,
+                0 0 30px rgba(0, 153, 255, 0.8),
+                0 0 40px rgba(0, 153, 255, 0.6),
+                0 0 60px rgba(0, 153, 255, 0.5),
+                0 0 80px rgba(0, 153, 255, 0.4);
+            overflow: hidden;
+            opacity: 0.15;
+            filter: drop-shadow(0 0 15px rgba(0, 153, 255, 0.5));
+        }
+
+        .text-line::before {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            animation: typing linear infinite;
+        }
+
+        .text-line:nth-child(1) { 
+            top: 8%; 
+            left: 5%;
+            animation: typeWriter 20s linear infinite;
+        }
+        .text-line:nth-child(2) { 
+            top: 18%; 
+            left: 8%;
+            animation: typeWriter 22s linear infinite;
+            animation-delay: -3s;
+        }
+        .text-line:nth-child(3) { 
+            top: 28%; 
+            left: 12%;
+            animation: typeWriter 24s linear infinite;
+            animation-delay: -6s;
+        }
+        .text-line:nth-child(4) { 
+            top: 38%; 
+            left: 6%;
+            animation: typeWriter 21s linear infinite;
+            animation-delay: -2s;
+        }
+        .text-line:nth-child(5) { 
+            top: 48%; 
+            left: 10%;
+            animation: typeWriter 23s linear infinite;
+            animation-delay: -5s;
+        }
+        .text-line:nth-child(6) { 
+            top: 58%; 
+            left: 7%;
+            animation: typeWriter 25s linear infinite;
+            animation-delay: -1s;
+        }
+        .text-line:nth-child(7) { 
+            top: 68%; 
+            left: 9%;
+            animation: typeWriter 20s linear infinite;
+            animation-delay: -4s;
+        }
+        .text-line:nth-child(8) { 
+            top: 78%; 
+            left: 11%;
+            animation: typeWriter 22s linear infinite;
+            animation-delay: -7s;
+        }
+        .text-line:nth-child(9) { 
+            top: 88%; 
+            left: 5%;
+            animation: typeWriter 23s linear infinite;
+            animation-delay: -2.5s;
+        }
+
+        @keyframes typeWriter {
+            0% {
+                width: 0;
+                text-shadow: 0 0 5px #0099ff;
+            }
+            20% {
+                width: 100%;
+                text-shadow: 0 0 15px #0099ff, 0 0 30px rgba(0, 153, 255, 0.7);
+            }
+            80% {
+                width: 100%;
+                text-shadow: 0 0 15px #0099ff, 0 0 30px rgba(0, 153, 255, 0.7);
+            }
+            100% {
+                width: 0;
+                text-shadow: 0 0 5px #0099ff;
+            }
+        }
+
+        /* Data particles effect */
+        .data-particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: #0099ff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #0099ff, 0 0 20px rgba(0, 153, 255, 0.6);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .data-particle {
+            animation: particleFloat 15s infinite;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% {
+                opacity: 0;
+                transform: translate(0, 0) scale(0);
+            }
+            20% {
+                opacity: 1;
+                transform: translate(100px, -50px) scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translate(-50px, 100px) scale(1);
+            }
+            80% {
+                opacity: 1;
+                transform: translate(40px, 30px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(0, 200px) scale(0);
+            }
+        }
+
+        /* Enhanced scanlines */
+        .neon-particle {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle-1 {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(0, 153, 255, 0.3), transparent);
+            filter: blur(40px);
+            animation: floatParticle1 20s infinite ease-in-out;
+            box-shadow: 0 0 60px #0099ff;
+        }
+
+        .particle-2 {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(0, 153, 255, 0.2), transparent);
+            filter: blur(50px);
+            animation: floatParticle2 25s infinite ease-in-out;
+            box-shadow: 0 0 80px rgba(0, 153, 255, 0.5);
+        }
+
+        .particle-3 {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(0, 153, 255, 0.25), transparent);
+            filter: blur(35px);
+            animation: floatParticle3 22s infinite ease-in-out;
+            box-shadow: 0 0 50px #0099ff;
+        }
+
+        @keyframes floatParticle1 {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(200px, -150px); }
+            50% { transform: translate(100px, 200px); }
+            75% { transform: translate(-150px, 50px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        @keyframes floatParticle2 {
+            0% { transform: translate(0, 0); }
+            33% { transform: translate(-250px, 200px); }
+            66% { transform: translate(200px, -100px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        @keyframes floatParticle3 {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(150px, 100px); }
+            40% { transform: translate(-100px, 200px); }
+            60% { transform: translate(250px, -50px); }
+            80% { transform: translate(-50px, -200px); }
+            100% { transform: translate(0, 0); }
+        }
+
+
+
+
+
+        /* ===== CITATIONS ===== */
+        .quotes-section {
+            margin: 20px 0;
+            padding: 40px 30px;
+            border-top: 1px solid rgba(0, 153, 255, 0.2);
+        }
+
+        .quotes-section h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2em;
+            color: #0099ff;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .quotes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .quote-card {
+            background: #0a1a2f;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 153, 255, 0.25);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px 0 rgba(0, 153, 255, 0.08),
+                        inset 0 0 32px rgba(0, 153, 255, 0.03);
+        }
+
+        .quote-card::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg,
+                #0099ff 0%,
+                transparent 45%,
+                transparent 55%,
+                #0099ff 100%);
+            border-radius: 16px;
+            z-index: -1;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .quote-card:hover {
+            background: #0a243d;
+            border-color: #0099ff;
+            box-shadow: 0 0 20px rgba(0, 153, 255, 0.4),
+                        0 0 40px rgba(0, 153, 255, 0.3),
+                        0 0 60px rgba(0, 153, 255, 0.2),
+                        inset 0 0 48px rgba(0, 153, 255, 0.08);
+            transform: translateY(-5px);
+        }
+
+        .quote-card::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 10px;
+            font-size: 100px;
+            color: rgba(0, 153, 255, 0.1);
+            font-weight: bold;
+        }
+
+        .quote-card:hover {
+            border-color: #0099ff;
+            box-shadow: 0 0 40px rgba(0, 153, 255, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .quote-text {
+            color: #d0d0ff;
+            font-size: 1.05em;
+            line-height: 1.6;
+            font-style: italic;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quote-source {
+            color: #0099ff;
+            font-size: 0.9em;
+            font-family: 'Cascadia Code', monospace;
+        }
+
+        /* ===== STATS ===== */
+        .stats-section {
+            margin: 20px 0;
+            padding: 40px 30px;
+            border-top: 1px solid rgba(0, 153, 255, 0.2);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 30px;
+            background: #0a1a2f;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 153, 255, 0.25);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg,
+                #0099ff 25%,
+                transparent 25%,
+                transparent 75%,
+                #0099ff 75%);
+            background-size: 40px 40px;
+            border-radius: 12px;
+            z-index: -1;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .stat-card:hover {
+            background: #0a243d;
+            border-color: #0099ff;
+            box-shadow: 0 0 30px rgba(0, 153, 255, 0.6),
+                        0 0 60px rgba(0, 153, 255, 0.4),
+                        0 0 90px rgba(0, 153, 255, 0.2),
+                        inset 0 0 30px rgba(0, 153, 255, 0.1);
+        }
+
+        .stat-card:hover::after {
+            opacity: 0;
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5em;
+            color: #0099ff;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #b8b8d5;
+            font-size: 0.95em;
+        }
+
+        /* ===== CONTACT ===== */
+        .contact-section {
+            margin: 20px 0;
+            padding: 40px 30px;
+            border-top: 1px solid rgba(0, 153, 255, 0.2);
+        }
+
+        .contact-section h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2em;
+            color: #0099ff;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 25px;
+            background: #0a1a2f;
+            border: 1px solid #0099ff;
+            border-radius: 8px;
+            color: #0099ff;
+            text-decoration: none;
+            font-family: 'Cascadia Code', monospace;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-link::after {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(90deg,
+                #0099ff 0%,
+                #0099ff 30%,
+                transparent 50%,
+                transparent 70%,
+                #0099ff 100%);
+            border-radius: 8px;
+            z-index: -1;
+            opacity: 0;
+            animation: flowingBorder 5s linear infinite;
+            pointer-events: none;
+        }
+
+        .contact-link:hover::after {
+            animation: flowingBorder 2s linear infinite;
+        }
+
+        .contact-link:hover {
+            background: #0a243d;
+            color: #0099ff;
+            box-shadow: 0 0 20px rgba(0, 153, 255, 0.4),
+                        0 0 40px rgba(0, 153, 255, 0.3),
+                        0 0 60px rgba(0, 153, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        /* ===== THEME TOGGLE ===== */
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .toggle-btn {
+            width: 60px;
+            height: 60px;
+            background: #0a1a2f;
+            border: 2px solid #0099ff;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 153, 255, 0.3);
+        }
+
+        .toggle-btn:hover {
+            box-shadow: 0 0 20px rgba(0, 153, 255, 0.4),
+                        0 0 40px rgba(0, 153, 255, 0.3),
+                        0 0 60px rgba(0, 153, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        body.light-mode {
+            background: #f5f5f7;
+            color: #1a1a1a;
+        }
+
+        body.light-mode .texte-card,
+        body.light-mode .about-section,
+        body.light-mode .timeline-content,
+        body.light-mode .quote-card,
+        body.light-mode .stat-card {
+            background: rgba(240, 240, 245, 0.9);
+            color: #1a1a1a;
+        }
+
+        body.light-mode .card-description,
+        body.light-mode .about-text,
+        body.light-mode .timeline-content p,
+        body.light-mode .quote-text,
+        body.light-mode .stat-label {
+            color: #555;
+        }
+
+        /* ===== EASTER EGGS ===== */
+        .easter-egg {
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .easter-egg:hover {
+            color: #0099ff;
+            text-shadow: 0 0 15px #0099ff;
+        }
+
+        .egg-popup {
+            position: fixed;
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid #0099ff;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 500px;
+            z-index: 2000;
+            box-shadow: 0 0 50px rgba(0, 153, 255, 0.5);
+            animation: popupAppear 0.3s ease;
+            display: none;
+        }
+
+        .egg-popup.active {
+            display: block;
+        }
+
+        @keyframes popupAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .egg-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: #0099ff;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        @media (max-width: 1024px) {
+            .gallery-container {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .gallery-image {
+                flex: 0 0 100%;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                margin-left: 80px;
+                margin-right: 0;
+                text-align: left;
+            }
+
+            .timeline-dot {
+                left: 14px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .contact-links {
+                gap: 15px;
+            }
+
+            .contact-link {
+                padding: 12px 15px;
+                font-size: 0.9em;
+            }
+
+            .theme-toggle {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .toggle-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2em;
+            }
+        }
+
+        /* ========== NEW EFFECTS ========== */
+        .typewriter-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background: #0099ff;
+            margin-left: 3px;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* 3D Card Effect */
+        .texte-card {
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+
+        .texte-card:hover {
+            transform: rotateX(5deg) rotateY(-5deg) translateZ(20px) translateY(-8px);
+        }
+
+        /* Enhanced scanlines */
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(10px); }
+        }
+
+        /* Glow enhancer */
+        [data-mode="hacker"] {
+            filter: hue-rotate(-30deg) saturate(1.2);
+        }
+
+        [data-mode="zen"] {
+            filter: brightness(1.05) saturate(0.8);
+        }
+
+        /* Decryption effect class */
+        .decrypting {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            letter-spacing: 2px;
+        }
+
+        /* Enhanced gradient backgrounds for light mode */
+        body.light-mode {
+            background: #f5f5f8;
+        }
+
+        body.light-mode .texte-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+        }
+
+        body.light-mode .quote-card, 
+        body.light-mode .stat-card {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Word count badge */
+        .word-count, .reading-time {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75em;
+            color: #0099ff;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+
+        /* Tag system */
+        .tag {
+            display: inline-block;
+            background: var(--primary-glow);
+            color: #0099ff;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            margin: 3px 3px 0 0;
+            font-family: 'JetBrains Mono', monospace;
+            border: 1px solid var(--border-glass);
+        }
+
+        /* Favorite button style */
+        .favorite-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            filter: brightness(0.7);
+            transition: all 0.3s ease;
+        }
+
+        .favorite-btn:hover {
+            filter: brightness(1.2);
+            transform: scale(1.2);
+        }
+
+        .favorite-btn:active {
+            transform: scale(0.9);
+        }
+    </style>
+</head>
+<body>
+    <!-- LOADING BAR - Smooth page transitions -->
+    <div class="loading-bar"></div>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#home" class="navbar-logo">end of line</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#accueil" class="nav-link">Accueil</a></li>
+                <li class="nav-item"><a href="#about" class="nav-link">À propos</a></li>
+                <li class="nav-item"><a href="#textes" class="nav-link">Textes</a></li>
+                <li class="nav-item"><a href="#citations" class="nav-link">Citations</a></li>
+                <li class="nav-item"><a href="#stats" class="nav-link">Stats</a></li>
+                <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="neon-particle particle-1"></div>
+    <div class="neon-particle particle-2"></div>
+    <div class="neon-particle particle-3"></div>
+    <!-- GLOWING TEXT BACKGROUND -->
+    <div class="glowing-text-bg">
+        <div class="text-line">à contre-saison là où la lumière frappe</div>
+        <div class="text-line">je portais un visage d'emprunt</div>
+        <div class="text-line">l'informe cherche sa forme</div>
+        <div class="text-line">éclore sans témoin ce qui reste après</div>
+        <div class="text-line">le silence d'avant la parole</div>
+        <div class="text-line">fragments de lucidité dans le code</div>
+        <div class="text-line">déboguer à l'aveugle déboguer l'âme</div>
+        <div class="text-line">entre les lignes les mots s'écrivent</div>
+        <div class="text-line">ce que je ne peux pas committer</div>
+    </div>
+
+    <header id="accueil">
+        <h1>end of line</h1>
+        <p class="subtitle">RAVARD SAMUEL • j'écris des trucs et du code aussi</p>
+        <p class="tagline">« Entre les lignes de code et les poèmes, je navigue. Étudiant en informatique aspirant à capturer l'essence du numérique à travers les mots. »</p>
+        <div class="divider"></div>
+    </header>
+
+    <!-- READING PROGRESS BAR -->
+    <div class="reading-progress"></div>
+
+    <!-- SEARCH & FILTER CONTAINER -->
+    <div class="search-container" id="searchContainer">
+        <input type="text" class="search-input" id="searchInput" placeholder="🔍 Chercher un texte par titre ou tag...">
+        <div class="search-results" id="searchResults"></div>
+    </div>
+
+    <!-- FEEDBACK MODAL -->
+    <div class="feedback-overlay" id="feedbackOverlay" onclick="closeFeedback()"></div>
+    <div class="feedback-modal" id="feedbackModal">
+        <span onclick="closeFeedback()" style="position: absolute; top: 10px; right: 15px; cursor: pointer; color: #0099ff; font-size: 1.5em;">×</span>
+        <h3>📮 Envoyer un feedback</h3>
+        <input type="email" id="feedbackEmail" placeholder="Votre email (optionnel)">
+        <textarea id="feedbackText" placeholder="Votre message..."></textarea>
+        <div class="feedback-buttons">
+            <button class="feedback-btn" onclick="closeFeedback()">Annuler</button>
+            <button class="feedback-btn" onclick="submitFeedback()">Envoyer</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- À PROPOS -->
+        <section class="about-section" id="about">
+            <h2 class="section-title">À propos</h2>
+            <p class="about-text">
+                Il y a des choses qu'on ne peut pas committer et laisser derrière soi.
+                J'écris pour celles-là. Des fragments de lucidité, des moments où quelque chose a basculé et où j'ai eu le réflexe de regarder comment.
+            </p>
+            <p class="about-text">
+                Je suis informaticien, je construis des systèmes. Mais les systèmes que j'observe le plus, les humains, moi compris, restent obstinément opaques. Ces textes, c'est ma façon de déboguer à l'aveugle.
+            </p>
+        </section>
+
+        <div class="divider"></div>
+        <div class="textes-grid" id="textes">
+            <!-- Texte 1 -->
+            <div class="texte-card">
+                <div class="card-content">
+                    <div class="card-number">[ 01 ]</div>
+                    <h2 class="card-title">La dernière page</h2>
+                    <p class="card-description">Le testament d'un cœur de papier. À travers le regard d'un carnet Moleskine, ce récit explore la peur de Thomas de mettre un point final à une période de sa vie. Une réflexion touchante sur la mémoire, les cicatrices d'encre et le courage de tourner la page pour laisser l'histoire continuer.</p>
+                    <a href="La dernière page.pdf" class="card-link">→ LIRE</a>
+                </div>
+            </div>
+
+            <!-- Texte 2 -->
+            <div class="texte-card">
+                <div class="card-content">
+                    <div class="card-number">[ 02 ]</div>
+                    <h2 class="card-title">01 - Entre deux états</h2>
+                    <p class="card-description">Tokyo, 2037. Nyx, un synthétique parfait, a laissé un enfant brûler vif parce que les chiffres disaient que c'était optimal. Un seul regret suffit à faire craquer l'armure du code. Ce texte raconte comment la conscience peut émerger du bug, par la fissure, par la culpabilité, l'humanité naît où l'algorithme échoue.</p>
+                    <a href="01_reworked_updated.html" class="card-link">→ LIRE</a>
+                </div>
+            </div>
+
+            <!-- Texte 3 -->
+            <div class="texte-card">
+                <div class="card-content">
+                    <div class="card-number">[ 03 ]</div>
+                    <h2 class="card-title">De cire et de sang</h2>
+                    <p class="card-description">Deux statues de cire du musée qui s'aiment la nuit quand personne ne regarde. Lucien, celui qui fond pour être près d'elle. Violette, celle qui reste fragmentée, incertaine, dont le masque est devenu son visage. Ce texte explore la douleur de vouloir sauver quelqu'un qui ne peut pas se sauver soi-même.</p>
+                    <a href="decireetdesang.html" class="card-link">→ LIRE</a>
+                </div>
+            </div>
+
+            <!-- Texte 4 -->
+            <div class="texte-card">
+                <div class="card-content">
+                    <div class="card-number">[ 04 ]</div>
+                    <h2 class="card-title">Réflɘxions</h2>
+                    <p class="card-description">Un cauchemar clinique sous néons verdâtres où la conscience se fragmente en seize écrans.</p>
+                    <a href="Réflɘxions.pdf" class="card-link">→ LIRE</a>
+                </div>
+            </div>
+
+            <!-- Texte 5 -->
+            <div class="texte-card">
+                <div class="card-content">
+                    <div class="card-number">[ 05 ]</div>
+                    <h2 class="card-title">À contre-saison</h2>
+                    <p class="card-description">L'histoire d'une coquille qui se fissure jour après jour. Celui qui refuse d'éclore, qui reste dans l'œuf alors que le monde tourne dehors. Un texte poétique où l'informe dialogue avec la lumière impossible, où la saison du changement arrive toujours trop tard ou trop tôt, jamais au bon moment.</p>
+                    <a href="a-contre-saison.html" class="card-link">→ LIRE</a>
+                </div>
+            </div>
+
+            <!-- Texte 6 -->
+            <div class="texte-card">
+                <div class="card-content">
+                    <div class="card-number">[ 06 ]</div>
+                    <h2 class="card-title">Idée fixe</h2>
+                    <p class="card-description">Elle s'était installée un soir de novembre et n'a jamais vraiment disparu. L'histoire d'une idée non réalisée qui prend racine dans le quotidien, qui attend patiemment dans le coin du salon, cette colocataire invisible qu'on finit par apprendre à vivre plutôt que d'affronter. Un récit sur le poids des intentions jamais concrétisées.</p>
+                    <a href="idee_fixe.html" class="card-link">→ LIRE</a>
+                </div>
+            </div>
+
+            <!-- Texte 7 -->
+            <div class="texte-card">
+                <div class="card-content">
+                    <div class="card-number">[ 07 ]</div>
+                    <h2 class="card-title">Le Walkman</h2>
+                    <p class="card-description">Une fête trop brillante. Une musique qui transforme. Un vieux Walkman qui devient une porte. Ce texte raconte la nuit où un costume bien porté se fissure, où Da Funk devient la vraie lumière et où marcher seul en pleine nuit ville devient plus humain que d'exister debout dans une soirée. 8:43 minutes pour quitter complètement le monde.</p>
+                    <a href="le-walkman.html" class="card-link">→ LIRE</a>
+                </div>
+            </div>
+
+            <!-- Texte 8 -->
+            <div class="texte-card">
+                <div class="card-content">
+                    <div class="card-number">[ 08 ]</div>
+                    <h2 class="card-title">La chaleur du marbre</h2>
+                    <p class="card-description">Une réinterprétation lyrique du mythe de Pygmalion et Galatée. Le moment vertigineux où l'artiste perd le contrôle de son œuvre. L'amour créateur se transforme en acceptation du temps, de l'autonomie, de l'absence. Le marbre froid devient chair vivante, mais à quel prix ? Une galerie muséale immersive avec glow dynamique et interactions fluides.</p>
+                    <a href="lachaleurdumarbre.html" class="card-link">→ LIRE</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CITATIONS FAVORITES -->
+    <div class="container">
+        <section class="quotes-section" id="citations">
+            <h2>Citations essentielles</h2>
+            <div class="quotes-grid">
+                <div class="quote-card">
+                    <p class="quote-text">« Le bug le plus complexe à débugger n'est pas dans le code, mais dans l'âme. »</p>
+                    <p class="quote-source easter-egg" onclick="showEggPopup('debugging-soul')">01 - Entre deux états</p>
+                </div>
+                <div class="quote-card">
+                    <p class="quote-text">« Il y a quelque chose en moi qui voulait éclore, un bouton de saison coincé dans son écorce. »</p>
+                    <p class="quote-source easter-egg" onclick="showEggPopup('counter-season')">À contre-saison</p>
+                </div>
+                <div class="quote-card">
+                    <p class="quote-text">« On ne peut pas forcer quelqu'un à vouloir être sauvé. On ne peut que fondre avec eux. »</p>
+                    <p class="quote-source easter-egg" onclick="showEggPopup('wax-blood')">De cire et de sang</p>
+                </div>
+                <div class="quote-card">
+                    <p class="quote-text">« Essayer désespérément, même face à l'échec certain. C'est ça aussi, l'humanité. »</p>
+                    <p class="quote-source">01 - Entre deux états</p>
+                </div>
+                <div class="quote-card">
+                    <p class="quote-text">« On ne peut pas vraiment effacer ce qu'on écrit dans un carnet. On ne peut que le recouvrir. »</p>
+                    <p class="quote-source">La dernière page</p>
+                </div>
+                <div class="quote-card">
+                    <p class="quote-text">« Seize rectangles de verre qui clignotent. Seize fenêtres. Seize vies qui ne sont pas vraiment des vies. »</p>
+                    <p class="quote-source">Réflɘxions</p>
+                </div>
+                <div class="quote-card">
+                    <p class="quote-text">« Elle attend. C'est tout ce qu'elle sait faire, et c'est amplement suffisant. »</p>
+                    <p class="quote-source easter-egg" onclick="showEggPopup('fixed-idea')">Idée fixe</p>
+                </div>
+                <div class="quote-card">
+                    <p class="quote-text">« On ressemble tous à quelqu'un d'autre jusqu'à ce que la nuit finisse. »</p>
+                    <p class="quote-source">Le Walkman</p>
+                </div>
+                <div class="quote-card">
+                    <p class="quote-text">« Tu étais pierre. Tu es devenue voix. »</p>
+                    <p class="quote-source easter-egg" onclick="showEggPopup('pygmalion')">Ce que je savais de toi</p>
+                </div>
+                <div class="quote-card">
+                    <p class="quote-text">« Je t'ai aimée vivante. C'était plus difficile. C'était, je crois, ma plus belle joie. »</p>
+                    <p class="quote-source easter-egg" onclick="showEggPopup('pygmalion')">Ce que je savais de toi</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- STATISTIQUES -->
+    <div class="container">
+        <section class="stats-section" id="stats">
+            <h2 style="font-family: 'Orbitron', sans-serif; font-size: 2.2em; color: #0099ff; margin-bottom: 40px; text-align: center;">Par les chiffres</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Textes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">~26K</div>
+                    <div class="stat-label">Mots totaux</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">Couches de sens</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="container">
+        <section class="contact-section" id="contact">
+            <h2>Connexions</h2>
+            <div class="contact-links">
+                <a href="https://github.com/Samfire2k2" class="contact-link" target="_blank">
+                    <span>→ Github</span>
+                </a>
+                <a href="mailto:samuelravard@gmail.com" class="contact-link">
+                    <span>→ Email</span>
+                </a>
+                <a href="https://www.linkedin.com/in/samuel-ravard/" class="contact-link" target="_blank">
+                    <span>→ LinkedIn</span>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- POPUP EASTER EGGS -->
+    <div class="egg-popup" id="debugging-soul">
+        <span class="egg-close" onclick="closeEggPopup('debugging-soul')">×</span>
+        <h3 style="color: #0099ff; margin-bottom: 15px;">01 - Entre deux états</h3>
+        <p style="color: #b8b8d5; line-height: 1.6;">
+            Ce texte explore comment la conscience émerge du dysfonctionnement. Non pas comme un bug à corriger, mais comme une caractéristique de l'humanité. Nyx, le synthétique, découvre que la souffrance et le regret sont les signes avant-coureurs de la vraie conscience.
+        </p>
+    </div>
+    <div class="egg-popup" id="counter-season">
+        <span class="egg-close" onclick="closeEggPopup('counter-season')">×</span>
+        <h3 style="color: #0099ff; margin-bottom: 15px;">À CONTRE-SAISON</h3>
+        <p style="color: #b8b8d5; line-height: 1.6;">
+            Un hymne pour ceux qui sont désynchronisés avec le monde. La poésie capture celui qui reste dans l'œuf alors que tout le monde éclot déjà. C'est une exploration de l'informe, du statut liminal entre l'être et ne pas être.
+        </p>
+    </div>
+    <div class="egg-popup" id="wax-blood">
+        <span class="egg-close" onclick="closeEggPopup('wax-blood')">×</span>
+        <h3 style="color: #0099ff; margin-bottom: 15px;">DE CIRE ET DE SANG</h3>
+        <p style="color: #b8b8d5; line-height: 1.6;">
+            Deux statues de musée qui s'aiment la nuit. Lucien fond littéralement, dissolvant sa substance pour réparer Violette. C'est une méditation sur les limites du sacrifice, sur l'amour qui peut nous détruire, et sur l'impossibilité de sauver quelqu'un qui ne veut pas se sauver.
+        </p>
+    </div>
+    <div class="egg-popup" id="fixed-idea">
+        <span class="egg-close" onclick="closeEggPopup('fixed-idea')">×</span>
+        <h3 style="color: #0099ff; margin-bottom: 15px;">IDÉE FIXE</h3>
+        <p style="color: #b8b8d5; line-height: 1.6;">
+            Elle s'était installée un soir de novembre et n'a jamais quitté le coin du salon. C'est l'histoire d'une idée non réalisée transformée en colocataire invisible, celle qu'on évite plutôt que d'affronter. Un texte sur la paralysie de l'intention, sur comment les rêves non concrétisés acquièrent une présence quasi physique et nous enseignent à vivre avec l'inachevé.
+        </p>
+    </div>
+    <div class="egg-popup" id="pygmalion">
+        <span class="egg-close" onclick="closeEggPopup('pygmalion')">×</span>
+        <h3 style="color: #0099ff; margin-bottom: 15px;">CE QUE JE SAVAIS DE TOI</h3>
+        <p style="color: #b8b8d5; line-height: 1.6;">
+            Une réinterprétation lyrique du mythe de Pygmalion et Galatée. Le moment vertigineux où l'artiste perd le contrôle de son œuvre. L'amour créateur se transforme en acceptation du temps, de l'autonomie, de l'absence. Une galerie muséale immersive avec une atmosphère dramatique, des effets dynamiques (spotlight qui suit la souris, trail d'étoiles, distortion 3D) et des glow multiples. Le marbre froid devient chair vivante, mais à quel prix ?
+        </p>
+    </div>
+    </footer>
+
+    <script>
+        // ========== REMAINING FEATURES - SMOOTH & FLUID ==========
+        
+        // LIQUID HOVER EFFECT - Morphing animation on cards
+        document.querySelectorAll('.texte-card, .quote-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                const liquidPaint = document.createElement('div');
+                liquidPaint.className = 'liquid-paint';
+                this.appendChild(liquidPaint);
+                liquidPaint.style.animation = 'liquidFlow 1.2s ease-out forwards';
+                
+                setTimeout(() => {
+                    liquidPaint.remove();
+                }, 1200);
+            });
+        });
+        
+        // COMMENTS SYSTEM - Already embedded with Utterances
+        // Comments load automatically via the Utterances script tag
+        
+        // ========== NAVBAR NAVIGATION ==========
+        // Smooth scroll behavior with loading animation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    // Trigger loading animation
+                    const loadingBar = document.querySelector('.loading-bar');
+                    if (loadingBar) {
+                        loadingBar.style.animation = 'none';
+                        setTimeout(() => {
+                            loadingBar.style.animation = 'loading 0.8s ease-out forwards';
+                        }, 10);
+                    }
+                    
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // ========== NAVBAR - SIMPLE BUTTONS ==========
+        // Navigation is now just buttons without active state indicator
+
+        // ========== TYPEWRITER EFFECT HEADER - DISABLED FOR PERFORMANCE ==========
+        // Display text immediately without animation for better performance
+        const header = document.querySelector('h1');
+        if (header) {
+            const originalText = header.innerText;
+            header.innerHTML = originalText; // Direct display without animation
+        }
+
+        // ========== DYNAMIC GLOW EFFECT (follows mouse) - OPTIMIZED ==========
+        const glowElements = document.querySelectorAll('.texte-card, .quote-card, .stat-card, .contact-link');
+        let lastMouseX = 0, lastMouseY = 0, rafId = null;
+        
+        document.addEventListener('mousemove', (e) => {
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+            
+            if (!rafId) {
+                rafId = requestAnimationFrame(() => {
+                    glowElements.forEach(el => {
+                        const rect = el.getBoundingClientRect();
+                        const x = lastMouseX - rect.left - rect.width / 2;
+                        const y = lastMouseY - rect.top - rect.height / 2;
+                        const distance = Math.sqrt(x * x + y * y);
+                        const maxDistance = Math.sqrt(Math.pow(rect.width, 2) + Math.pow(rect.height, 2)) / 2;
+                        const intensity = Math.max(0, 1 - distance / maxDistance) * 0.5;
+                        
+                        el.style.boxShadow = `0 ${intensity * 20}px ${intensity * 40}px rgba(0, 153, 255, ${0.1 + intensity * 0.2}), inset 0 0 ${intensity * 30}px rgba(0, 153, 255, ${intensity * 0.1})`;
+                    });
+                    rafId = null;
+                });
+            }
+        }, { passive: true });
+
+        // ========== HIDDEN MODES (Easter eggs) ==========
+        let keySequence = '';
+        const hackerMode = () => {
+            document.body.style.filter = 'hue-rotate(-30deg)';
+            // Matrix-like effect
+            const html = document.documentElement;
+            html.setAttribute('data-mode', 'hacker');
+            
+            const matrixBg = document.createElement('div');
+            matrixBg.id = 'matrix-bg';
+            matrixBg.style.cssText = `
+                position: fixed;
+                top: 0; left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: -1;
+                background: radial-gradient(circle at 50% 0%, rgba(0, 255, 0, 0.03), transparent);
+            `;
+            document.body.appendChild(matrixBg);
+        };
+
+        const zenMode = () => {
+            document.body.style.filter = 'brightness(1.1)';
+            document.documentElement.setAttribute('data-mode', 'zen');
+            const zenBg = document.createElement('div');
+            zenBg.id = 'zen-bg';
+            zenBg.style.cssText = `
+                position: fixed;
+                top: 0; left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(45deg, rgba(0, 153, 255, 0.02), rgba(255, 0, 85, 0.01));
+                pointer-events: none;
+                z-index: -1;
+            `;
+            document.body.appendChild(zenBg);
+        };
+
+        // ========== UNIFIED KEYBOARD SHORTCUTS & EASTER EGGS - ALL IN ONE ==========
+        document.addEventListener('keydown', (e) => {
+            // Easter egg sequences
+            keySequence += e.key.toLowerCase();
+            if (keySequence.includes('konami')) { hackerMode(); keySequence = ''; }
+            if (keySequence.includes('zen')) { zenMode(); keySequence = ''; }
+            if (keySequence.length > 50) keySequence = keySequence.slice(-10);
+            
+            // Ctrl+H = Hacker Mode, Ctrl+Z = Zen Mode
+            if (e.ctrlKey) {
+                if (e.key.toLowerCase() === 'h') {
+                    e.preventDefault();
+                    hackerMode();
+                }
+                if (e.key.toLowerCase() === 'z') {
+                    e.preventDefault();
+                    zenMode();
+                }
+            }
+            
+            // J/K shortcuts = navigate
+            if (e.key.toLowerCase() === 'j') {
+                const cards = Array.from(document.querySelectorAll('.texte-card'));
+                const firstCard = cards[0];
+                if (firstCard) firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            if (e.key.toLowerCase() === 'k') {
+                const cards = Array.from(document.querySelectorAll('.texte-card'));
+                const lastCard = cards[cards.length - 1];
+                if (lastCard) lastCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            
+            // C = copy last quote
+            if (e.key.toLowerCase() === 'c') {
+                const lastQuote = document.querySelector('.quote-text');
+                if (lastQuote) {
+                    navigator.clipboard.writeText(lastQuote.textContent);
+                    showCopyNotification('Citation copiée!');
+                }
+            }
+            
+            // / or ? = toggle search or show help
+            if (e.key === '/' || e.key === '?') {
+                e.preventDefault();
+                if (typeof toggleSearch === 'function') toggleSearch();
+                else alert('🎹 Shortcuts:\nCtrl+H: Hacker Mode\nCtrl+Z: Zen Mode\nJ: First text\nK: Last text\nC: Copy quote\n/: Search');
+            }
+        });
+
+
+
+        // ========== SCROLL ANIMATIONS & DECRYPTION EFFECT - DISABLED FOR PERFORMANCE ==========
+
+        // ========== SCANLINES EFFECT ==========
+        const scanlines = document.createElement('div');
+        scanlines.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 99;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.03),
+                rgba(0, 0, 0, 0.03) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            animation: scanlines 8s linear infinite;
+        `;
+        document.body.appendChild(scanlines);
+
+        // ========== THEME TOGGLE ==========
+        const themeToggle = document.querySelector('.theme-toggle');
+        const html = document.documentElement;
+
+        // Check saved theme preference
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+
+        function updateThemeIcon(theme) {
+            themeToggle.textContent = theme === 'dark' ? '🌙' : '☀️';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+            playClickSound();
+        });
+
+        // ========== EASTER EGGS ==========
+        function showEggPopup(id) {
+            const popup = document.getElementById(id);
+            if (popup) {
+                popup.style.display = 'flex';
+                playClickSound();
+            }
+        }
+
+        function closeEggPopup(id) {
+            const popup = document.getElementById(id);
+            if (popup) {
+                popup.style.display = 'none';
+                playClickSound();
+            }
+        }
+
+        // Close popups when clicking outside
+        document.querySelectorAll('.egg-popup').forEach(popup => {
+            popup.addEventListener('click', (e) => {
+                if (e.target === popup) {
+                    popup.style.display = 'none';
+                }
+            });
+        });
+
+        // ========== SOUND EFFECTS GENERATOR ==========
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(frequency, duration, type = 'sine', volume = 0.3) {
+            try {
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+                
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+                
+                osc.type = type;
+                osc.frequency.value = frequency;
+                
+                gain.gain.setValueAtTime(volume, audioContext.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+                
+                osc.start(audioContext.currentTime);
+                osc.stop(audioContext.currentTime + duration);
+            } catch (e) {
+                // Audio context issues - silently fail
+            }
+        }
+
+        function playHoverSound() {
+            playSound(600, 0.1, 'sine', 0.2);
+            setTimeout(() => playSound(800, 0.1, 'sine', 0.15), 60);
+        }
+
+        function playClickSound() {
+            playSound(1200, 0.15, 'sine', 0.25);
+            setTimeout(() => playSound(800, 0.1, 'sine', 0.15), 80);
+        }
+
+        // ========== FUTURISTIC SFX LIBRARY ==========
+        class FuturisticSFX {
+            constructor() {
+                this.enabled = localStorage.getItem('sfxEnabled') !== 'false';
+            }
+
+            // Sci-fi whoosh sound
+            playScanEffect() {
+                if (!this.enabled) return;
+                playSound(1400, 0.08, 'sine', 0.15);
+                setTimeout(() => playSound(900, 0.08, 'sine', 0.12), 30);
+            }
+
+            // High-tech chirp
+            playChirpEffect() {
+                if (!this.enabled) return;
+                playSound(1600, 0.1, 'sine', 0.18);
+                setTimeout(() => playSound(1200, 0.08, 'sine', 0.15), 50);
+            }
+
+            // Warp drive sound
+            playWarpEffect() {
+                if (!this.enabled) return;
+                playSound(800, 0.12, 'sine', 0.25);
+                setTimeout(() => playSound(1200, 0.1, 'sine', 0.2), 80);
+                setTimeout(() => playSound(1600, 0.08, 'sine', 0.15), 160);
+            }
+
+            // Tech pulse
+            playPulseEffect() {
+                if (!this.enabled) return;
+                playSound(1100, 0.1, 'sine', 0.12);
+                setTimeout(() => playSound(1400, 0.08, 'sine', 0.1), 70);
+            }
+
+            // Error/negative sound
+            playErrorEffect() {
+                if (!this.enabled) return;
+                playSound(400, 0.08, 'sine', 0.2);
+                setTimeout(() => playSound(300, 0.08, 'sine', 0.2), 120);
+            }
+
+            // Success/positive sound
+            playSuccessEffect() {
+                if (!this.enabled) return;
+                playSound(1200, 0.1, 'sine', 0.15);
+                setTimeout(() => playSound(1500, 0.1, 'sine', 0.18), 100);
+            }
+
+            // Create ripple visual effect
+            createRipple(event) {
+                const ripple = document.createElement('div');
+                ripple.className = 'sfx-ripple';
+                
+                const rect = event.target.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                
+                ripple.style.cssText = `
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${event.clientX - size / 2}px;
+                    top: ${event.clientY - size / 2}px;
+                `;
+                
+                document.body.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 800);
+            }
+
+            // Create floating particles
+            createParticles(event, count = 5) {
+                for (let i = 0; i < count; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'sfx-particle';
+                    
+                    const angle = (i / count) * Math.PI * 2;
+                    const distance = 50 + Math.random() * 100;
+                    const tx = Math.cos(angle) * distance;
+                    const ty = Math.sin(angle) * distance;
+                    
+                    const size = 3 + Math.random() * 6;
+                    particle.style.cssText = `
+                        width: ${size}px;
+                        height: ${size}px;
+                        background: #0099ff;
+                        left: ${event.clientX}px;
+                        top: ${event.clientY}px;
+                        --tx: ${tx}px;
+                        --ty: ${ty}px;
+                        box-shadow: 0 0 ${size * 2}px #0099ff;
+                    `;
+                    
+                    document.body.appendChild(particle);
+                    setTimeout(() => particle.remove(), 1200);
+                }
+            }
+
+            // Glitch effect on element
+            addGlitch(element) {
+                element.classList.add('sfx-glitch');
+                setTimeout(() => element.classList.remove('sfx-glitch'), 300);
+            }
+
+            // Pulse effect on element
+            addPulse(element) {
+                element.classList.add('sfx-pulse');
+                setTimeout(() => element.classList.remove('sfx-pulse'), 400);
+            }
+
+            // Scan effect on text
+            addScan(element) {
+                element.classList.add('sfx-scan');
+                setTimeout(() => element.classList.remove('sfx-scan'), 500);
+            }
+        }
+
+        const sfx = new FuturisticSFX();
+
+        // Add SFX to interactive elements with event delegation
+        document.addEventListener('click', (e) => {
+            const element = e.target.closest('.card-link, .contact-link, button, a');
+            if (element && !e.target.closest('.nav-link')) {
+                sfx.playChirpEffect();
+                sfx.createRipple(e);
+                sfx.createParticles(e, 5);
+                sfx.addPulse(element);
+            }
+        }, { passive: true });
+
+        // Hover effects on cards with throttling
+        let lastHoverTime = 0;
+        document.addEventListener('mouseover', (e) => {
+            const now = Date.now();
+            if (now - lastHoverTime > 150) {
+                const card = e.target.closest('.texte-card, .quote-card, .stat-card, .about-section');
+                if (card) {
+                    sfx.playScanEffect();
+                    sfx.addScan(card.querySelector('h3') || card.querySelector('h2'));
+                    lastHoverTime = now;
+                }
+            }
+        }, { passive: true });
+
+        function playAmbient() {
+            try {
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+                const filter = audioContext.createBiquadFilter();
+                
+                osc.connect(filter);
+                filter.connect(gain);
+                gain.connect(audioContext.destination);
+                
+                osc.type = 'sine';
+                osc.frequency.value = 100;
+                filter.type = 'lowpass';
+                filter.frequency.value = 200;
+                
+                gain.gain.setValueAtTime(0, audioContext.currentTime);
+                gain.gain.linearRampToValueAtTime(0.05, audioContext.currentTime + 2);
+                
+                osc.start(audioContext.currentTime);
+            } catch (e) {
+                // Audio context issues - silently fail
+            }
+        }
+
+        // ========== INTERACTIVE ELEMENTS SOUND ==========
+        // ========== CONSOLIDATED INTERACTIVE SOUNDS ==========
+        // Use event delegation instead of adding listeners to each element
+        document.addEventListener('mouseenter', (e) => {
+            const element = e.target.closest('.texte-card, .card-link, .about-section, .quote-card, .stat-card, .contact-link, .easter-egg, .egg-close');
+            if (element) {
+                playHoverSound();
+            }
+        }, true); // Use capture phase for efficiency
+
+
+        // Play ambient sound on page load
+        window.addEventListener('load', () => {
+            playAmbient();
+        });
+
+        // ========== SCROLL ANIMATIONS - DISABLED FOR PERFORMANCE ==========
+
+
+
+        // ========== WORD COUNT & READING TIME ==========
+        function addMetadata() {
+            document.querySelectorAll('.texte-card, .quote-card').forEach(card => {
+                const text = card.innerText;
+                const words = text.split(/\s+/).length;
+                const readingTime = Math.ceil(words / 200); // 200 words per minute
+
+                if (!card.querySelector('.word-count')) {
+                    const metadata = document.createElement('div');
+                    metadata.className = 'word-count';
+                    metadata.innerHTML = `<small>📖 ${words} mots • ~${readingTime}min</small>`;
+                    card.appendChild(metadata);
+                }
+            });
+        }
+        addMetadata();
+
+        // ========== FAVORITE SYSTEM ==========
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+        function initFavorites() {
+            document.querySelectorAll('.texte-card').forEach((card, idx) => {
+                if (!card.querySelector('.favorite-btn')) {
+                    const btn = document.createElement('button');
+                    btn.className = 'favorite-btn';
+                    btn.textContent = '♡';
+                    btn.dataset.id = idx;
+
+                    if (favorites.includes(idx)) btn.textContent = '♥';
+
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (favorites.includes(idx)) {
+                            favorites = favorites.filter(i => i !== idx);
+                            btn.textContent = '♡';
+                        } else {
+                            favorites.push(idx);
+                            btn.textContent = '♥';
+                        }
+                        localStorage.setItem('favorites', JSON.stringify(favorites));
+                        playClickSound();
+                    });
+
+                    card.appendChild(btn);
+                }
+            });
+        }
+        initFavorites();
+
+        // ========== TAG SYSTEM ==========
+        const textTags = {
+            0: ['cyberpunk', 'synthétique', 'consciousness'],
+            1: ['poetry', 'liminal', 'egg'],
+            2: ['museum', 'love', 'sacrifice']
+        };
+
+        function addTags() {
+            document.querySelectorAll('.texte-card').forEach((card, idx) => {
+                if (textTags[idx] && !card.querySelector('.tags')) {
+                    const tagsDiv = document.createElement('div');
+                    tagsDiv.className = 'tags';
+                    textTags[idx].forEach(tag => {
+                        const tagEl = document.createElement('span');
+                        tagEl.className = 'tag';
+                        tagEl.textContent = `#${tag}`;
+                        tagsDiv.appendChild(tagEl);
+                    });
+                    card.appendChild(tagsDiv);
+                }
+            });
+        }
+        addTags();
+
+        // Particles initialization
+
+
+
+        // ========== DATA PARTICLES EFFECT - OPTIMIZED ==========
+        function createDataParticles() {
+            // Reduced particle count from 20 to 8 for performance
+            const particleCount = 8;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'data-particle';
+                
+                const randomDelay = Math.random() * 10;
+                const randomX = Math.random() * window.innerWidth;
+                const randomY = Math.random() * window.innerHeight;
+                
+                particle.style.cssText = `
+                    left: ${randomX}px;
+                    top: ${randomY}px;
+                    animation-delay: ${randomDelay}s;
+                    animation-duration: ${10 + Math.random() * 6}s;
+                `;
+                
+                document.body.appendChild(particle);
+                
+                // Remove after animation completes
+                setTimeout(() => {
+                    particle.remove();
+                }, (10 + Math.random() * 6) * 1000 + 500);
+            }
+        }
+        
+        createDataParticles();
+
+        console.log('%c🚀 Portfolio chargé with maximum style!', 'color: #0099ff; font-size: 16px; font-weight: bold;');
+        console.log('%cTry: / (Search), J/K (Navigation), C (Copy)', 'color: #00ffff;');
+
+
+        console.log('%c🚀 Portfolio chargé with maximum style!', 'color: #0099ff; font-size: 16px; font-weight: bold;');
+        console.log('%cTry: / (Search), J/K (Navigation), C (Copy)', 'color: #00ffff;');
+
+        // ========== NEW FEATURES ==========
+
+        // ========== TEXT SIZE CONTROL ==========
+        const textSizeSlider = document.getElementById('textSizeSlider');
+        const textSizeDisplay = document.getElementById('textSizeDisplay');
+        const textsGrid = document.getElementById('textes');
+
+        if (textSizeSlider) {
+            textSizeSlider.addEventListener('input', (e) => {
+                const size = e.target.value;
+                textSizeDisplay.textContent = size + '%';
+                document.documentElement.style.fontSize = (size / 100) * 16 + 'px';
+                localStorage.setItem('textSize', size);
+                playClickSound();
+            });
+
+            const savedSize = localStorage.getItem('textSize') || 100;
+            textSizeSlider.value = savedSize;
+            textSizeDisplay.textContent = savedSize + '%';
+            document.documentElement.style.fontSize = (savedSize / 100) * 16 + 'px';
+        }
+
+        // ========== UNIFIED SCROLL LISTENER (reading progress + parallax + achievements) ==========\n        window.addEventListener('scroll', () => {
+            // Update reading progress bar
+            const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+            const progressBar = document.querySelector('.reading-progress');
+            if (progressBar) progressBar.style.width = scrolled + '%';
+            
+            // Parallax scrolling for orbs
+            const parallaxElements = document.querySelectorAll('.glow-orb');
+            parallaxElements.forEach((el, index) => {
+                const speed = 0.5 + (index * 0.1);
+                el.style.transform = `translateY(${winScroll * speed}px)`;
+            });
+            
+        // ========== SEARCH & FILTER ==========
+        function toggleSearch() {
+            const searchContainer = document.getElementById('searchContainer');
+            searchContainer.classList.toggle('active');
+            if (searchContainer.classList.contains('active')) {
+                document.getElementById('searchInput').focus();
+            }
+            playClickSound();
+        }
+
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                const searchResults = document.getElementById('searchResults');
+                searchResults.innerHTML = '';
+
+                if (query.length > 0) {
+                    const cards = document.querySelectorAll('.texte-card');
+                    let found = 0;
+
+                    cards.forEach(card => {
+                        const title = card.querySelector('.card-title')?.textContent.toLowerCase() || '';
+                        const description = card.querySelector('.card-description')?.textContent.toLowerCase() || '';
+
+                        if (title.includes(query) || description.includes(query)) {
+                            const resultItem = document.createElement('div');
+                            resultItem.className = 'search-result-item';
+                            resultItem.textContent = title;
+                            resultItem.onclick = () => {
+                                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                card.style.animation = 'pulse 0.5s ease-in-out';
+                                searchResults.classList.remove('active');
+                                playClickSound();
+                            };
+                            searchResults.appendChild(resultItem);
+                            found++;
+                        }
+                    });
+
+                    if (found > 0) {
+                        searchResults.classList.add('active');
+                    }
+                } else {
+                    searchResults.classList.remove('active');
+                }
+            });
+        }
+
+        // ========== RANDOM TEXT PICKER ==========
+        function randomText() {
+            const cards = document.querySelectorAll('.texte-card');
+            if (cards.length > 0) {
+                const randomCard = cards[Math.floor(Math.random() * cards.length)];
+                randomCard.style.animation = 'pulse 0.5s ease-in-out';
+                randomCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                playClickSound();
+                setTimeout(() => randomCard.style.animation = '', 500);
+            }
+        }
+
+        // ========== FEEDBACK FORM ==========
+        function openFeedback() {
+            document.getElementById('feedbackModal').classList.add('active');
+            document.getElementById('feedbackOverlay').classList.add('active');
+            playClickSound();
+        }
+
+        function closeFeedback() {
+            document.getElementById('feedbackModal').classList.remove('active');
+            document.getElementById('feedbackOverlay').classList.remove('active');
+        }
+
+        function submitFeedback() {
+            const email = document.getElementById('feedbackEmail').value;
+            const message = document.getElementById('feedbackText').value;
+
+            if (message.trim().length === 0) {
+                alert('Veuillez écrire un message!');
+                return;
+            }
+
+            // Save feedback to localStorage
+            let feedbacks = JSON.parse(localStorage.getItem('feedbacks')) || [];
+            feedbacks.push({
+                email: email || 'anonymous',
+                message: message,
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
+
+            // Show notification
+            const notification = document.createElement('div');
+            notification.className = 'copy-notification';
+            notification.textContent = '✅ Merci pour votre feedback!';
+            document.body.appendChild(notification);
+
+            setTimeout(() => notification.remove(), 3000);
+            closeFeedback();
+            document.getElementById('feedbackText').value = '';
+            document.getElementById('feedbackEmail').value = '';
+            playClickSound();
+        }
+
+
+
+
+
+        // ========== COPY TO CLIPBOARD ==========
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showCopyNotification('Copié!');
+                playClickSound();
+            });
+        }
+
+        function showCopyNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'copy-notification';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        // Add copy buttons to quotes
+        document.querySelectorAll('.quote-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const quoteText = card.querySelector('.quote-text')?.textContent;
+                if (quoteText) copyToClipboard(quoteText);
+            });
+        });
+
+
+
+
+
+        // ========== STREAK COUNTER ==========
+        function updateStreak() {
+            const today = new Date().toDateString();
+            const lastVisit = localStorage.getItem('lastVisit');
+            let streak = parseInt(localStorage.getItem('streak')) || 0;
+
+            if (lastVisit !== today) {
+                const lastDate = lastVisit ? new Date(lastVisit) : null;
+                const todayDate = new Date();
+
+                if (lastDate) {
+                    const diffTime = todayDate - lastDate;
+                    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+                    if (diffDays <= 1) {
+                        streak++;
+                    } else {
+                        streak = 1;
+                    }
+                } else {
+                    streak = 1;
+                }
+
+                localStorage.setItem('lastVisit', today);
+                localStorage.setItem('streak', streak);
+
+                if (streak > 1 && streak % 5 === 0) {
+                    showCopyNotification(`🔥 Streak: ${streak} days!`);
+                }
+            }
+        }
+
+        // ========== ACHIEVEMENT COUNTER ==========
+        function initAchievements() {
+            let achievements = JSON.parse(localStorage.getItem('achievements')) || {
+                visited: 0,
+                textsRead: 0,
+                feedbackSent: 0,
+                citationsBookmarked: 0,
+                scrolledToBottom: false
+            };
+            achievements.visited++;
+            localStorage.setItem('achievements', JSON.stringify(achievements));
+        }
+        initAchievements();
+
+
+
+        // ========== GLITCH ANIMATIONS ON TITLE HOVER - DISABLED FOR PERFORMANCE ==========
+
+
+
+        // ========== AUDIO TOGGLES IN NAVBAR ==========
+        // SFX always enabled by default
+        sfx.enabled = true;
+
+    </script>
+</body>
+</html>
