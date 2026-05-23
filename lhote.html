@@ -144,8 +144,7 @@
       0 0 60px rgba(122,75,255,0.45);
     letter-spacing: 0.05em;
     margin-bottom: 4rem;
-    opacity: 0;
-    animation: fadeIn 2s ease 0.5s forwards;
+    opacity: 1;
   }
 
   .title::after {
@@ -161,8 +160,7 @@
 
   p {
     margin-bottom: 1.4em;
-    opacity: 0;
-    animation: riseIn 1s ease forwards;
+    opacity: 1;
     position: relative;
   }
 
@@ -209,7 +207,6 @@
     margin: 0.3em 0;
     position: relative;
     padding-left: 1.2em;
-    animation: infectionPulse 14s ease-in-out infinite, staticFlicker 6s steps(3) infinite;
   }
 
   .voice-inner::before {
@@ -231,7 +228,6 @@
       0 0 40px rgba(122,75,255,0.6),
       0 0 90px rgba(5,7,11,0.4);
     letter-spacing: 0.08em;
-    animation: infectionPulse 12s ease-in-out infinite, echoShift 18s ease-in-out infinite;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -272,7 +268,6 @@
     filter: blur(110px);
     pointer-events: none;
     z-index: 0;
-    animation: drift 12s ease-in-out infinite alternate;
     opacity: 0.9;
     mix-blend-mode: screen;
   }
@@ -283,7 +278,6 @@
     background: radial-gradient(circle, rgba(122,75,255,0.25) 0%, rgba(6,8,12,0.02) 60%, transparent 75%);
     top: -100px;
     left: -100px;
-    animation-delay: 0s;
   }
 
   .blob-2 {
@@ -292,7 +286,6 @@
     background: radial-gradient(circle, rgba(155,230,255,0.22) 0%, rgba(6,8,12,0.02) 60%, transparent 75%);
     bottom: -100px;
     right: -100px;
-    animation-delay: -6s;
   }
 
   .blob-3 {
@@ -301,7 +294,6 @@
     background: radial-gradient(circle, rgba(5,7,11,0.85) 0%, rgba(9,12,18,0.2) 55%, transparent 75%);
     top: 45vh;
     left: 60vw;
-    animation-delay: -3s;
     mix-blend-mode: multiply;
   }
 
@@ -378,8 +370,6 @@
 
   .glitch-word {
     display: inline-block;
-    animation: glitch 8s ease-in-out infinite;
-    animation-delay: var(--gd, 0s);
   }
 
   .tendril-line {
@@ -388,7 +378,6 @@
     background: linear-gradient(to bottom, transparent, rgba(6,8,12,0.5), rgba(122,75,255,0.16), transparent);
     pointer-events: none;
     z-index: 0;
-    animation: tendrilPulse 4s ease-in-out infinite alternate;
   }
 
   @keyframes tendrilPulse {
@@ -404,36 +393,36 @@
     filter: blur(2px);
   }
 
-  p:nth-child(2) { animation-delay: 0.8s; }
-  p:nth-child(3) { animation-delay: 1.2s; }
-  p:nth-child(4) { animation-delay: 1.6s; }
-  p:nth-child(5) { animation-delay: 2s; }
-  p:nth-child(6) { animation-delay: 2.4s; }
-  p:nth-child(7) { animation-delay: 2.8s; }
-  p:nth-child(8) { animation-delay: 3.1s; }
-  p:nth-child(9) { animation-delay: 3.4s; }
-  p:nth-child(10) { animation-delay: 3.7s; }
-  p:nth-child(11) { animation-delay: 4s; }
-  p:nth-child(12) { animation-delay: 4.3s; }
-  p:nth-child(13) { animation-delay: 4.6s; }
-  p:nth-child(14) { animation-delay: 4.9s; }
-  p:nth-child(15) { animation-delay: 5.2s; }
-  p:nth-child(16) { animation-delay: 5.5s; }
-  p:nth-child(17) { animation-delay: 5.8s; }
-  p:nth-child(18) { animation-delay: 6.1s; }
-  p:nth-child(19) { animation-delay: 6.4s; }
-  p:nth-child(20) { animation-delay: 6.7s; }
-  p:nth-child(21) { animation-delay: 7s; }
-  p:nth-child(22) { animation-delay: 7.3s; }
-  p:nth-child(23) { animation-delay: 7.6s; }
-  p:nth-child(24) { animation-delay: 7.9s; }
-  p:nth-child(25) { animation-delay: 8.2s; }
-  p:nth-child(26) { animation-delay: 8.5s; }
-  p:nth-child(27) { animation-delay: 8.8s; }
-  p:nth-child(28) { animation-delay: 9.1s; }
-  p:nth-child(29) { animation-delay: 9.4s; }
-  p:nth-child(30) { animation-delay: 9.7s; }
-  p:nth-child(n+31) { animation-delay: 10s; }
+  p:nth-child(2) { }
+  p:nth-child(3) { }
+  p:nth-child(4) { }
+  p:nth-child(5) { }
+  p:nth-child(6) { }
+  p:nth-child(7) { }
+  p:nth-child(8) { }
+  p:nth-child(9) { }
+  p:nth-child(10) { }
+  p:nth-child(11) { }
+  p:nth-child(12) { }
+  p:nth-child(13) { }
+  p:nth-child(14) { }
+  p:nth-child(15) { }
+  p:nth-child(16) { }
+  p:nth-child(17) { }
+  p:nth-child(18) { }
+  p:nth-child(19) { }
+  p:nth-child(20) { }
+  p:nth-child(21) { }
+  p:nth-child(22) { }
+  p:nth-child(23) { }
+  p:nth-child(24) { }
+  p:nth-child(25) { }
+  p:nth-child(26) { }
+  p:nth-child(27) { }
+  p:nth-child(28) { }
+  p:nth-child(29) { }
+  p:nth-child(30) { }
+  p:nth-child(n+31) { }
 
   .cursor-glow {
     position: fixed;
@@ -452,6 +441,131 @@
     border-top: 1px solid rgba(122,75,255,0.28);
     margin: 2em 0;
     box-shadow: 0 0 12px rgba(6,8,12,0.6);
+  }
+
+  /* ========== OPTIMISATION PDF/IMPRESSION ========== */
+  @media print {
+    /* Enlever les backgrounds complexes */
+    body::before,
+    body::after {
+      display: none !important;
+    }
+
+    /* Enlever tous les éléments fixed */
+    .noise,
+    .symbiote-blob,
+    .blob-1,
+    .blob-2,
+    .blob-3,
+    .tendrils-canvas,
+    .cursor-glow,
+    .tendril-line,
+    .ink-splatter {
+      display: none !important;
+    }
+
+    /* Enlever les pseudo-éléments complexes */
+    p::before,
+    p::after,
+    .title::after,
+    .web-overlay,
+    .web-overlay::before,
+    .web-overlay::after {
+      display: none !important;
+    }
+
+    /* Désactiver toutes les animations */
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    /* Couleurs optimisées pour l'impression */
+    html, body {
+      background: white;
+      color: #000;
+      font-size: 12pt;
+      line-height: 1.6;
+    }
+
+    .title {
+      color: #000;
+      text-shadow: none;
+      font-size: 24pt;
+      font-weight: bold;
+      margin-bottom: 1.5em;
+    }
+
+    /* Texte clair et lisible */
+    .voice-normal {
+      color: #333;
+      text-shadow: none;
+    }
+
+    .voice-inner,
+    .scream {
+      color: #000;
+      text-shadow: none;
+      font-weight: normal;
+    }
+
+    .voice-inner::before {
+      display: none;
+    }
+
+    .silence {
+      color: #666;
+      text-shadow: none;
+      margin: 1.5em 0;
+    }
+
+    .end {
+      color: #333;
+    }
+
+    .end .final-line {
+      color: #000;
+      text-shadow: none;
+      font-weight: bold;
+    }
+
+    hr.divider {
+      border-top: 1px solid #999;
+      box-shadow: none;
+      margin: 1.5em 0;
+    }
+
+    /* Conteneur adapté */
+    .container {
+      max-width: 100%;
+      padding: 2rem 1rem;
+      margin: 0;
+    }
+
+    /* Pagination */
+    p {
+      page-break-inside: avoid;
+      orphans: 3;
+      widows: 3;
+      margin-bottom: 1em;
+    }
+
+    /* Éviter les coupures */
+    .silence {
+      page-break-inside: avoid;
+    }
+
+    /* Format A4 optimisé */
+    @page {
+      size: A4;
+      margin: 1.5cm;
+    }
+
+    /* Enlever les liens bleus pour l'impression */
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
   }
 </style>
 </head>
