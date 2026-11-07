@@ -48,6 +48,7 @@ details p{margin:.8rem 0 0;animation:drop .5s cubic-bezier(.3,1.4,.5,1)}
 #fin{opacity:0;transform:translateY(14px);transition:opacity 1.4s .5s,transform 1.4s .5s;font-size:1.2em;font-weight:600;min-height:6rem}
 #fin.show{opacity:1;transform:none}
 .pt{position:fixed;width:8px;height:8px;border-radius:50%;pointer-events:none;z-index:6}
+.kiss{position:fixed;pointer-events:none;z-index:8;font-size:clamp(1.3rem,4vw,2.2rem);filter:drop-shadow(0 0 10px rgba(255,143,184,.9))}
 .food{position:fixed;z-index:-1;pointer-events:none;filter:drop-shadow(0 0 12px rgba(255,255,255,.8));font-size:clamp(1.4rem,3vw,2.4rem);opacity:.68;animation:foodFloat var(--d) ease-in-out var(--dl) infinite alternate}
 .food:nth-of-type(2n){animation-name:lemonTwinkle}.food:nth-of-type(3n){animation-name:soupWobble}.food:nth-of-type(5n){animation-name:eggBob}
 .heat{position:absolute;width:5px;height:5px;border-radius:50%;background:#ffbd55;box-shadow:0 0 10px #ff7a4d,0 0 21px rgba(255,216,74,.85);pointer-events:none;opacity:.75;animation:crackle var(--d) ease-out var(--dl) infinite}
@@ -62,7 +63,7 @@ body.sad .food,body.sad .steam{opacity:.06;filter:grayscale(1);transition:opacit
 @keyframes soupWobble{50%{transform:translate3d(var(--dx),-14px,0) rotate(-12deg) scale(1.08,.93)}}
 @keyframes eggBob{50%{transform:translate3d(var(--dx),-34px,0) rotate(9deg) scale(.92,1.1)}}
 @keyframes crackle{0%{transform:translate(0,10px) scale(.4);opacity:0}25%{opacity:.9}100%{transform:translate(var(--dx),-60px) scale(0);opacity:0}}
-@media (prefers-reduced-motion:reduce){.sp,.food,.steam,.heat{display:none}h1,h1 span,summary,#salt{animation:none}.bg{transition:none}}
+@media (prefers-reduced-motion:reduce){.sp,.food,.steam,.heat,.kiss{display:none}h1,h1 span,summary,#salt{animation:none}.bg{transition:none}}
 </style>
 </head>
 <body>
@@ -109,7 +110,7 @@ body.sad .food,body.sad .steam{opacity:.06;filter:grayscale(1);transition:opacit
 <p class="say">— Je t’aime, Hélène. Je t’aime.</p>
 <p>Elle n’a rien dit. Elle a poussé la salière vers moi, doucement, pour que je le fasse moi-même.</p>
 <p style="text-align:center;margin:2.2rem 0"><button id="salt" type="button">Saler l’omelette</button></p>
-<p id="fin" aria-live="polite">J’ai salé. Elle a mangé jusqu’au bout, l’omelette brûlée, tout. Et moi, pour une fois, je l’ai regardée manger.<br><br>Je suis gourmand, oui. J’ai passé trente-deux ans à dévorer l’amour sans jamais le goûter.</p>
+<p id="fin" aria-live="polite">J’ai salé. Elle a mangé jusqu’au bout, l’omelette brûlée, tout. Et moi, pour une fois, je l’ai regardée manger.<br><br>Quand elle a reposé sa fourchette, je me suis penché et je l’ai embrassée. Elle avait un goût de sel et de beurre noir.<br><br>Je suis gourmand, oui. J’ai passé trente-deux ans à dévorer l’amour sans jamais le goûter. Ce dimanche-là, je l’ai goûté.</p>
 </section>
 </article>
 
@@ -131,8 +132,9 @@ var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isInter
 document.querySelectorAll('.scene').forEach(function(s){io.observe(s)});
 function burst(x,y,n,pal){for(var i=0;i<n;i++){var d=document.createElement('span');d.className='pt';d.style.left=x+'px';d.style.top=y+'px';d.style.background=pal[i%pal.length];document.body.appendChild(d);var a=Math.random()*6.28,r=60+Math.random()*130;d.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:'translate('+Math.cos(a)*r+'px,'+(Math.sin(a)*r+60)+'px) scale(.3)',opacity:0}],{duration:900+Math.random()*500,easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish=function(){this.effect.target.remove()}}}
 function saltTrail(x,y){for(var i=0;i<54;i++){var g=document.createElement('i');g.className='salt-grain';g.style.left=x+'px';g.style.top=y+'px';document.body.appendChild(g);var dx=(Math.random()-.5)*190,dy=20+Math.random()*180;g.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:'translate('+dx+'px,'+dy+'px) scale(.35)',opacity:0}],{duration:700+Math.random()*700,easing:'cubic-bezier(.18,.76,.34,1)'}).onfinish=function(){this.effect.target.remove()}}}
+function kisses(){var W=innerWidth,H=innerHeight;for(var i=0;i<14;i++){(function(i){setTimeout(function(){var k=document.createElement('span');k.className='kiss';k.textContent='💋';k.setAttribute('aria-hidden','true');var x=W*(.15+Math.random()*.7);k.style.left=x+'px';k.style.top=(H*.78)+'px';document.body.appendChild(k);var dx=(Math.random()-.5)*120,r=(Math.random()-.5)*50;k.animate([{transform:'translate(0,0) scale(.3) rotate(0)',opacity:0},{transform:'translate('+dx*.3+'px,-'+H*.12+'px) scale(1.1) rotate('+r*.5+'deg)',opacity:1,offset:.25},{transform:'translate('+dx+'px,-'+H*.6+'px) scale(.8) rotate('+r+'deg)',opacity:0}],{duration:2200+Math.random()*1000,easing:'cubic-bezier(.3,.7,.4,1)'}).onfinish=function(){k.remove()}},i*140)})(i)}}
 document.addEventListener('click',function(e){if(e.target.id==='salt')return;burst(e.clientX,e.clientY,14,document.body.classList.contains('sad')?['#ffffff','#d5d2da']:cols)});
-document.getElementById('salt').addEventListener('click',function(e){salted=true;var r=this.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,45,cols);saltTrail(r.left+r.width/2,r.top+r.height/2);document.body.classList.remove('sad');setBg(3);document.getElementById('fin').classList.add('show');this.style.display='none'});
+document.getElementById('salt').addEventListener('click',function(e){salted=true;var r=this.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,45,cols);saltTrail(r.left+r.width/2,r.top+r.height/2);document.body.classList.remove('sad');setBg(3);document.getElementById('fin').classList.add('show');this.style.display='none';setTimeout(kisses,2800)});
 var bar=document.getElementById('bar');
 addEventListener('scroll',function(){var h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'},{passive:true});
 })();
