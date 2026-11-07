@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Les Péchés du Royaume</title>
+<title>Pacify Her</title>
 <style>
 :root{color-scheme:dark;--bg:#080914;--panel:#101328;--ink:#e9edff;--mut:#8991b7;--acc:#b58cff;--hot:#ff4fd8;--line:rgba(181,140,255,.42);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -99,7 +99,7 @@ const $=id=>document.getElementById(id),m=$('m');
 let cur;
 const fmt=t=>t.replace(/\{(\S+?)\}(s?)/g,(_,w,s)=>`<span class="k" data-n="${K[w]||''}">${w}${s}</span>`);
 function home(){document.body.removeAttribute('data-s');scrollTo(0,0);
-m.innerHTML='<h1>Les Péchés du Royaume</h1><div class="orn">⟡ ━ ✦ ━ ⟡</div><div class="cards"></div>';
+m.innerHTML='<h1>Pacify Her</h1><div class="orn">⟡ ━ ✦ ━ ⟡</div><div class="cards"></div>';
 for(const k in S){const s=S[k],b=document.createElement('button');b.className='card';b.style.setProperty('--c',s.c);b.innerHTML=`<b>${s.ic} ${s.t}</b><i>${s.n}</i>`;b.onclick=()=>start(k);m.lastChild.appendChild(b)}}
 function start(k){cur=S[k];cur.done=0;document.body.dataset.s=k;scrollTo(0,0);
 m.innerHTML=`<div class="nav"><button class="mini" id="h">‹ Royaume</button></div><h1>${cur.t}</h1><div class="sub">${cur.n}</div><div class="ep">${cur.ep}</div><div id="t"></div>`;
