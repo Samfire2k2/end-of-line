@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ce que dit le beurre</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Quicksand:wght@400..700&display=swap">
+<style>
+:root{--ink:#4b2330;--pink:#ff8fb8;--mint:#7fdcbc;--lemon:#ffd84a;--car:#e8a25b;
+--g0:linear-gradient(160deg,#ffd6e7,#fff1b8 60%,#ffd9b0);
+--g1:linear-gradient(160deg,#c9f5e4,#ffe9f1 70%,#fff6c4);
+--g2:linear-gradient(160deg,#e9e6eb,#d6d3da 60%,#cbc7d0);
+--g3:linear-gradient(160deg,#ffd0b0,#ffb8d2 55%,#fff0a8);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#ffe8f1;--g0:linear-gradient(160deg,#4a1f3a,#3b2a3e 60%,#4a2c2a);--g1:linear-gradient(160deg,#1f4a40,#3b2a3e 70%,#463f2a);--g2:linear-gradient(160deg,#2b2a30,#232227 60%,#1c1b20);--g3:linear-gradient(160deg,#5a3320,#5a2342 55%,#4f4720);color-scheme:dark}}
+:root[data-theme="dark"]{--ink:#ffe8f1;--g0:linear-gradient(160deg,#4a1f3a,#3b2a3e 60%,#4a2c2a);--g1:linear-gradient(160deg,#1f4a40,#3b2a3e 70%,#463f2a);--g2:linear-gradient(160deg,#2b2a30,#232227 60%,#1c1b20);--g3:linear-gradient(160deg,#5a3320,#5a2342 55%,#4f4720);color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:#ffd6e7;color:var(--ink);font:500 clamp(1.08rem,2.3vw,1.27rem)/1.78 "Quicksand",Arial,sans-serif;overflow-x:hidden}
+.bg{position:fixed;inset:0;opacity:0;transition:opacity 1.6s ease,filter 1.6s;z-index:-2}
+.bg.on{opacity:1}.b0{background:var(--g0)}.b1{background:var(--g1)}.b2{background:var(--g2)}.b3{background:var(--g3)}
+#bar{position:fixed;left:0;top:0;height:8px;width:0;background:linear-gradient(90deg,#fff5a6 0%,var(--lemon) 40%,#ffbd55 70%,var(--pink));border-radius:0 999px 999px 0;z-index:5;margin-top:env(safe-area-inset-top,0px);box-shadow:0 2px 12px rgba(255,216,74,.85),0 0 24px rgba(255,143,184,.5);transition:width .12s linear,filter .5s}
+.sp{position:fixed;top:-6vh;left:var(--x);width:7px;height:18px;border-radius:5px;background:var(--c);z-index:-1;pointer-events:none;opacity:.85;transition:opacity 1.5s;animation:fall var(--d) linear var(--dl) infinite}
+@keyframes fall{to{transform:translate3d(var(--dx),112vh,0) rotate(720deg)}}
+body.sad .sp{animation-play-state:paused;opacity:.1}
+.hero{min-height:100svh;display:grid;place-content:center;text-align:center;padding:2rem}
+h1{margin:0;font-family:"DynaPuff",cursive;font-size:clamp(3rem,14vw,8.5rem);line-height:.95;font-weight:700;text-shadow:0 .05em 0 var(--pink),0 .1em 0 rgba(255,143,184,.35),0 0 .32em rgba(255,216,74,.72);animation:butterGlow 3.6s ease-in-out infinite}
+h1 span{display:inline-block;animation:pop .9s cubic-bezier(.3,1.6,.5,1) both;animation-delay:calc(var(--i)*55ms);cursor:default}
+h1 span:hover{animation:jelly .6s}
+@keyframes pop{from{transform:translateY(-70vh) scaleY(1.5) rotate(-12deg);opacity:0}}
+@keyframes jelly{30%{transform:scale(1.3,.7)}50%{transform:scale(.8,1.25)}70%{transform:scale(1.1,.92)}}
+.hero p{margin:1.6rem auto 0;font-style:italic;opacity:.8;max-width:22rem}
+.steam{position:absolute;left:var(--x);bottom:11vh;width:12px;height:36px;border:3px solid rgba(255,255,255,.72);border-bottom:0;border-radius:50% 50% 0 0;filter:blur(.4px) drop-shadow(0 0 9px rgba(255,216,74,.8));opacity:0;animation:steam 4.5s ease-out var(--dl) infinite}
+.scene{max-width:36rem;margin:0 auto;padding:22vh 1.4rem}
+.scene p{margin:0 0 1.15em}
+.scene h2{font-family:"DynaPuff",cursive;font-size:clamp(1.8rem,5vw,2.5rem);font-weight:600;margin:0 0 1rem;text-shadow:0 0 .7em rgba(255,216,74,.65)}
+.say{padding-left:1rem;border-left:5px solid var(--pink);border-radius:3px}
+details{margin:.8rem 0}
+summary{list-style:none;cursor:pointer;display:inline-block;padding:.5rem 1.3rem;border-radius:999px;font-weight:800;background:var(--c);color:#4b2330;box-shadow:0 5px 0 rgba(75,35,48,.25),0 0 0 rgba(255,255,255,0);transition:transform .25s cubic-bezier(.3,1.8,.5,1),box-shadow .2s;animation:treatGlow 2.8s ease-in-out infinite}
+summary::-webkit-details-marker{display:none}
+summary:hover{transform:rotate(-3deg) scale(1.06);box-shadow:0 5px 0 rgba(75,35,48,.25),0 0 24px var(--c),0 0 48px color-mix(in srgb,var(--c) 55%,transparent)}
+summary:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(75,35,48,.25)}
+summary:focus-visible,#salt:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+details[open] summary{animation:jelly .6s}
+details p{margin:.8rem 0 0;animation:drop .5s cubic-bezier(.3,1.4,.5,1)}
+@keyframes drop{from{opacity:0;transform:translateY(-12px) scale(.96)}}
+#salt{font:700 1.1rem "DynaPuff",cursive;padding:.8rem 1.8rem;border:0;border-radius:999px;background:#fff;color:#4b2330;box-shadow:0 6px 0 rgba(75,35,48,.3),0 0 22px rgba(255,216,74,.85);cursor:pointer;transition:transform .25s cubic-bezier(.3,1.8,.5,1);animation:saltShine 2.2s ease-in-out infinite}
+#salt:hover{transform:scale(1.07) rotate(2deg)}
+#fin{opacity:0;transform:translateY(14px);transition:opacity 1.4s .5s,transform 1.4s .5s;font-size:1.2em;font-weight:600;min-height:6rem}
+#fin.show{opacity:1;transform:none}
+.pt{position:fixed;width:8px;height:8px;border-radius:50%;pointer-events:none;z-index:6}
+.food{position:fixed;z-index:-1;pointer-events:none;filter:drop-shadow(0 0 12px rgba(255,255,255,.8));font-size:clamp(1.4rem,3vw,2.4rem);opacity:.68;animation:foodFloat var(--d) ease-in-out var(--dl) infinite alternate}
+.food:nth-of-type(2n){animation-name:lemonTwinkle}.food:nth-of-type(3n){animation-name:soupWobble}.food:nth-of-type(5n){animation-name:eggBob}
+.heat{position:absolute;width:5px;height:5px;border-radius:50%;background:#ffbd55;box-shadow:0 0 10px #ff7a4d,0 0 21px rgba(255,216,74,.85);pointer-events:none;opacity:.75;animation:crackle var(--d) ease-out var(--dl) infinite}
+.salt-grain{position:fixed;width:4px;height:4px;border-radius:50%;background:#fff9df;box-shadow:0 0 7px rgba(255,255,255,.95);pointer-events:none;z-index:7}
+body.sad .food,body.sad .steam{opacity:.06;filter:grayscale(1);transition:opacity 1.4s,filter 1.4s}body.sad #bar{filter:grayscale(1) brightness(.65)}
+@keyframes butterGlow{50%{text-shadow:0 .05em 0 var(--pink),0 .1em 0 rgba(255,143,184,.35),0 0 .7em rgba(255,216,74,.95)}}
+@keyframes treatGlow{50%{filter:brightness(1.08);box-shadow:0 5px 0 rgba(75,35,48,.25),0 0 18px var(--c)}}
+@keyframes saltShine{50%{box-shadow:0 6px 0 rgba(75,35,48,.3),0 0 38px rgba(255,216,74,1)}}
+@keyframes foodFloat{from{transform:translate3d(0,0,0) rotate(-8deg)}to{transform:translate3d(var(--dx),-28px,0) rotate(10deg)}}
+@keyframes steam{0%{opacity:0;transform:translateY(10px) scale(.65) rotate(-5deg)}20%{opacity:.62}100%{opacity:0;transform:translate(var(--dx),-120px) scale(1.3) rotate(12deg)}}
+@keyframes lemonTwinkle{50%{transform:translate3d(var(--dx),-22px,0) rotate(22deg) scale(1.16);filter:drop-shadow(0 0 21px rgba(255,216,74,1))}}
+@keyframes soupWobble{50%{transform:translate3d(var(--dx),-14px,0) rotate(-12deg) scale(1.08,.93)}}
+@keyframes eggBob{50%{transform:translate3d(var(--dx),-34px,0) rotate(9deg) scale(.92,1.1)}}
+@keyframes crackle{0%{transform:translate(0,10px) scale(.4);opacity:0}25%{opacity:.9}100%{transform:translate(var(--dx),-60px) scale(0);opacity:0}}
+@media (prefers-reduced-motion:reduce){.sp,.food,.steam,.heat{display:none}h1,h1 span,summary,#salt{animation:none}.bg{transition:none}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div class="bg b0 on"></div><div class="bg b1"></div><div class="bg b2"></div><div class="bg b3"></div>
+
+<header class="hero">
+<h1 id="t" aria-label="Ce que dit le beurre">Ce que dit le beurre</h1>
+</header>
+
+<article>
+<section class="scene" data-i="0">
+<p>Le beurre commence à noisette, et je sais que c’est dimanche avant même d’avoir levé la tête. Trente-deux ans qu’Hélène cuisine pour moi comme d’autres écrivent des lettres. Je n’en ai jamais lu une seule jusqu’au bout. Je les ai mangées.</p>
+<p>Je le dis tout de suite : je suis gourmand. Pas un peu. Je ressers, je racle, je sauce le fond de l’assiette avec le pain jusqu’à ce que la faïence brille. Hélène dit que c’est un compliment. Elle a raison, je crois. C’est le seul que je sache faire.</p>
+</section>
+
+<section class="scene" data-i="1">
+<h2>Le dictionnaire</h2>
+<p>On a un dictionnaire, elle et moi, sans l’avoir jamais écrit. Touchez les bonbons.</p>
+<details><summary style="--c:var(--car)">Le ragoût</summary><p>C’est quand on s’est disputés. Il mijote trois heures, et pendant trois heures la maison sent la paix qu’on n’ose pas se proposer. Quand je m’assois, on n’a plus rien à se dire, et c’est ce que ça veut dire.</p></details>
+<details><summary style="--c:var(--lemon)">La tarte au citron</summary><p>C’est « pardon ». Aussi les anniversaires, parce que chez nous c’est la même chose : un an de plus à se pardonner d’être ensemble.</p></details>
+<details><summary style="--c:var(--mint)">La soupe</summary><p>C’est quand j’ai de la fièvre, ou quand elle a peur. Elle n’en fait jamais pour elle. Je l’ai compris trop tard : c’était elle qui avait peur, à chaque fois.</p></details>
+<p style="margin-top:1.6rem">Et moi, ma langue, c’est d’avoir faim. Quand je finis tout, elle sait. Quand je reprends deux fois, elle sait mieux encore. On s’est dit « je t’aime » des milliers de fois en trente-deux ans, et pas une seule à voix haute.</p>
+</section>
+
+<section class="scene" data-i="2">
+<h2>Un dimanche de novembre</h2>
+<p>Il n’y a pas de beurre.</p>
+<p>Je suis entré dans la cuisine avec la faim habituelle, celle qui monte avant l’odeur. Rien. La poêle propre, au crochet. Hélène, assise, les mains à plat sur la table, comme on attend un train.</p>
+<p class="say">— Tu ne fais pas à manger ?<br>— Non.</p>
+<p>Elle ne disait pas non à mon ventre. Elle disait non à autre chose, et je ne connaissais pas la langue. J’ai ouvert le frigo, comme si la réponse s’y trouvait. Un reste de ragoût de la veille. La veille, on s’était disputés ; je ne m’en souvenais déjà plus. J’ai compris que le ragoût n’avait jamais servi la paix. Il avait servi de rideau.</p>
+<p class="say">— Qu’est-ce que j’ai fait ?<br>— Rien. C’est ça.</p>
+<p>Elle m’a dit que ça faisait des années qu’elle me parlait avec ses mains, et que j’avais seulement appris à lire les assiettes. Que le beurre noisette, elle ne le faisait plus pour dire qu’elle m’aimait, mais pour ne plus avoir à se demander si j’avais entendu.</p>
+<p class="say">— Je voudrais, une fois, que tu me dises quelque chose que je ne peux pas manger.</p>
+<p>Je n’avais pas faim. Pour la première fois de ma vie, je n’avais plus faim, et c’est là que j’ai su que j’avais le ventre plein de tout ce que je n’avais pas dit.</p>
+</section>
+
+<section class="scene" data-i="3">
+<p>Je me suis levé. Je n’ai jamais su cuisiner. J’ai pris la poêle, le beurre, j’ai attendu qu’il noisette. Il a noirci. J’ai cassé deux œufs, j’ai fait une omelette qui ressemblait à un pays en ruine. La fumée a fait pleurer Hélène, ou autre chose.</p>
+<p>J’ai posé l’assiette devant elle. Elle a goûté. Elle a reposé sa fourchette.</p>
+<p class="say">— Il manque du sel.</p>
+<p>— Je sais, ai-je dit.</p>
+<p>Et parce qu’il fallait bien sortir de moi quelque chose qui ne se mange pas :</p>
+<p class="say">— Je t’aime, Hélène. Je t’aime.</p>
+<p>Elle n’a rien dit. Elle a poussé la salière vers moi, doucement, pour que je le fasse moi-même.</p>
+<p style="text-align:center;margin:2.2rem 0"><button id="salt" type="button">Saler l’omelette</button></p>
+<p id="fin" aria-live="polite">J’ai salé. Elle a mangé jusqu’au bout, l’omelette brûlée, tout. Et moi, pour une fois, je l’ai regardée manger.<br><br>Je suis gourmand, oui. J’ai passé trente-deux ans à dévorer l’amour sans jamais le goûter.</p>
+</section>
+</article>
+
+<script>
+(function(){
+var t=document.getElementById('t'),txt=t.textContent;t.textContent='';
+txt.split('').forEach(function(ch,i){var s=document.createElement('span');s.textContent=ch===' '?'\u00a0':ch;s.style.setProperty('--i',i);s.setAttribute('aria-hidden','true');t.appendChild(s)});
+var hero=document.querySelector('.hero');
+for(var v=0;v<5;v++){var steam=document.createElement('i');steam.className='steam';steam.setAttribute('aria-hidden','true');steam.style.cssText='--x:'+(24+v*13)+'%;--dx:'+((v%2?1:-1)*(8+v*3))+'px;--dl:-'+(v*.85)+'s';hero.appendChild(steam)}
+var cols=['#ff8fb8','#ffd84a','#7fdcbc','#e8a25b','#ffffff','#c9a7ff'];
+for(var i=0;i<40;i++){var p=document.createElement('span');p.className='sp';p.style.cssText='--x:'+(Math.random()*100)+'vw;--c:'+cols[i%6]+';--d:'+(9+Math.random()*9)+'s;--dl:-'+(Math.random()*16)+'s;--dx:'+((Math.random()-.5)*160)+'px';document.body.appendChild(p)}
+var foods=['🧈','🍋','🍲','🥣','🍳','🧂'];
+for(var j=0;j<foods.length;j++){var f=document.createElement('span');f.className='food';f.textContent=foods[j];f.setAttribute('aria-hidden','true');f.style.cssText='left:'+(7+j*17%88)+'vw;top:'+(18+(j*23)%72)+'vh;--d:'+(3.6+j*.65)+'s;--dl:-'+(j*.7)+'s;--dx:'+((j%2?1:-1)*(8+j*2))+'px';document.body.appendChild(f)}
+var tense=document.querySelector('[data-i="2"]');
+for(var h=0;h<15;h++){var heat=document.createElement('i');heat.className='heat';heat.setAttribute('aria-hidden','true');heat.style.cssText='left:'+(5+Math.random()*90)+'%;top:'+(20+Math.random()*70)+'%;--d:'+(1.5+Math.random()*1.8)+'s;--dl:-'+(Math.random()*3)+'s;--dx:'+((Math.random()-.5)*40)+'px';tense.appendChild(heat)}
+var bgs=document.querySelectorAll('.bg'),salted=false,cur=0;
+function setBg(i){cur=i;if(i>=2&&!salted)i=2;for(var k=0;k<bgs.length;k++)bgs[k].classList.toggle('on',k===i);try{document.body.classList.toggle('sad',i===2)}catch(e){}}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var n=+e.target.dataset.i;setBg(salted&&n>=2?3:n)}})},{rootMargin:'-45% 0px -45% 0px'});
+document.querySelectorAll('.scene').forEach(function(s){io.observe(s)});
+function burst(x,y,n,pal){for(var i=0;i<n;i++){var d=document.createElement('span');d.className='pt';d.style.left=x+'px';d.style.top=y+'px';d.style.background=pal[i%pal.length];document.body.appendChild(d);var a=Math.random()*6.28,r=60+Math.random()*130;d.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:'translate('+Math.cos(a)*r+'px,'+(Math.sin(a)*r+60)+'px) scale(.3)',opacity:0}],{duration:900+Math.random()*500,easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish=function(){this.effect.target.remove()}}}
+function saltTrail(x,y){for(var i=0;i<54;i++){var g=document.createElement('i');g.className='salt-grain';g.style.left=x+'px';g.style.top=y+'px';document.body.appendChild(g);var dx=(Math.random()-.5)*190,dy=20+Math.random()*180;g.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:'translate('+dx+'px,'+dy+'px) scale(.35)',opacity:0}],{duration:700+Math.random()*700,easing:'cubic-bezier(.18,.76,.34,1)'}).onfinish=function(){this.effect.target.remove()}}}
+document.addEventListener('click',function(e){if(e.target.id==='salt')return;burst(e.clientX,e.clientY,14,document.body.classList.contains('sad')?['#ffffff','#d5d2da']:cols)});
+document.getElementById('salt').addEventListener('click',function(e){salted=true;var r=this.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,45,cols);saltTrail(r.left+r.width/2,r.top+r.height/2);document.body.classList.remove('sad');setBg(3);document.getElementById('fin').classList.add('show');this.style.display='none'});
+var bar=document.getElementById('bar');
+addEventListener('scroll',function(){var h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'},{passive:true});
+})();
+</script>
+</body>
+</html>
