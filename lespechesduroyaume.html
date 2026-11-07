@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Les Péchés du Royaume</title>
+<style>
+:root{color-scheme:dark;--bg:#080914;--panel:#101328;--ink:#e9edff;--mut:#8991b7;--acc:#b58cff;--hot:#ff4fd8;--line:rgba(181,140,255,.42);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body[data-s=envie]{--acc:#66f4c2;--hot:#b56cff;--bg:#071512;--panel:#0d211d;--line:rgba(102,244,194,.42)}
+body[data-s=gourm]{--acc:#ffb45c;--hot:#ff4f91;--bg:#180b18;--panel:#281022;--line:rgba(255,180,92,.42)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.8 Georgia,'Palatino Linotype',serif;transition:background 1s,color 1s;min-height:100vh}
+body::before,body::after{content:"";position:fixed;inset:0;pointer-events:none}
+body::before{background:radial-gradient(circle at 50% -10%,var(--line),transparent 42%),linear-gradient(125deg,transparent 35%,rgba(255,255,255,.025) 50%,transparent 65%)}
+body::after{opacity:.18;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:38px 38px;mask-image:linear-gradient(to bottom,#000,transparent 75%)}
+#bar{position:fixed;top:env(safe-area-inset-top,0px);left:0;height:4px;background:linear-gradient(90deg,var(--acc),var(--hot));box-shadow:0 0 14px var(--acc),0 0 28px var(--hot);width:0;transition:width .4s;z-index:5}
+main{max-width:720px;margin:0 auto;padding:46px 22px 160px;position:relative;z-index:1}
+h1{font-size:clamp(2.2rem,8vw,3.8rem);line-height:1.05;text-align:center;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);text-shadow:0 0 8px var(--acc),0 0 28px var(--hot);margin:.6em 0 .22em;font-weight:normal}
+.sub{text-align:center;color:var(--mut);font-style:italic;letter-spacing:.08em;margin-bottom:2.4em}
+.orn{text-align:center;color:var(--hot);letter-spacing:.7em;text-shadow:0 0 10px var(--hot);margin:1.8em 0}
+.cards{display:grid;gap:22px}
+.card{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:16px;padding:26px 28px;background:linear-gradient(135deg,rgba(255,255,255,.09),rgba(255,255,255,.015));box-shadow:inset 0 1px rgba(255,255,255,.12);cursor:pointer;text-align:left;color:var(--ink);font:inherit;transition:transform .35s,background .35s,box-shadow .35s,border-color .35s}
+.card::after{content:"";position:absolute;width:130px;height:130px;right:-50px;bottom:-75px;border-radius:50%;background:var(--c);opacity:.2;filter:blur(18px);transition:opacity .35s}
+.card:hover{transform:translateY(-6px) scale(1.015);background:linear-gradient(135deg,rgba(255,255,255,.15),rgba(255,255,255,.035));border-color:var(--c);box-shadow:0 0 18px var(--c),inset 0 1px rgba(255,255,255,.18)}
+.card:hover::after{opacity:.65}
+.card b{display:block;font-size:1.55rem;letter-spacing:.04em;color:var(--c);text-shadow:0 0 10px var(--c);margin-bottom:.2em}
+.card i{color:var(--mut);font-size:.9rem}
+.ep{font-style:italic;color:var(--acc);text-align:center;margin:1.5em 0 2.4em;font-size:1.05rem;padding:18px 24px;border:1px solid var(--line);border-radius:12px;background:rgba(0,0,0,.18);box-shadow:0 0 22px rgba(0,0,0,.2)}
+.p{margin:0 0 1.1em;opacity:0;transform:translateY(12px);animation:in .9s forwards}
+@keyframes in{to{opacity:1;transform:none}}
+.p:first-of-type::first-letter{float:left;font-size:3.8em;line-height:.85;padding:.08em .1em 0 0;color:var(--acc);text-shadow:0 0 12px var(--acc)}
+.d{padding:14px 0 14px 1.2em;border-left:2px solid var(--acc);background:linear-gradient(90deg,var(--line),transparent 55%);box-shadow:-8px 0 18px -16px var(--acc)}
+.s{color:var(--acc);font-style:italic;text-align:center;font-size:1.1em;margin:1.8em 0;padding:20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-shadow:0 0 10px var(--acc)}
+.k{border-bottom:1px dotted var(--acc);cursor:help;color:var(--acc);text-shadow:0 0 7px var(--acc)}
+.k.o::after{content:attr(data-n);display:block;font-size:.8rem;font-style:italic;color:var(--mut);background:var(--panel);border:1px solid var(--line);box-shadow:0 0 14px var(--line);padding:8px 12px;margin:.4em 0;border-radius:8px}
+#nx{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:linear-gradient(100deg,var(--acc),var(--hot));color:#080914;border:0;padding:13px 30px;border-radius:10px;font:inherit;font-weight:bold;letter-spacing:.05em;cursor:pointer;z-index:6;box-shadow:0 0 12px var(--acc),0 0 30px var(--hot);transition:transform .25s,filter .25s}
+#nx:hover{transform:translateX(-50%) translateY(-3px);filter:brightness(1.15)}
+#nx[hidden]{display:none}
+.mini{background:transparent;border:1px solid var(--line);color:var(--mut);border-radius:8px;padding:7px 16px;font:inherit;font-size:.85rem;cursor:pointer;margin:0 4px;transition:all .25s}
+.mini:hover{color:var(--acc);border-color:var(--acc);box-shadow:0 0 12px var(--line)}
+.nav{text-align:center;margin-bottom:1em}
+.f{position:fixed;pointer-events:none;font-size:1.8rem;color:var(--acc);text-shadow:0 0 10px var(--acc),0 0 24px var(--hot);animation:up 1.4s forwards;z-index:9}
+@keyframes up{to{transform:translateY(-140px) rotate(45deg) scale(1.5);opacity:0}}
+@media(max-width:520px){main{padding-left:16px;padding-right:16px}.card{padding:22px}.p{font-size:17px}}
+</style></head><body>
+<div id="bar"></div>
+<main id="m"></main>
+<button id="nx" hidden>Continuer ◈</button>
+<script>
+const K={belladone:'Plante toxique aux baies noires, redoutée des empoisonneurs.',succubes:'Démons séducteurs qui perdent les hommes vertueux.',pécheresse:'Celle qui a commis un péché capital.',promise:'Fiancée, destinée au mariage.',masqué:'Bal où chacun cache son visage derrière un masque.',servantes:'Domestiques de la maison royale.'};
+const S={
+envie:{t:'L’Envie',n:'Alice De Cœurenvieux',c:'#66f4c2',ic:'◈',fx:['◇','◈','✧'],
+ep:'« Il est des cœurs qui se brisent. D’autres qui, à force de désirer, apprennent à détruire. »',
+p:[
+'Je m’appelle Alice et j’ai toujours pensé être une bonne personne.',
+'J’ai toujours essayé de faire le bien autour de moi, de prendre soin des autres et de leur offrir amour, courage et bienveillance. Je croyais sincèrement, du plus profond de mon cœur, que telle était ma vocation. On m’a toujours décrite comme un rayon de soleil, avec ma personnalité joviale et mon physique de poupée de porcelaine. Cela me rendait heureuse. Je n’avais pas l’impression de jouer un rôle, ni d’être une imposture… Jusqu’à ce que l’univers en décide autrement. Jusqu’à lui…',
+'Archibald, le prince de mon cœur…',
+'Je l’ai rencontré dans les jardins, un soir. Ce fut un pur hasard, mais aussi le début de la plus belle nuit que j’aie jamais connue.',
+'d:— Vous prenez soin des autres, mais qui prend soin de vous, lady Alice ? m’avait-il demandé avant de tourner les talons pour rejoindre sa {promise}.',
+'C’était la première fois que quelqu’un se préoccupait de mon bien-être. Il ne me connaissait pas et pourtant, il me regardait comme si je comptais réellement. Lorsque j’ai plongé mon regard dans le doux océan de ses yeux bleus, je me suis sentie mise à nu, comme s’il était capable de lire dans mon esprit.',
+'Archibald est un beau jeune homme au visage doux et à la voix apaisante. Grand et élancé, il possède de longs cheveux blonds, semblables aux miens, ainsi que des yeux d’un bleu glacé, reflets de son âme. Pourtant, ce n’est pas son apparence qui m’a conquise, oh non. C’est sa personnalité, tout ce qui fait de lui l’homme qu’il est.',
+'Il est sensible, même s’il s’efforce de le dissimuler. Comme moi, il se montre particulièrement attentif aux autres et à leur bien-être. Depuis que je l’observe et veille sur lui à distance, je n’ai jamais vu la moindre méchanceté émaner de sa personne. Archibald est un être de lumière, bien trop pur pour ce pauvre monde gangrené par les péchés, la cruauté et les viles {succubes} prêtes à lui briser le cœur.',
+'On pourrait croire à une belle histoire de prince charmant, et c’est précisément là que réside toute la cruauté de l’univers… Archibald est tout ce que je désire, mais aussi tout ce que je n’ai pas le droit d’avoir.',
+'Pourquoi ? Pourquoi a-t-il fallu que cet homme si admirable, si attachant et si apaisant soit destiné à une autre ? À mon amie…',
+'Univers, je te déteste du plus profond de mon être. Tu fais de moi la pire des {pécheresse}s : une femme désireuse, envieuse, incapable de se satisfaire de ce qu’elle possède.',
+'Astoria est une femme resplendissante, sans doute la plus belle qu’il m’ait été donné de connaître. Elle possède de grands yeux bruns, de magnifiques cheveux de la même couleur qui lui arrivent aux épaules et une silhouette mince. Malgré notre jeune âge, elle dégage une maturité qui me fait parfois défaut. Elle est petite, mais possède un caractère bien trempé. Rien ne semble lui faire peur. Elle a la tête sur les épaules, là où je ne suis qu’une romantique rêveuse, prête à tous les sacrifices par amour, quitte à y laisser la vie.',
+'Depuis que j’ai appris que l’homme que je convoite est également le fiancé de mon amie, je ne regarde plus Astoria de la même manière. Elle n’est plus simplement une amie. Elle est devenue une rivale, une menace potentielle pour le bonheur de mon prince.',
+'Dire qu’autrefois, rien ne comptait davantage pour moi que son bonheur… Aujourd’hui, je serais prête à tout pour la déposséder de ce qu’elle possède.',
+'La voir se blottir contre lui et rire à ses côtés m’est devenue insupportable. Et ce que je ressens en les observant me déplaît tout autant. Ce n’est pas de la simple jalousie. C’est quelque chose de bien plus profond, de plus obscur et de beaucoup plus dangereux.',
+'Je l’envie. Je veux les regards qu’il lui adresse, les confidences qu’il partage avec elle, les secrets qu’il lui murmure… Tout ce qu’il lui donne, je le veux. Et si je ne peux pas l’obtenir, alors elle ne l’aura pas non plus, même si je dois tout perdre pour cela.',
+'Astoria, je suis désolée. Tu m’es très chère, mais tu le sais, je suis une romantique acharnée, obsédée par l’idée d’un amour véritable, pur et sincère… Et je ne suis pas prête à te céder le mien.',
+'Qui aurait pu imaginer que donner sans rien attendre en retour me laisserait un jour face à un vide aussi profond ? Si j’avais su que de simples miettes d’attention suffiraient à me faire tomber amoureuse, j’aurais peut-être agi autrement…',
+'Mais il est trop tard pour revenir en arrière. Je suis le mal, je suis une pécheresse. Et plutôt que de te laisser me prendre celui que j’aime pour ensuite lui briser le cœur, comme toutes ces {succubes} qui gravitent autour de lui, je préfère te voir disparaître.',
+'Personne ne doit le savoir. Personne ne saura.',
+'s:Je m’appelle Alice, et je suis tombée amoureuse du prince qu’Astoria, mon amie, s’apprête à épouser.',
+'s:Je m’appelle Alice, je suis l’incarnation de l’Envie et je suis sur le point de commettre l’irréparable : ôter la vie à une femme qui compte énormément pour moi.',
+'s:Je m’appelle Alice et j’anéantirai toutes celles qui se dresseront sur le chemin de mon conte de fées.',
+'Archibald… Oh, mon doux Archie, pardonne-moi, mais cette fois, je vais devoir te faire souffrir. Je refuse que tu l’aimes, elle, plutôt que moi…',
+'Tu ne le vois pas encore, mais toi et moi sommes faits l’un pour l’autre. Nous nous complétons.',
+'Je n’ai pas choisi de tomber amoureuse de toi. Je ne l’avais pas prévu. Si j’avais eu le choix, peut-être ne t’aurais-je même pas choisi. J’aurais préféré aimer un homme émotionnellement disponible. Malheureusement, nous ne choisissons pas qui nous aimons.',
+'Alors, ce soir, je vais empoisonner ta promise à la {belladone}.',
+'Ce soir, tout changera.',
+'Ce soir, elle mourra et moi, je te consolerai. Je serai là pour toi.',
+'s:Et si tu ne veux pas de moi, alors nous mourrons tous les trois.']},
+gourm:{t:'La Gourmandise',n:'Béatrice De Millefestin',c:'#ffb45c',ic:'◉',fx:['✦','◆','✧','❖'],
+ep:'« Voyez comme je souris. N’est-ce point là la preuve que je suis heureuse ? Alors pourquoi me demander de m’arrêter ? »',
+p:[
+'Je m’appelle Béatrice et je suis la fille du roi Archibald De Millefestin et de son épouse, Alice De Cœurenvieux.',
+'On dit de moi que je suis une jeune fille candide et espiègle ! Je ris pour un rien, cours à travers le palais comme si j’étais poursuivie par un monstre et m’aventure dans les cuisines à toute heure, même au beau milieu de la nuit.',
+'J’ai toujours été ainsi : une petite boule d’énergie. Et en grandissant, je me suis révélée incapable de changer. Ma mère, Alice, a fini par s’accommoder de mon comportement. Mon père, en revanche, s’inquiète à l’idée de devoir un jour céder son trône à une femme qui se soucie si peu du savoir-vivre.',
+'Que voulez-vous ? C’est ainsi que je suis, et je n’ai aucune intention de changer. Je n’en ai tout simplement pas envie !',
+'d:— Bonjour, mesdames ! m’exclamai-je en me redressant dans mon lit.',
+'Cypriane et Colombe, mes deux {servantes}, s’affairaient déjà à leurs tâches habituelles. C’est toujours Cypriane qui se charge de m’apporter mon petit-déjeuner. Elle est la seule à accepter de désobéir au roi pour me servir absolument tout ce que je réclame, parmi les merveilles que renferment les cuisines du palais.',
+'Au fil des années, elle est devenue bien plus qu’une simple servante : une véritable amie. Elle a un an de plus que moi et possède une beauté remarquable. Tous les hommes semblent tomber à ses pieds, et elle sait parfaitement en jouer.',
+'d:— Cypriane, est-ce que nous avons reçu ces petits gâteaux anglais que j’ai tant envie de goûter ?',
+'d:— Oui, princesse. Ils seront servis lors du festin de ce soir, avant le bal.',
+'Le festin est organisé en l’honneur d’Astoria, le premier amour du roi. Parfois, lorsque je m’éclipse en pleine nuit pour satisfaire ma faim insatiable, je surprends mon père debout devant le portrait de cette belle brune. Je l’entends alors murmurer, les larmes aux yeux, combien il l’a aimée.',
+'Je ne l’ai jamais connue, mais je déteste cette femme. Elle rend mon père malheureux et ma mère ne m’en a toujours dit que du mal.',
+'d:— Viendras-tu au bal {masqué} ? Comme promis, je t’ai acheté une ravissante robe ainsi qu’un masque assorti. Personne ne te reconnaîtra.',
+'d:— Je tiens toujours mes promesses, vous le savez bien !',
+'Effectivement, Cypriane ne m’a jamais déçue et je suis convaincue qu’elle ne le fera jamais. Décevoir les autres ne fait tout simplement pas partie de sa nature, et je sais que son amitié est sincère.',
+'J’ai d’ailleurs hâte de la voir séduire quelque beau noble pendant que, de mon côté, je me régalerai de toutes les délicieuses choses qui seront servies ce soir. Ma mère en rira certainement, enviant ma capacité à rester aussi belle et mince, peu importe les quantités que j’engloutis. Nous sommes de véritables opposées sur ce point. Mon père, quant à lui, ne manquera probablement pas de me reprocher mon manque de tenue à table.',
+'s:Je m’appelle Béatrice et je suis l’incarnation de la Gourmandise. La seule chose qui m’intéresse véritablement en ce monde, ce sont les petits plaisirs de la vie.',
+'s:Ma meilleure amie s’appelle Cypriane et ce soir, tout le monde découvrira qu’elle est l’incarnation de la Luxure.']}};
+const $=id=>document.getElementById(id),m=$('m'),nx=$('nx'),bar=$('bar');
+let cur,i;
+const fmt=t=>t.replace(/\{(\S+?)\}(s?)/g,(_,w,s)=>`<span class="k" data-n="${K[w]||''}">${w}${s}</span>`);
+function home(){document.body.removeAttribute('data-s');nx.hidden=true;bar.style.width=0;scrollTo(0,0);
+m.innerHTML='<h1>Les Péchés du Royaume</h1><div class="sub">Deux voix, deux péchés, une même nuit de bal</div><div class="orn">⟡ ━ ✦ ━ ⟡</div><div class="cards"></div>';
+for(const k in S){const s=S[k],b=document.createElement('button');b.className='card';b.style.setProperty('--c',s.c);b.innerHTML=`<b>${s.ic} ${s.t}</b><i>${s.n}</i>`;b.onclick=()=>start(k);m.lastChild.appendChild(b)}}
+function start(k){cur=S[k];i=0;document.body.dataset.s=k;scrollTo(0,0);
+m.innerHTML=`<div class="nav"><button class="mini" id="h">‹ Royaume</button><button class="mini" id="a">Tout lire</button></div><h1>${cur.t}</h1><div class="sub">${cur.n}</div><div class="ep">${cur.ep}</div><div id="t"></div>`;
+$('h').onclick=home;$('a').onclick=()=>{while(i<cur.p.length)next(1);end()};nx.hidden=false;nx.textContent='Commencer ◈';next()}
+function next(q){if(!cur)return;if(i>=cur.p.length){end();return}
+let t=cur.p[i++],c='p';if(t[1]==':'){c+=' '+t[0];t=t.slice(2)}
+const d=document.createElement('div');d.className=c;d.innerHTML=fmt(t);if(q)d.style.animation='none',d.style.opacity=1,d.style.transform='none';
+$('t').appendChild(d);bar.style.width=i/cur.p.length*100+'%';nx.textContent='Continuer ◈';
+if(!q)d.scrollIntoView({behavior:'smooth',block:'center'});
+if(i>=cur.p.length&&!q)end()}
+function end(){if(cur.done)return;cur.done=1;nx.hidden=true;
+const e=document.createElement('div');e.innerHTML='<div class="orn">⟡ Fin ⟡</div><div class="nav"><button class="mini" id="r">Relire</button><button class="mini" id="o">Autre péché</button></div>';
+$('t').appendChild(e);$('r').onclick=()=>{cur.done=0;start(document.body.dataset.s)};
+$('o').onclick=()=>{const k=document.body.dataset.s;cur.done=0;start(k=='envie'?'gourm':'envie')}}
+nx.onclick=()=>next();
+addEventListener('keydown',e=>{if(e.key==' '||e.key=='ArrowRight'){e.preventDefault();next()}});
+m.addEventListener('click',e=>{const k=e.target.closest('.k');if(k){k.classList.toggle('o');return}
+if(cur&&e.target.closest('.p')){const f=document.createElement('div');f.className='f';f.textContent=cur.fx[Math.random()*cur.fx.length|0];f.style.left=e.clientX-16+'px';f.style.top=e.clientY-16+'px';document.body.appendChild(f);setTimeout(()=>f.remove(),1400)}});
+home();
+</script></body></html>

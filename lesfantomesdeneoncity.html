@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Les fantômes de Neon City</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,300;0,400;1,300&family=Orbitron:wght@500;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07060d;--ink:#d9d6e6;--dim:#8b86a3;--a:#ff2e9a;--b:#22e1ff;--glow:rgba(255,46,154,.35);--card:rgba(14,12,26,.72);
+--serif:"Exo 2","Segoe UI",system-ui,sans-serif;--disp:Orbitron,"Share Tech Mono",ui-monospace,sans-serif;--mono:"Share Tech Mono",ui-monospace,Menlo,monospace;box-sizing:border-box;
+padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#07060d}}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#efeaf5;--ink:#1d1830;--dim:#6a6384;--a:#c4126f;--b:#0a7f96;--glow:rgba(196,18,111,.2);--card:rgba(255,255,255,.7)}}
+:root[data-theme="light"]{--bg:#efeaf5;--ink:#1d1830;--dim:#6a6384;--a:#c4126f;--b:#0a7f96;--glow:rgba(196,18,111,.2);--card:rgba(255,255,255,.7)}
+:root[data-theme="dark"]{--bg:#07060d}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:1.1rem;line-height:1.8;font-weight:300;transition:background 1.6s,color 1.6s}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+/* moods */
+body.dead{--a:#ffb454;--b:#e8935a;--glow:rgba(255,180,84,.25)}
+body.silent{--a:#8b86a3;--b:#6f6a88;--glow:rgba(139,134,163,.15)}
+canvas{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+#bar{position:fixed;top:env(safe-area-inset-top,0px);left:0;height:3px;width:0;background:linear-gradient(90deg,var(--a),var(--b));box-shadow:0 0 12px var(--a);z-index:31;transition:background 1.6s}
+header.top{position:fixed;top:env(safe-area-inset-top,0px);right:0;left:0;display:flex;justify-content:space-between;padding:.8rem 1.2rem;font:.75rem var(--mono);letter-spacing:.12em;color:var(--dim);z-index:20;pointer-events:none}
+header.top button{pointer-events:auto;background:none;border:1px solid var(--dim);color:var(--dim);font:inherit;padding:.2rem .6rem;border-radius:2px;cursor:pointer}
+header.top button:hover{color:var(--a);border-color:var(--a)}
+main{position:relative;z-index:2}
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem}
+.hero small{font:.8rem var(--mono);letter-spacing:.3em;color:var(--b);text-transform:uppercase}
+h1{font:800 clamp(1.9rem,8.5vw,4.6rem)/1.1 var(--disp);text-transform:uppercase;margin:1rem 0;letter-spacing:-.02em;color:var(--ink);text-shadow:0 0 18px var(--a),0 0 42px var(--glow);animation:flick 6s infinite}
+h1 span{display:block;color:var(--a)}
+@keyframes flick{0%,92%,96%,100%{opacity:1}93%{opacity:.55}94%{opacity:1}95%{opacity:.7}}
+.hero p{font:.85rem var(--mono);color:var(--dim);max-width:30ch}
+.hero a{margin-top:2.5rem;font:.8rem var(--mono);color:var(--ink);text-decoration:none;border:1px solid var(--a);padding:.6rem 1.4rem;box-shadow:0 0 14px var(--glow),inset 0 0 14px var(--glow)}
+.hero a:hover{background:var(--glow)}
+section{max-width:36rem;margin:0 auto;padding:4rem 1.4rem}
+section p{margin:0 0 1.1em;text-wrap:pretty}
+section p:first-of-type::first-line{letter-spacing:.02em}
+.tag{display:block;font:.72rem var(--mono);letter-spacing:.22em;color:var(--a);text-transform:uppercase;margin-bottom:2rem;text-shadow:0 0 8px var(--glow)}
+.tag::before{content:"▸ "}
+.msg{font:.95rem/1.5 var(--mono);color:var(--b);background:var(--card);border-left:2px solid var(--b);padding:.6rem .9rem;margin:1.4em 0;backdrop-filter:blur(6px);border-radius:0 4px 4px 0}
+.msg.me{border-left-color:var(--a);color:var(--a);margin-left:1.6rem}
+.dlg{padding-left:1.1rem;text-indent:-1.1rem}
+.dlg.r{color:var(--ink)}
+em{color:var(--ink)}
+.freq{display:block;margin:0 auto;opacity:.7}
+.big{font-size:1.35rem;text-align:center;font-style:italic;margin:2rem 0}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .9s,transform .9s}
+.reveal.in{opacity:1;transform:none}
+footer{position:relative;z-index:2;text-align:center;padding:5rem 1rem 6rem;font:.8rem var(--mono);color:var(--dim)}
+footer .fq{display:block;margin:0 auto 1rem}
+body::after{content:"";position:fixed;inset:0;z-index:40;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 1px,transparent 1px 3px);opacity:.55}
+h1{animation:flick 6s infinite,glitch 7s infinite}
+@keyframes glitch{0%,90%,100%{transform:none}91%{transform:translate(-4px,1px);text-shadow:4px 0 var(--b),-4px 0 var(--a)}93%{transform:translate(4px,-1px);text-shadow:-4px 0 var(--b),4px 0 var(--a)}95%{transform:skewX(8deg)}}
+.tag{font-family:var(--disp);font-weight:500;font-size:.74rem;display:inline-block;padding:.4rem .9rem;border:1px solid var(--a);box-shadow:0 0 10px var(--glow),inset 0 0 10px var(--glow);text-shadow:0 0 6px var(--a),0 0 18px var(--a);animation:sign 5s infinite}
+@keyframes sign{0%,19%,22%,62%,64%,100%{opacity:1}20%,63%{opacity:.35}21%{opacity:.8}}
+section::before{content:"";display:block;height:1px;margin:0 auto 3rem;background:linear-gradient(90deg,transparent,var(--a),var(--b),transparent);box-shadow:0 0 14px var(--a),0 0 30px var(--glow)}
+em{text-shadow:0 0 10px var(--glow)}
+.big{font-family:var(--disp);font-style:normal;font-size:1.15rem;color:var(--ink);text-shadow:0 0 8px var(--a),0 0 24px var(--a)}
+.msg{position:relative;border:1px solid var(--b);border-left-width:3px;padding-top:1.9rem;min-height:3.6rem;box-shadow:0 0 16px var(--glow),inset 0 0 20px var(--glow);text-shadow:0 0 7px currentColor}
+.msg.me{border-color:var(--a)}
+.msg::before{content:"▌TRANSMISSION ENTRANTE · " attr(data-t);position:absolute;top:.4rem;left:.9rem;font:.58rem var(--disp);letter-spacing:.2em;color:var(--dim);text-shadow:none}
+.msg.me::before{content:"▌TRANSMISSION SORTANTE · " attr(data-t)}
+.msg.typing::after{content:"█";margin-left:2px;animation:blink .7s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+body.tune main{animation:tune .4s}
+@keyframes tune{0%{transform:translateX(-6px);filter:hue-rotate(40deg) blur(1px)}30%{transform:translateX(5px);filter:hue-rotate(-30deg)}60%{transform:translateX(-2px)}100%{transform:none;filter:none}}
+@media (prefers-reduced-motion:reduce){h1,.tag,body.tune main{animation:none}body::after{display:none}.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<canvas id="rain"></canvas>
+<div id="bar"></div>
+<header class="top"><span id="loc">SIGNAL ● NEON CITY</span><button id="th" aria-label="Changer de thème">◐</button></header>
+
+<main>
+<div class="hero">
+<h1>Les fantômes<span>de Neon City</span></h1>
+<p>L’amitié sous sa plus belle forme, quelque part entre deux fréquences.</p>
+<a href="#s1">entrer dans le signal ↓</a>
+</div>
+
+<section id="s1" data-mood="neon" data-loc="SIGNAL ● SECTEUR 14">
+<span class="tag">01 · ligne 9</span>
+<p class="reveal">La pluie de Neon City ne tombait jamais tout à fait droit. Elle arrivait de biais, rabattue par les couloirs d’air des tours, et dessinait sur les vitres du train aérien des traits que les publicités holographiques coloraient au passage : rose pour une marque de nouilles, vert pour une assurance-mémoire, bleu pour rien du tout.</p>
+<p class="reveal">Ash avait passé la journée dans le ventre d’un relais du secteur 14, entre des câbles chauds et un ventilateur qui sifflait comme une bouilloire. Une panne de synchronisation, rien de grave. Il avait recousu le réseau d’un immeuble de quarante étages, et personne là-haut ne saurait jamais qu’il avait existé. C’était le contrat tacite de son métier : quand il réussissait, plus personne ne pensait à lui.</p>
+<p class="reveal">Son poignet vibra. Une seule ligne, sans majuscule :</p>
+<p class="msg reveal">tu as fini de sauver le monde ou tu as le temps de perdre contre moi ?</p>
+<p class="reveal">Il sourit avant d’avoir répondu.</p>
+<p class="msg me reveal">Je perds toujours contre toi. C’est le problème avec les parties truquées.</p>
+<p class="msg reveal">truquées ?? la borne 3 a une gâchette qui colle, c’est la nature qui est contre toi.</p>
+<p class="reveal">Il rangea sa trousse d’outils dans le sac et prit la ligne 9.</p>
+</section>
+
+<section data-mood="dead" data-loc="ZONE MORTE ● LE DERNIER CRÉDIT">
+<span class="tag">02 · zone morte</span>
+<p class="reveal">La salle s’appelait le <em>Dernier Crédit</em>. Elle n’avait pas de nom sur la porte, seulement un code gravé au cutter dans la peinture, qu’on se transmettait comme un mot de passe. Elle se trouvait au sous-sol d’un ancien pressing, dans une zone morte : les réseaux s’arrêtaient au seuil comme la marée à une digue. Les implants se taisaient. Les poches cessaient de vibrer. Les gens, étonnés, se remettaient à se regarder.</p>
+<p class="reveal">Raven était déjà là, assise en tailleur sur le capot d’une borne éteinte, un tournevis entre les dents et un module de synthé ouvert sur les genoux. Elle avait les doigts tachés d’étain et les cheveux relevés par un crayon. Elle leva les yeux, retira le tournevis.</p>
+<p class="dlg reveal">« Tu es en retard de onze minutes. Je les ai comptées avec ressentiment.</p>
+<p class="dlg reveal">— Il y avait un relais.</p>
+<p class="dlg reveal">— Il y a toujours un relais. Un jour tu vas m’avouer que tu inventes des pannes pour échapper à mes défaites. »</p>
+<p class="reveal">Ils jouaient à <em>Meteor Run</em>, un jeu de course spatiale dont plus personne ne connaissait le studio et dont la musique, huit minutes de basses rondes et de séquences qui se chevauchaient, était l’un des rares morceaux sur lesquels ils étaient absolument d’accord. Raven l’appelait <em>la Fréquence</em>. Au début, c’était une blague : elle avait dit un soir que ce morceau était leur fréquence de ralliement, que si un jour l’un des deux se perdait dans la ville, il suffirait de la siffler. Ash avait dit que c’était ridicule. Il la sifflait quand même, sans y penser, quand il soudait.</p>
+<p class="reveal">Ils firent trois parties. Raven gagna les deux premières en hurlant des insultes affectueuses à la gâchette de la borne 3. Ash gagna la troisième, de justesse, et elle resta une seconde figée, la main encore sur le levier.</p>
+<p class="dlg reveal">« Ça compte pas.</p>
+<p class="dlg reveal">— Ça compte.</p>
+<p class="dlg reveal">— Tu as triché avec ta tête de gentil. »</p>
+<p class="reveal">Ils sortirent acheter des biscuits au sésame à l’épicerie du coin, la seule du quartier qui acceptait encore le papier. Il en restait un paquet. Ils tendirent la main en même temps.</p>
+<p class="dlg reveal">« Pierre, feuille, ciseaux, dit Raven.</p>
+<p class="dlg reveal">— On a dit vingt ans que c’était toi la dernière fois.</p>
+<p class="dlg reveal">— On n’a rien dit du tout. Tu inventes une jurisprudence. »</p>
+<p class="reveal">Ils finirent par casser le dernier biscuit en deux, très exactement, avec une solennité de notaires. Dehors, la pluie avait cessé. Un train passa au-dessus d’eux et fit trembler les flaques. Raven leva la tête pour le regarder passer, et Ash la regarda regarder, sans trop savoir pourquoi cela lui paraissait important de s’en souvenir.</p>
+</section>
+
+<section data-mood="neon" data-loc="SIGNAL ● MARDI SOIR">
+<span class="tag">03 · une notification</span>
+<p class="reveal">Ce fut Kael qui gâcha tout, et le plus absurde est qu’il n’y mit aucune méchanceté.</p>
+<p class="reveal">Ash connaissait son nom depuis longtemps, comme on connaît le nom d’une rue où il est arrivé quelque chose. Raven n’en parlait jamais en entier. Il savait seulement qu’ils avaient monté un projet ensemble autrefois, qu’une confiance s’était brisée, qu’il y avait eu des choses dites, d’autres tues, et que le résultat était un silence d’une qualité particulière, celui qui n’est pas de l’oubli mais une cicatrice qu’on évite de toucher.</p>
+<p class="reveal">Un mardi soir, un message arriva dans le canal de dépannage d’Ash, sous une adresse inconnue :</p>
+<p class="msg reveal">Salut. Je crois que c’est toi qui as réparé le relais de la rue des Teinturiers. Mon implant d’audio coupe par intermittence et je ne sais pas à qui m’adresser. Je sais que c’est bizarre de te demander ça. — Kael</p>
+<p class="reveal">Ash fixa le nom un moment. Il n’était pas stupide : il savait à qui il avait affaire. Mais il se disait aussi que c’était une panne, un homme coincé avec un appareil défaillant, et qu’on ne refuse pas un diagnostic à quelqu’un parce qu’il figure dans l’histoire d’une autre personne. Il répondit. Il passa deux soirées à débugger le firmware de Kael à distance. À la troisième, Kael écrivit, entre deux lignes de logs :</p>
+<p class="msg reveal">Je traverse une période difficile. Merci d’avoir pris le temps.</p>
+<p class="reveal">Ash écrivit :</p>
+<p class="msg me reveal">Quand tu veux, pour parler aussi.</p>
+<p class="reveal">Il n’avait pas pesé la phrase. Elle partit toute seule, comme une main tendue par réflexe.</p>
+<p class="reveal">Il pensait que ce n’était pas à lui de choisir quels liens Raven pouvait avoir avec le monde. Il pensait, plus profondément, qu’écouter quelqu’un n’était pas prendre parti contre quelqu’un d’autre. C’était vrai. C’était même défendable. Il le répéta mentalement plusieurs fois, comme on répète une démonstration.</p>
+<p class="reveal">Raven l’apprit trois semaines plus tard, par une notification d’archive. Dans leurs réseaux, tout laissait des traces.</p>
+</section>
+
+<section data-mood="dead" data-loc="ZONE MORTE ● BORNE 3">
+<span class="tag">04 · la dispute</span>
+<p class="reveal">Elle l’attendit au <em>Dernier Crédit</em>, mais elle ne jouait pas. Elle était debout, adossée à la borne 3, les bras croisés, et il sut avant qu’elle parle.</p>
+<p class="dlg reveal">« Tu parles à Kael.</p>
+<p class="dlg reveal">— J’ai réparé son implant. Il traversait quelque chose, il m’a demandé…</p>
+<p class="dlg reveal">— Je n’ai pas demandé ce qu’il t’a demandé. J’ai demandé si tu lui parles.</p>
+<p class="dlg reveal">— Oui. Un peu. » Il reprit son souffle. « Écoute, je ne l’ai pas fait contre toi. Je ne vois pas pourquoi aider quelqu’un voudrait dire te trahir. Je n’ai pas pris son parti. Je n’ai rien dit de ce que tu m’as raconté. Je ne vois pas où est…</p>
+<p class="dlg reveal">— Évidemment que tu ne vois pas. »</p>
+<p class="reveal">Le ton n’était pas fort. C’était pire : un ton très posé.</p>
+<p class="dlg reveal">« Tu sais ce que j’entends, Ash ? J’entends que tu as réfléchi. Que tu as une position sur la façon dont les relations <em>devraient</em> fonctionner, que ta position est cohérente, et que j’arrive en retard dans une décision déjà prise.</p>
+<p class="dlg reveal">— Ce n’est pas…</p>
+<p class="dlg reveal">— Tu ne m’as pas demandé. Tu n’as même pas pensé à me demander. Tu savais ce qu’il avait été pour moi, tu sais ce que ça m’a coûté de partir de là, et tu as décidé que ton principe valait mieux que de me prévenir. Ça aurait pris une phrase. <em>Il m’a écrit, qu’est-ce que tu veux que je fasse ?</em> Une phrase. »</p>
+<p class="reveal">Il aurait voulu répondre qu’elle n’aurait pas été obligée de décider pour lui. Il le dit, d’ailleurs, d’une voix plus dure qu’il ne l’aurait voulu :</p>
+<p class="dlg reveal">« Tu veux que je choisisse entre vous deux alors que je ne t’ai rien fait.</p>
+<p class="dlg reveal">— Non. Je veux que tu comprennes que ce n’est pas un choix entre nous deux. C’est que tu as traité ça comme une question de principe alors que pour moi, c’était… » Elle s’interrompit, mâchoire serrée. « Tu vois, même là, je suis en train de t’expliquer pourquoi j’ai le droit d’avoir mal. Je suis fatiguée d’argumenter ma propre douleur.</p>
+<p class="dlg reveal">— Je n’ai jamais dit que tu n’avais pas le droit.</p>
+<p class="dlg reveal">— Tu as dit que tu ne voyais pas où était le problème. C’est la même chose, avec plus de politesse. »</p>
+<p class="reveal">Il y eut un silence où l’on n’entendait que le ronronnement de la borne en veille. Ash sentit monter une colère froide, la colère de celui qui se sait en partie dans son droit et en partie dans le tort, sans réussir à faire le tri.</p>
+<p class="dlg reveal">« Ce que tu me demandes, c’est de ne rien faire sans ton autorisation.</p>
+<p class="dlg reveal">— Ce que je te demande, c’est d’avoir pensé à moi. Pas de m’obéir. D’<em>y penser</em>. » Elle décroisa les bras. « Je ne sais pas si on peut parler maintenant. Je ne crois pas. »</p>
+<p class="reveal">Elle remit son crayon dans ses cheveux, prit son sac, et partit sans claquer la porte, ce qui était pire que de la claquer. Ash resta devant la borne 3, dont la gâchette collait toujours.</p>
+</section>
+
+<section data-mood="silent" data-loc="SIGNAL ● AUCUN">
+<span class="tag">05 · silence</span>
+<p class="reveal">Les messages cessèrent. Pas d’un coup : ils s’espacèrent, puis s’éteignirent, comme une fréquence qu’on perd en s’éloignant de l’émetteur.</p>
+<p class="reveal">Le premier jour, Ash s’habitua mal à son poignet qui ne vibrait pas. Le dixième, il surprit sa main à chercher le contact d’une chanson qu’il voulait envoyer, un morceau de synthés lents trouvé dans une archive pirate, exactement le genre de chose qu’elle aurait détestée avec tendresse. Il garda le titre dans un dossier. Il y en eut bientôt six.</p>
+<p class="reveal">Il évita le <em>Dernier Crédit</em> pendant des semaines, puis y retourna un soir par pure obstination. La borne 3 était éteinte. Quelqu’un avait collé un autocollant sur la gâchette, sans doute le patron, qui en avait eu assez de la voir coller. Ash sortit sans jouer.</p>
+<p class="reveal">Le café analogique de la rue des Aiguilles, dans la même zone morte, lui devint presque insoutenable. Il connaissait trop bien la table du fond, côté fenêtre, celle où elle posait toujours son tournevis à côté de la tasse comme un couvert supplémentaire. Un client s’y était installé. Ash resta un instant debout, ridicule, puis commanda au comptoir.</p>
+<p class="reveal">Au travail, il sifflait toujours la Fréquence en soudant. Il ne s’en rendait compte que lorsqu’un collègue demandait : « C’est quoi, ça ? » et qu’il répondait : « Rien. »</p>
+<p class="reveal">L’inquiétude venait par vagues, plus sournoises que le manque. Raven avait des mois difficiles, il le savait, même si elle n’en parlait que par allusions et jamais pour qu’on la plaigne. Était-elle seule, ces temps-ci ? Mangeait-elle ? Il savait qu’elle disparaissait parfois dans son atelier pendant des jours, au milieu de ses synthés éventrés, comme dans une chrysalide.</p>
+<p class="reveal">Et c’était là que la ville se faisait tentatrice. Il suffisait d’une requête de maintenance détournée pour voir si son implant était actif. Il avait les accès. Il aurait pu, en dix minutes, savoir dans quel quartier elle se trouvait, si ses constantes étaient stables, si un drone de secteur l’avait croisée. Une nuit, il ouvrit l’interface, le curseur clignotant dans la case du nom.</p>
+<p class="big reveal">Il ne tapa pas son nom.</p>
+<p class="reveal">Ce n’était pas de la vertu. Il y avait seulement, très clair, un souvenir : <em>Tu n’as même pas pensé à me demander.</em> Il referma la console. Il resta longtemps assis dans le noir de son appartement, avec cette inquiétude qu’il ne pouvait ni nourrir ni éteindre. Savoir qu’on peut atteindre quelqu’un ne donne pas le droit de le faire. Il le comprit comme on comprend une règle physique, en se brûlant d’abord.</p>
+<p class="reveal">Il lui écrivit, une fois, un message qu’il n’envoya pas. Puis un autre, qu’il envoya :</p>
+<p class="msg me reveal">Je ne te demande pas de répondre. Je voulais juste que tu saches que je pense à ce que tu m’as dit. Je ne te chercherai pas.</p>
+<p class="reveal">Il renonça aussitôt à toute attente. Le message resta là, sans accusé de lecture, dans l’archive.</p>
+</section>
+
+<section data-mood="neon" data-loc="SIGNAL ● RECONNEXION">
+<span class="tag">06 · cinquante-trois jours</span>
+<p class="reveal">Elle répondit cinquante-trois jours plus tard, un soir de pluie, trois mots sans majuscule :</p>
+<p class="msg reveal">j’ai lu. merci.</p>
+<p class="reveal">Ash relut la ligne une dizaine de fois, sans savoir quoi en faire. Il écrivit : <em>Comment tu vas ?</em> Il effaça. Il écrivit : <em>De rien.</em> Il envoya cela.</p>
+<p class="reveal">Trois jours passèrent. Puis :</p>
+<p class="msg reveal">le café de la rue des aiguilles. jeudi, 18h. si tu veux.</p>
+<p class="msg me reveal">Je veux bien.</p>
+<p class="msg reveal">pas de promesse sur la suite.</p>
+<p class="msg me reveal">Aucune.</p>
+</section>
+
+<section data-mood="dead" data-loc="ZONE MORTE ● RUE DES AIGUILLES">
+<span class="tag">07 · café analogique</span>
+<p class="reveal">Il arriva trop tôt, et la pluie tambourinait sur les vitres, de ce bruit qu’on n’entend que dans les zones mortes, quand aucune publicité ne la couvre. Le café sentait le grain brûlé et le bois humide. Il choisit une table, puis la changea, puis la remit. Il commanda deux cafés, dont l’un resterait peut-être froid.</p>
+<p class="reveal">Raven entra à dix-huit heures pile, secouant son manteau. Elle avait coupé ses cheveux. Il remarqua qu’elle avait maigri aussi, à peine, et se retint de le dire. Elle s’assit en face de lui, laissa son tournevis dans sa poche, et regarda la tasse.</p>
+<p class="dlg reveal">« Tu as pris le même que moi.</p>
+<p class="dlg reveal">— Je ne savais pas ce que tu voudrais. J’ai pris le seul que je savais que tu aimais. »</p>
+<p class="reveal">Un coin de sa bouche bougea, pas tout à fait un sourire.</p>
+<p class="reveal">Ils parlèrent d’abord de rien : de la pluie, du travail, d’un synthé qu’elle avait remonté avec des pièces de trois machines. Chaque phrase était un pas posé sur de la glace. Puis Ash reposa sa tasse.</p>
+<p class="dlg reveal">« Je voudrais dire quelque chose. Tu n’as pas à répondre.</p>
+<p class="dlg reveal">— D’accord.</p>
+<p class="dlg reveal">— J’ai passé beaucoup de temps à me justifier dans ma tête. Que je n’avais pas voulu te faire de mal, que mon raisonnement tenait, que… » Il s’obligea à la regarder. « Tout ça est peut-être vrai, et ça ne change rien. Tu as été blessée parce que j’ai agi sans penser à toi. Pas par malice : parce que j’étais occupé à avoir raison. J’ai traité ça comme un principe alors que c’était toi. Je suis désolé. Pas que tu aies mal : désolé de l’avoir fait.</p>
+<p class="dlg reveal">— Tu aurais pu me demander.</p>
+<p class="dlg reveal">— Oui. Et je ne dis pas que ça aurait réglé quelque chose. Je dis que ça aurait été la moindre des choses. »</p>
+<p class="reveal">Raven fit tourner sa tasse entre ses paumes. Dehors, un train glissa sur son viaduc, et la table vibra imperceptiblement.</p>
+<p class="dlg reveal">« Je t’ai écouté, dit-elle. C’est sincère, je le vois. » Elle marqua un temps. « Mais je ne peux pas te dire que c’est oublié. Je ne peux pas te promettre que ce sera comme avant. Parfois je regarde mon poignet et je me dis <em>ça, je le montre à Ash</em>, et puis je me rappelle. Et je suis furieuse que ça ait continué à faire ça.</p>
+<p class="dlg reveal">— Je sais.</p>
+<p class="dlg reveal">— Non, tu ne sais pas. Mais tu l’entends. C’est déjà plus que ce que j’espérais. »</p>
+<p class="reveal">Elle but une gorgée, grimaça.</p>
+<p class="dlg reveal">« Il est froid.</p>
+<p class="dlg reveal">— Il est froid depuis cinq minutes. J’ai trop parlé.</p>
+<p class="dlg reveal">— Oui. » Cette fois, c’était presque un sourire. « Tu parles toujours trop quand tu es nerveux. »</p>
+<p class="reveal">Elle dit ensuite, sans qu’il demande, que Kael ne lui avait plus écrit, que c’était bien ainsi, qu’elle ne savait pas encore ce qu’elle ressentait à ce sujet, et qu’il n’avait pas à en savoir plus. Ash hocha la tête et ne posa pas de question. Il sentit qu’il venait de recevoir quelque chose de rare, et que le recevoir, c’était aussi renoncer à en demander davantage.</p>
+<p class="reveal">Ils restèrent encore une heure. Elle lui parla du synthé, il lui parla du relais du secteur 14 qui avait recommencé à siffler. Elle rit une fois, brièvement, et se reprit, comme si elle avait laissé échapper quelque chose sans permission. Il fit semblant de ne pas l’avoir vu.</p>
+</section>
+
+<section data-mood="neon" data-loc="SIGNAL ● MÉTRO AÉRIEN">
+<span class="tag">08 · une fréquence encore possible</span>
+<p class="reveal">Quand ils sortirent, la pluie avait faibli, et la zone morte s’éteignait derrière eux comme une porte qu’on referme. Les réseaux revinrent à la sortie de la rue : les poignets vibrèrent, les enseignes se rallumèrent, la ville retrouva son bavardage.</p>
+<p class="reveal">Ils marchèrent vers la station de métro aérien, côte à côte, à une distance qu’ils n’avaient jamais eue. Elle parla d’un voisin qui élevait des poules sur son toit. Il dit que c’était illégal. Elle dit que c’était surtout bruyant. Devant l’épicerie du coin, elle ralentit.</p>
+<p class="dlg reveal">« Il leur reste des biscuits au sésame ?</p>
+<p class="dlg reveal">— Je n’ai pas regardé.</p>
+<p class="dlg reveal">— Tu n’as pas regardé. » Elle secoua la tête. « Il y a eu une époque où tu aurais vérifié.</p>
+<p class="dlg reveal">— Il y a eu une époque où tu aurais fait semblant de ne pas en vouloir.</p>
+<p class="dlg reveal">— Touché. »</p>
+<p class="reveal">Ils n’entrèrent pas. Ils continuèrent, et le fantôme de la blague resta un instant entre eux, léger, sans qu’aucun des deux ose le saisir.</p>
+<p class="reveal">Sur le quai, le train arriva dans un souffle tiède. Raven se tourna vers lui, une main sur la rampe.</p>
+<p class="dlg reveal">« On se revoit bientôt ?</p>
+<p class="dlg reveal">— Oui. Quand tu veux. »</p>
+<p class="reveal">Elle le regarda un moment, cherchant sans doute dans la phrase une exigence ou une promesse, et n’en trouvant aucune. Elle hocha la tête et monta.</p>
+<p class="reveal">Les portes se refermèrent. Il la vit à travers la vitre, qui ne lui faisait pas signe, qui ne détourna pas non plus le regard. Puis le train s’éloigna dans la nuit.</p>
+<p class="reveal">Il resta sur le quai. Son poignet vibra, un seul fichier, sans texte. Le titre :</p>
+<p class="msg reveal">▶ Fréquence 7, version lente</p>
+<p class="reveal">Une version qu’il n’avait jamais entendue, jouée sur un instrument qu’elle avait dû restaurer elle-même.</p>
+<p class="reveal">Il lança la lecture. Les premières notes montèrent, hésitantes, un peu désaccordées, d’une chaleur qu’aucun néon ne savait imiter. Au-dessus de lui, la ville continuait de clignoter, immense, indifférente, et très loin, dans un wagon qui glissait entre les tours, quelqu’un écoutait peut-être la même chose.</p>
+</section>
+</main>
+
+<footer>
+<svg class="fq" width="120" height="24" viewBox="0 0 120 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 12h20l5-9 8 18 8-14 6 5h20l5-6 6 12 6-6h36"/></svg>
+fin de transmission · <span id="min"></span>
+</footer>
+
+<script>
+(function(){
+var root=document.documentElement,body=document.body;
+/* thème */
+var tb=document.getElementById('th');
+tb.onclick=function(){var l=getComputedStyle(root).getPropertyValue('--bg').trim()==='#07060d';root.setAttribute('data-theme',l?'light':'dark')};
+/* temps de lecture */
+var w=document.querySelector('main').innerText.split(/\s+/).length;
+/* progression */
+var bar=document.getElementById('bar');
+function prog(){var h=document.documentElement.scrollHeight-innerHeight;bar.style.width=(h>0?scrollY/h*100:0)+'%'}
+addEventListener('scroll',prog,{passive:true});prog();
+/* révélations + humeur de la ville */
+var loc=document.getElementById('loc');
+var rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+document.querySelectorAll('.msg').forEach(function(m,i){m.dataset.full=m.textContent;m.dataset.t='SIG-'+(4096+i*173).toString(16).toUpperCase();if(!rm)m.textContent=''});
+function type(el){var t=el.dataset.full;if(rm||el.dataset.done)return;el.dataset.done=1;el.classList.add('typing');var i=0;(function s(){el.textContent=t.slice(0,++i);if(i<t.length)setTimeout(s,16+Math.random()*28);else el.classList.remove('typing')})()}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');if(e.target.classList.contains('msg'))setTimeout(function(){type(e.target)},450)}})},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(function(n){io.observe(n)});
+var mood=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){
+body.classList.remove('dead','silent');body.classList.add('tune');setTimeout(function(){body.classList.remove('tune')},400);var m=e.target.dataset.mood;if(m!=='neon')body.classList.add(m);
+loc.textContent=e.target.dataset.loc;rain.mood=m}})},{rootMargin:'-45% 0px -45% 0px'});
+document.querySelectorAll('section').forEach(function(s){mood.observe(s)});
+/* pluie */
+var c=document.getElementById('rain'),x=c.getContext('2d'),rain={mood:'neon'},drops=[],W,H,reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+var cols={neon:['255,46,154','34,225,255','160,120,255'],dead:['255,180,84','232,147,90'],silent:['139,134,163']};
+function size(){W=c.width=innerWidth;H=c.height=innerHeight;drops=[];for(var i=0;i<Math.min(140,W/8);i++)drops.push(mk(true))}
+function mk(r){return{x:Math.random()*(W+200)-100,y:r?Math.random()*H:-20,l:10+Math.random()*22,v:6+Math.random()*9,k:Math.random()}}
+function draw(){x.clearRect(0,0,W,H);var cs=cols[rain.mood]||cols.neon,dead=rain.mood==='dead',a=dead?.22:rain.mood==='silent'?.12:.3;
+drops.forEach(function(d,i){var col=cs[i%cs.length];x.strokeStyle='rgba('+col+','+(a*(.4+d.k*.6))+')';x.lineWidth=1;x.beginPath();x.moveTo(d.x,d.y);x.lineTo(d.x-d.l*.25,d.y+d.l);x.stroke();
+d.y+=d.v*(dead?.7:1);d.x-=d.v*.25*(dead?.7:1);if(d.y>H){drops[i]=mk(false)}});
+if(!reduce)requestAnimationFrame(draw)}
+addEventListener('resize',size);size();draw();
+})();
+</script>
+</body>
+</html>
