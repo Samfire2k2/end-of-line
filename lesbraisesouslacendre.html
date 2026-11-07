@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les braises sous la cendre</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Parisienne&display=swap');
+
+  :root{
+    --sky:     #bfe4ff;
+    --red:     #e5484d;
+    --ink:     #f6f9ff;
+    --ink-dim: #9db3c9;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin: 0;
+    font-family: 'Newsreader', serif;
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* --- evolving backdrop, transitions as you scroll --- */
+  #backdrop{
+    position: fixed;
+    inset: 0;
+    z-index: -5;
+    background: radial-gradient(ellipse at 50% -10%, #0c0a10, #050408 65%);
+    transition: background 2.2s ease;
+  }
+
+  /* --- minor but visible red glow, present throughout --- */
+  #redglow{
+    position: fixed;
+    inset: 0;
+    z-index: -4;
+    pointer-events: none;
+    opacity: 0.24;
+    transition: opacity 2.4s ease;
+  }
+  .glow-spot{
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    background: radial-gradient(circle, rgba(229,72,77,0.55), transparent 70%);
+    animation: ember 6s ease-in-out infinite;
+  }
+  .glow-spot.s1{ width: 42vw; height: 42vw; top: -8vh;  left: -10vw; animation-delay: 0s; }
+  .glow-spot.s2{ width: 30vw; height: 30vw; top: 55vh;  right: -8vw; animation-delay: 2s; }
+  .glow-spot.s3{ width: 34vw; height: 34vw; top: 120vh; left: 30vw;  animation-delay: 4s; }
+  @keyframes ember{
+    0%, 100%{ opacity: 0.7; }
+    50%{ opacity: 1; }
+  }
+
+  /* --- starfield --- */
+  #stars{
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    transition: opacity 2s ease;
+  }
+  .star{
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: var(--ink);
+    box-shadow: 0 0 4px 1px rgba(243,237,225,0.6);
+    animation: twinkle 3.6s ease-in-out infinite;
+  }
+  @keyframes twinkle{
+    0%, 100%{ opacity: 0.15; }
+    50%{ opacity: 0.95; }
+  }
+
+  /* --- firefly, glows progressively --- */
+  #firefly{
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--red);
+    z-index: -2;
+    pointer-events: none;
+    box-shadow:
+      0 0 8px 2px rgba(229,72,77,0.7),
+      0 0 22px 7px rgba(229,72,77,0.35);
+    animation: firefly-move 26s ease-in-out infinite, firefly-glow 3.4s ease-in-out infinite;
+    transition: filter 2s ease;
+  }
+  @keyframes firefly-move{
+    0%   { top: 72vh; left: 8vw;  }
+    14%  { top: 45vh; left: 22vw; }
+    28%  { top: 60vh; left: 52vw; }
+    42%  { top: 18vh; left: 68vw; }
+    56%  { top: 64vh; left: 40vw; }
+    70%  { top: 30vh; left: 12vw; }
+    85%  { top: 50vh; left: 82vw; }
+    100% { top: 72vh; left: 8vw;  }
+  }
+  @keyframes firefly-glow{
+    0%, 100%{ opacity: 0.25; transform: scale(0.75); }
+    50%{ opacity: 1; transform: scale(1.35); }
+  }
+
+  body.hushed #stars{ opacity: 0.35; }
+
+  @media (prefers-reduced-motion: reduce){
+    .glow-spot{ animation: none; opacity: 0.85; }
+  }
+
+  header.hero{
+    position: relative;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 1.5rem;
+  }
+
+  .kicker{
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--ink-dim);
+    margin-bottom: 1.4rem;
+  }
+
+  h1{
+    font-family: 'Parisienne', cursive;
+    font-weight: 400;
+    font-size: clamp(3rem, 10vw, 5.4rem);
+    line-height: 1.15;
+    margin: 0;
+    max-width: 16ch;
+    color: var(--sky);
+    text-shadow:
+      0 0 18px rgba(191,228,255,0.6),
+      0 0 46px rgba(191,228,255,0.3);
+  }
+
+  .subline{
+    margin-top: 1.6rem;
+    font-family: 'Parisienne', cursive;
+    font-size: 1.5rem;
+    color: var(--sky);
+    text-shadow: 0 0 14px rgba(191,228,255,0.45);
+  }
+
+  main{
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 2vh 1.6rem 16vh;
+    position: relative;
+    z-index: 1;
+  }
+
+  section.scene{ padding: 7vh 0; }
+
+  section.scene p{
+    font-size: 1.16rem;
+    line-height: 1.8;
+    margin: 0 0 1.3em;
+  }
+  section.scene p:first-child{ margin-top: 0; }
+
+  .whisper{
+    font-family: 'Parisienne', cursive;
+    font-size: 1.35rem;
+    color: var(--sky);
+    text-shadow: 0 0 12px rgba(191,228,255,0.5);
+  }
+
+  /* the one red, glowing moment */
+  .alert{
+    font-family: 'Parisienne', cursive;
+    color: var(--red);
+    text-shadow:
+      0 0 14px rgba(229,72,77,0.75),
+      0 0 34px rgba(229,72,77,0.4);
+  }
+
+  .divider{
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    color: var(--sky);
+    font-size: 1rem;
+    opacity: 0.6;
+    text-shadow: 0 0 10px rgba(191,228,255,0.55);
+  }
+
+  section.reveal{ padding-top: 3vh; }
+
+  .word-wrap{
+    display: flex;
+    justify-content: center;
+    margin: 6vh 0 3vh;
+  }
+
+  .word{
+    font-family: 'Parisienne', cursive;
+    font-size: clamp(2.2rem, 8vw, 3.4rem);
+    color: var(--red);
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+    text-shadow:
+      0 0 22px rgba(229,72,77,0.8),
+      0 0 55px rgba(229,72,77,0.4);
+    transition: opacity 1.4s ease, transform 1.4s ease;
+  }
+  .word.show{
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  footer{
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 6vh 1.5rem 8vh;
+    font-size: 0.9rem;
+    color: var(--ink-dim);
+    font-style: italic;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .star{ animation: none; opacity: 0.4; }
+    .word{ transition: none; }
+    #firefly{ animation: none; opacity: 0.6; }
+    html{ scroll-behavior: auto; }
+  }
+
+  @media (max-width: 480px){
+    section.scene p{ font-size: 1.04rem; }
+  }
+</style>
+</head>
+<body>
+
+<div id="backdrop"></div>
+<div id="redglow">
+  <div class="glow-spot s1"></div>
+  <div class="glow-spot s2"></div>
+  <div class="glow-spot s3"></div>
+</div>
+<div id="stars"></div>
+<div id="firefly"></div>
+
+<header class="hero">
+  <h1>Les braises sous la cendre</h1>
+</header>
+
+<main>
+
+  <section class="scene" data-tone="rain">
+    <p>Je ne me souviens plus de la couleur exacte du ciel ce soir-l&agrave;, seulement qu'il pleuvait cette pluie fine et t&ecirc;tue qui ne mouille jamais vraiment, mais qui s'infiltre. Tu &eacute;tais sous l'auvent d'un bar dont j'ai oubli&eacute; le nom, une cigarette &eacute;teinte entre les doigts parce que tu avais dit vouloir arr&ecirc;ter, et tu regardais la rue comme si elle allait finir par te donner raison sur quelque chose.</p>
+    <p>Je suis entr&eacute; dans ton champ de vision sans pr&eacute;venir. C'est toujours comme &ccedil;a que &ccedil;a commence, je crois&nbsp;: sans pr&eacute;venir. On ne sonne pas avant d'appara&icirc;tre dans la vie de quelqu'un. On y entre, voil&agrave; tout, et l'autre n'a rien demand&eacute;.</p>
+    <p>On a parl&eacute; de rien. Du bar, de la pluie, d'un film que tu n'avais pas aim&eacute; et que j'avais ador&eacute;, ce qui aurait d&ucirc; nous &eacute;loigner et qui, allez savoir pourquoi, nous a rapproch&eacute;s. Tu riais d'une mani&egrave;re un peu cass&eacute;e, comme si le rire devait forcer un passage &agrave; travers quelque chose avant de sortir. J'ai pens&eacute;, cette nuit-l&agrave;, que je voulais entendre ce rire-l&agrave; plus d'une fois. Je n'ai rien dit de tel, &eacute;videmment. On ne dit jamais ces choses-l&agrave; le premier soir. On les tait, on les range, et elles attendent leur heure comme des braises sous la cendre.</p>
+  </section>
+
+  <div class="divider">&#10022;</div>
+
+  <section class="scene" data-tone="love">
+    <p>Les semaines qui ont suivi ont eu la texture des choses qu'on ne voit pas grandir tant qu'on est dedans. Un caf&eacute; qui devient une habitude. Un message envoy&eacute; &agrave; une heure qui n'a plus de pr&eacute;texte, vingt-trois heures quarante, l'heure o&ugrave; on ne s'&eacute;crit plus par politesse mais parce qu'on en a envie. Une main qui reste un peu plus longtemps que n&eacute;cessaire sur une &eacute;paule, pour v&eacute;rifier une veste, un col, rien, un pr&eacute;texte cousu de fil blanc.</p>
+    <p>Je me souviens du jour pr&eacute;cis o&ugrave; j'ai compris que ce n'&eacute;tait plus une amiti&eacute; qui prenait des d&eacute;tours. On marchait le long du fleuve, tu venais de me raconter une histoire de ton enfance que tu ne racontais jamais, et tu t'es arr&ecirc;t&eacute;e au milieu d'une phrase parce que tu avais senti que je t'&eacute;coutais vraiment, pas par politesse, pas pour attendre mon tour de parler. Tu as juste dit&nbsp;:</p>
+    <p class="whisper">&laquo; Personne ne m'&eacute;coute comme &ccedil;a d'habitude. &raquo;</p>
+    <p>Et dans ta voix il y avait de la surprise, et un peu de peur aussi, comme si &ecirc;tre entendue ainsi te rendait plus vuln&eacute;rable que d'habitude.</p>
+    <p>Ce soir-l&agrave;, je n'ai rien pris. Je veux que ce soit clair, parce que la suite de cette histoire va me faire dire le contraire. Ce soir-l&agrave;, je n'ai rien pris&nbsp;: tu m'as donn&eacute; cette phrase, ce silence, cette main qui a fini par trouver la mienne sans que ni l'un ni l'autre n'ait eu &agrave; faire le premier geste, parce que les deux gestes se sont rencontr&eacute;s &agrave; mi-chemin.</p>
+  </section>
+
+  <div class="divider">&#10022;</div>
+
+  <section class="scene" data-tone="love">
+    <p>On a aim&eacute; comme on apprend une langue qu'on croit conna&icirc;tre et qu'on ne conna&icirc;t pas&nbsp;: avec l'illusion de la familiarit&eacute; et la surprise permanente de tout ce qu'on ignorait encore. J'ai appris que tu d&eacute;testais les dimanches, que tu adorais les meubles qui craquent, que tu pleurais devant les publicit&eacute;s et jamais devant les films tristes, que ta col&egrave;re se manifestait par un silence terrible plut&ocirc;t que par des cris.</p>
+    <p>Tu as appris, de ton c&ocirc;t&eacute;, que je ne savais pas dormir sans un bruit de fond, que j'avais peur des ascenseurs sans le dire, que je gardais toutes les lettres qu'on m'avait &eacute;crites depuis l'enfance dans une bo&icirc;te que je ne rouvrais jamais mais que je ne pouvais pas jeter.</p>
+    <p>On construisait, sans s'en rendre vraiment compte, un dictionnaire &agrave; deux entr&eacute;es&nbsp;: ce que je savais de toi, ce que tu savais de moi. Et ce dictionnaire, avec le temps, est devenu plus &eacute;pais que n'importe quel livre que j'avais lu seul dans ma vie.</p>
+    <p>Il y a eu l'appartement qu'on a partag&eacute;. Il y a eu les amis qui ont fini par dire &laquo;&nbsp;vous&nbsp;&raquo; en pensant &agrave; nous deux comme &agrave; une seule entit&eacute;, sans m&ecirc;me s'en apercevoir. Il y a eu des &eacute;t&eacute;s entiers o&ugrave; le bonheur &eacute;tait si &eacute;vident qu'on ne prenait plus la peine de le nommer, comme on ne nomme pas l'air qu'on respire.</p>
+    <p>Et puis, comme toujours, il y a eu le reste.</p>
+  </section>
+
+  <div class="divider">&#10022;</div>
+
+  <section class="scene" data-tone="hush">
+    <p>Je ne raconterai pas en d&eacute;tail comment &ccedil;a s'est d&eacute;fait. Je ne suis m&ecirc;me pas s&ucirc;r qu'il y ait eu un moment pr&eacute;cis, une phrase, une porte qui claque. C'est plus sournois que &ccedil;a, en g&eacute;n&eacute;ral. &Ccedil;a se d&eacute;fait comme un tissu s'effiloche&nbsp;: un fil qui part, puis un autre, et un jour on regarde le v&ecirc;tement et on ne comprend pas comment il a pu devenir aussi trou&eacute; sans qu'on l'ait vu venir.</p>
+    <p>Je me souviens d'un dernier d&icirc;ner o&ugrave; on a parl&eacute; de tout sauf de nous. Je me souviens d'avoir rang&eacute;, un matin, les affaires que tu avais laiss&eacute;es dans un carton, avec le soin absurde qu'on met &agrave; emballer quelque chose qu'on sait qu'on ne pourra plus regarder apr&egrave;s. Je me souviens de la porte qui s'est referm&eacute;e, pas violemment, juste normalement, comme n'importe quelle porte qui se referme n'importe quel jour de la semaine.</p>
+    <p>Ce qui m'a le plus &eacute;tonn&eacute;, dans les mois qui ont suivi, ce n'est pas la tristesse. La tristesse, je m'y attendais, on nous pr&eacute;vient tous plus ou moins de &ccedil;a. Ce qui m'a &eacute;tonn&eacute;, c'est le manque tr&egrave;s pr&eacute;cis, tr&egrave;s localis&eacute;, de choses que je n'aurais jamais pens&eacute; pouvoir manquer &agrave; ce point&nbsp;: ta mani&egrave;re de dire mon pr&eacute;nom quand tu &eacute;tais fatigu&eacute;e, le poids de ta t&ecirc;te sur mon &eacute;paule dans les transports, la certitude b&ecirc;te et rassurante qu'il y aurait quelqu'un dans l'appartement en rentrant.</p>
+    <p>Ce sont des choses qu'on ne remarque jamais tant qu'on les a. Et qui, une fois disparues, laissent un trou d'une forme tellement pr&eacute;cise qu'on comprend, avec un temps de retard ind&eacute;cent, qu'elles occupaient un espace qu'on croyait vide.</p>
+  </section>
+
+  <section class="scene" data-tone="hush">
+    <p>Il m'a fallu longtemps pour trouver le mot juste sur ce qui m'&eacute;tait arriv&eacute;. J'ai essay&eacute; &laquo;&nbsp;chagrin&nbsp;&raquo;, j'ai essay&eacute; &laquo;&nbsp;deuil&nbsp;&raquo;, j'ai essay&eacute; &laquo;&nbsp;rupture&nbsp;&raquo;, et aucun ne rendait vraiment justice &agrave; ce sentiment tr&egrave;s sp&eacute;cifique d'avoir &eacute;t&eacute; d&eacute;poss&eacute;d&eacute; de quelque chose que je n'avais pourtant jamais poss&eacute;d&eacute; en propre.</p>
+    <p>Et puis un soir, tr&egrave;s tard, en essayant d'expliquer &agrave; un ami ce que je ressentais, j'ai fini par dire, presque malgr&eacute; moi&nbsp;:</p>
+    <p class="whisper">&laquo; J'ai l'impression qu'on m'a vol&eacute; quelque chose. &raquo;</p>
+    <p>Mon ami a ri, gentiment, en me disant qu'on ne pouvait pas voler ce qu'on avait donn&eacute;, que c'&eacute;tait m&ecirc;me la d&eacute;finition d'un cadeau&nbsp;: une fois offert, il appartient &agrave; celui qui le re&ccedil;oit, et il n'y a pas de vol l&agrave;-dedans, seulement une reprise.</p>
+    <p>J'ai r&eacute;fl&eacute;chi longtemps &agrave; cette phrase. Et je crois, avec le recul, qu'il avait tort. Ou plut&ocirc;t, qu'il n'avait raison qu'&agrave; moiti&eacute;.</p>
+  </section>
+
+  <section class="scene reveal" data-tone="alarm">
+    <p>Parce que ce qu'on m'a pris, ce n'est pas toi. Toi, tu es partie, et c'est ton droit le plus strict, et je ne t'en veux pas, ou plus, ou en tout cas j'essaie. Ce qu'on m'a vol&eacute;, c'est autre chose&nbsp;: c'est la version de moi qui savait dormir sans bruit de fond parce que ta respiration en tenait lieu. C'est ma mani&egrave;re de traverser les dimanches, que tu d&eacute;testais et que j'avais fini par d&eacute;tester avec toi, par contagion, par amour, et que je ne sais plus comment aimer maintenant que tu n'es plus l&agrave; pour les d&eacute;tester &agrave; mes c&ocirc;t&eacute;s. C'est ce dictionnaire &agrave; deux entr&eacute;es qu'on avait mis des ann&eacute;es &agrave; &eacute;crire, et dont je suis, aujourd'hui, le seul lecteur restant, feuilletant des pages que plus personne d'autre que moi ne saura jamais d&eacute;chiffrer.</p>
+    <p>On ne m'a pas demand&eacute; mon avis avant de m'apprendre &agrave; vivre autrement. On ne m'a pas demand&eacute; mon avis avant de repartir avec cette version de moi, cette langue &agrave; deux, ce dictionnaire, en me laissant l'autre version, la premi&egrave;re, celle d'avant, comme on rend un v&ecirc;tement trop grand apr&egrave;s en avoir emprunt&eacute; un ajust&eacute; &agrave; sa taille pendant des ann&eacute;es.</p>
+    <p>C'est pour &ccedil;a, je crois, que le mot m'est venu tout seul, ce soir-l&agrave;, sans que je le cherche&nbsp;:</p>
+
+    <div class="word-wrap"><span class="word" id="revealWord">vol&eacute;</span></div>
+
+    <p>Pas parce que tu m'aurais pris quelque chose en cachette, ni par malice, ni m&ecirc;me consciemment. Mais parce qu'aimer, et &ecirc;tre aim&eacute;, et puis ne plus l'&ecirc;tre, &ccedil;a arrive toujours sans qu'on ait rien sign&eacute;, sans qu'on ait donn&eacute; son accord explicite pour la version de soi qu'on devient en chemin, ni pour celle, plus fragile, qu'on redevient quand l'autre s'en va.</p>
+    <p>On ne cambriole pas quelqu'un en lui demandant la permission. On entre, un soir, sous un auvent, sous la pluie, sans pr&eacute;venir. On reste des ann&eacute;es. Et un jour, on repart avec une part de la maison qu'on avait pourtant aid&eacute; &agrave; construire, et &ccedil;a, ni le droit ni la morale n'ont jamais su vraiment comment l'appeler.</p>
+    <p>Moi, j'ai fini par l'appeler comme tout le monde l'a toujours appel&eacute;, depuis que le monde existe, chaque fois que quelqu'un se retrouve &agrave; courir apr&egrave;s ce qui vient de lui &eacute;chapper&nbsp;: <span class="alert">au voleur</span>.</p>
+  </section>
+
+</main>
+
+<script>
+  const backdrop = document.getElementById('backdrop');
+  const redglow = document.getElementById('redglow');
+  const firefly = document.getElementById('firefly');
+  const tones = {
+    rain:  { bg: 'radial-gradient(ellipse at 50% -10%, #0c0a10, #050408 65%)', glow: 0.22, fly: 'brightness(0.8)'  },
+    love:  { bg: 'radial-gradient(ellipse at 50% -10%, #100a10, #050408 65%)', glow: 0.32, fly: 'brightness(1)'    },
+    hush:  { bg: 'radial-gradient(ellipse at 50%  -5%, #0a0910, #050408 65%)', glow: 0.24, fly: 'brightness(0.85)' },
+    alarm: { bg: 'radial-gradient(ellipse at 50%  -5%, #180a0c, #050408 65%)', glow: 0.62, fly: 'brightness(1.5)'  }
+  };
+
+  const starsLayer = document.getElementById('stars');
+  const n = 90;
+  for (let i = 0; i < n; i++){
+    const s = document.createElement('span');
+    s.className = 'star';
+    s.style.left = Math.random() * 100 + 'vw';
+    s.style.top = Math.random() * 100 + 'vh';
+    s.style.animationDelay = (Math.random() * 4) + 's';
+    s.style.animationDuration = (2.4 + Math.random() * 3) + 's';
+    const size = Math.random() < 0.15 ? 3 : (Math.random() < 0.5 ? 2 : 1);
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+    starsLayer.appendChild(s);
+  }
+
+  const revealWord = document.getElementById('revealWord');
+  const scenes = document.querySelectorAll('.scene');
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        const tone = entry.target.dataset.tone;
+        if (tones[tone]){
+          backdrop.style.background = tones[tone].bg;
+          redglow.style.opacity = tones[tone].glow;
+          firefly.style.filter = tones[tone].fly;
+        }
+        document.body.classList.toggle('hushed', tone === 'hush');
+        document.body.classList.toggle('alarmed', tone === 'alarm');
+      }
+      if (entry.target.classList.contains('reveal') && entry.isIntersecting){
+        revealWord.classList.add('show');
+      }
+    });
+  }, { threshold: 0.4 });
+
+  scenes.forEach(s => io.observe(s));
+</script>
+
+</body>
+</html>
