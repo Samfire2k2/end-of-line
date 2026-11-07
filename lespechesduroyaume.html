@@ -12,7 +12,6 @@ body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.8 Georgia,'Palat
 body::before,body::after{content:"";position:fixed;inset:0;pointer-events:none}
 body::before{background:radial-gradient(circle at 50% -10%,var(--line),transparent 42%),linear-gradient(125deg,transparent 35%,rgba(255,255,255,.025) 50%,transparent 65%)}
 body::after{opacity:.18;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:38px 38px;mask-image:linear-gradient(to bottom,#000,transparent 75%)}
-#bar{position:fixed;top:env(safe-area-inset-top,0px);left:0;height:4px;background:linear-gradient(90deg,var(--acc),var(--hot));box-shadow:0 0 14px var(--acc),0 0 28px var(--hot);width:0;transition:width .4s;z-index:5}
 main{max-width:720px;margin:0 auto;padding:46px 22px 160px;position:relative;z-index:1}
 h1{font-size:clamp(2.2rem,8vw,3.8rem);line-height:1.05;text-align:center;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);text-shadow:0 0 8px var(--acc),0 0 28px var(--hot);margin:.6em 0 .22em;font-weight:normal}
 .sub{text-align:center;color:var(--mut);font-style:italic;letter-spacing:.08em;margin-bottom:2.4em}
@@ -32,9 +31,6 @@ h1{font-size:clamp(2.2rem,8vw,3.8rem);line-height:1.05;text-align:center;letter-
 .s{color:var(--acc);font-style:italic;text-align:center;font-size:1.1em;margin:1.8em 0;padding:20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-shadow:0 0 10px var(--acc)}
 .k{border-bottom:1px dotted var(--acc);cursor:help;color:var(--acc);text-shadow:0 0 7px var(--acc)}
 .k.o::after{content:attr(data-n);display:block;font-size:.8rem;font-style:italic;color:var(--mut);background:var(--panel);border:1px solid var(--line);box-shadow:0 0 14px var(--line);padding:8px 12px;margin:.4em 0;border-radius:8px}
-#nx{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:linear-gradient(100deg,var(--acc),var(--hot));color:#080914;border:0;padding:13px 30px;border-radius:10px;font:inherit;font-weight:bold;letter-spacing:.05em;cursor:pointer;z-index:6;box-shadow:0 0 12px var(--acc),0 0 30px var(--hot);transition:transform .25s,filter .25s}
-#nx:hover{transform:translateX(-50%) translateY(-3px);filter:brightness(1.15)}
-#nx[hidden]{display:none}
 .mini{background:transparent;border:1px solid var(--line);color:var(--mut);border-radius:8px;padding:7px 16px;font:inherit;font-size:.85rem;cursor:pointer;margin:0 4px;transition:all .25s}
 .mini:hover{color:var(--acc);border-color:var(--acc);box-shadow:0 0 12px var(--line)}
 .nav{text-align:center;margin-bottom:1em}
@@ -42,9 +38,7 @@ h1{font-size:clamp(2.2rem,8vw,3.8rem);line-height:1.05;text-align:center;letter-
 @keyframes up{to{transform:translateY(-140px) rotate(45deg) scale(1.5);opacity:0}}
 @media(max-width:520px){main{padding-left:16px;padding-right:16px}.card{padding:22px}.p{font-size:17px}}
 </style></head><body>
-<div id="bar"></div>
 <main id="m"></main>
-<button id="nx" hidden>Continuer ◈</button>
 <script>
 const K={belladone:'Plante toxique aux baies noires, redoutée des empoisonneurs.',succubes:'Démons séducteurs qui perdent les hommes vertueux.',pécheresse:'Celle qui a commis un péché capital.',promise:'Fiancée, destinée au mariage.',masqué:'Bal où chacun cache son visage derrière un masque.',servantes:'Domestiques de la maison royale.'};
 const S={
@@ -101,27 +95,22 @@ p:[
 'J’ai d’ailleurs hâte de la voir séduire quelque beau noble pendant que, de mon côté, je me régalerai de toutes les délicieuses choses qui seront servies ce soir. Ma mère en rira certainement, enviant ma capacité à rester aussi belle et mince, peu importe les quantités que j’engloutis. Nous sommes de véritables opposées sur ce point. Mon père, quant à lui, ne manquera probablement pas de me reprocher mon manque de tenue à table.',
 's:Je m’appelle Béatrice et je suis l’incarnation de la Gourmandise. La seule chose qui m’intéresse véritablement en ce monde, ce sont les petits plaisirs de la vie.',
 's:Ma meilleure amie s’appelle Cypriane et ce soir, tout le monde découvrira qu’elle est l’incarnation de la Luxure.']}};
-const $=id=>document.getElementById(id),m=$('m'),nx=$('nx'),bar=$('bar');
-let cur,i;
+const $=id=>document.getElementById(id),m=$('m');
+let cur;
 const fmt=t=>t.replace(/\{(\S+?)\}(s?)/g,(_,w,s)=>`<span class="k" data-n="${K[w]||''}">${w}${s}</span>`);
-function home(){document.body.removeAttribute('data-s');nx.hidden=true;bar.style.width=0;scrollTo(0,0);
-m.innerHTML='<h1>Les Péchés du Royaume</h1><div class="sub">Deux voix, deux péchés, une même nuit de bal</div><div class="orn">⟡ ━ ✦ ━ ⟡</div><div class="cards"></div>';
+function home(){document.body.removeAttribute('data-s');scrollTo(0,0);
+m.innerHTML='<h1>Les Péchés du Royaume</h1><div class="orn">⟡ ━ ✦ ━ ⟡</div><div class="cards"></div>';
 for(const k in S){const s=S[k],b=document.createElement('button');b.className='card';b.style.setProperty('--c',s.c);b.innerHTML=`<b>${s.ic} ${s.t}</b><i>${s.n}</i>`;b.onclick=()=>start(k);m.lastChild.appendChild(b)}}
-function start(k){cur=S[k];i=0;document.body.dataset.s=k;scrollTo(0,0);
-m.innerHTML=`<div class="nav"><button class="mini" id="h">‹ Royaume</button><button class="mini" id="a">Tout lire</button></div><h1>${cur.t}</h1><div class="sub">${cur.n}</div><div class="ep">${cur.ep}</div><div id="t"></div>`;
-$('h').onclick=home;$('a').onclick=()=>{while(i<cur.p.length)next(1);end()};nx.hidden=false;nx.textContent='Commencer ◈';next()}
-function next(q){if(!cur)return;if(i>=cur.p.length){end();return}
-let t=cur.p[i++],c='p';if(t[1]==':'){c+=' '+t[0];t=t.slice(2)}
-const d=document.createElement('div');d.className=c;d.innerHTML=fmt(t);if(q)d.style.animation='none',d.style.opacity=1,d.style.transform='none';
-$('t').appendChild(d);bar.style.width=i/cur.p.length*100+'%';nx.textContent='Continuer ◈';
-if(!q)d.scrollIntoView({behavior:'smooth',block:'center'});
-if(i>=cur.p.length&&!q)end()}
-function end(){if(cur.done)return;cur.done=1;nx.hidden=true;
+function start(k){cur=S[k];cur.done=0;document.body.dataset.s=k;scrollTo(0,0);
+m.innerHTML=`<div class="nav"><button class="mini" id="h">‹ Royaume</button></div><h1>${cur.t}</h1><div class="sub">${cur.n}</div><div class="ep">${cur.ep}</div><div id="t"></div>`;
+$('h').onclick=home;
+for(let t of cur.p){let c='p';if(t[1]==':'){c+=' '+t[0];t=t.slice(2)}
+const d=document.createElement('div');d.className=c;d.innerHTML=fmt(t);d.style.animationDelay='.05s';$('t').appendChild(d)}
+end()}
+function end(){if(cur.done)return;cur.done=1;
 const e=document.createElement('div');e.innerHTML='<div class="orn">⟡ Fin ⟡</div><div class="nav"><button class="mini" id="r">Relire</button><button class="mini" id="o">Autre péché</button></div>';
 $('t').appendChild(e);$('r').onclick=()=>{cur.done=0;start(document.body.dataset.s)};
 $('o').onclick=()=>{const k=document.body.dataset.s;cur.done=0;start(k=='envie'?'gourm':'envie')}}
-nx.onclick=()=>next();
-addEventListener('keydown',e=>{if(e.key==' '||e.key=='ArrowRight'){e.preventDefault();next()}});
 m.addEventListener('click',e=>{const k=e.target.closest('.k');if(k){k.classList.toggle('o');return}
 if(cur&&e.target.closest('.p')){const f=document.createElement('div');f.className='f';f.textContent=cur.fx[Math.random()*cur.fx.length|0];f.style.left=e.clientX-16+'px';f.style.top=e.clientY-16+'px';document.body.appendChild(f);setTimeout(()=>f.remove(),1400)}});
 home();
