@@ -39,13 +39,6 @@ const chapters = [
     ],
     object:'<div class="display-book"><b></b><span>NE PAS VENDRE<br>À LIRE UN JOUR DE PLUIE</span></div><div class="object-caption">FIN / 05<br>EXPOSITION</div>'
   },
-  {
-    code:'CAP. VI', label:'AUJOURD’HUI', title:'Un message au réveil',
-    text:[
-      `Aujourd’hui, 18 novembre, ce matin, Kasia m’envoie un message direct quand j’allume mon téléphone. Ça ne va pas des masses, peut-être un peu mieux qu’hier.`
-    ],
-    object:'<div class="memory-window"><i></i><i></i><b></b><span></span></div><div class="object-caption">TRACE / 06<br>KASIA</div>'
-  }
 ];
 
 const notes={
