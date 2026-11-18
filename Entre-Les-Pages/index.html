@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171a16">
+  <meta name="description" content="Entre les pages — une archive vivante de mémoire familiale.">
+  <title>Entre les pages — Archive vivante</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="field" aria-hidden="true"></canvas>
+  <div class="noise" aria-hidden="true"></div>
+
+  <main class="archive" id="archive">
+    <header class="masthead">
+      <button class="identity" id="identity" aria-label="Retour à l'entrée">
+        <span class="signal"><i></i></span>
+        <span><b>ENTRE / 01</b><small>ARCHIVE VIVANTE</small></span>
+      </button>
+      <div class="coordinates"><span id="clock">00:00:00</span><small>44° 50' N — NOVEMBRE</small></div>
+      <button class="environment" id="environment" aria-pressed="false"><span>00</span> PLUIE</button>
+    </header>
+
+    <section class="landing" id="landing">
+      <div class="landing-grid" aria-hidden="true"></div>
+      <div class="landing-copy">
+        <p class="kicker"><span>OBJET 001</span><span>ÉPISODE 01—05</span></p>
+        <h1>ENTRE<br><i>LES</i> PAGES</h1>
+        <p class="lead">Une histoire trouvée dans un livre,<br>conservée entre deux saisons.</p>
+      </div>
+
+      <div class="specimen" aria-label="Feuille de sauge séchée">
+        <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
+        <div class="leaf">
+          <b></b><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <div class="specimen-tag"><small>ÉCHANTILLON</small><b>SAUGE / 01</b><span>forme exacte<br>de sa main</span></div>
+      </div>
+
+      <button class="enter" id="enter"><span>OUVRIR</span><b>LA PAGE</b><i>↗</i></button>
+    </section>
+
+    <section class="story" id="story" hidden>
+      <aside class="index">
+        <p>INDEX</p>
+        <nav id="chapterNav" aria-label="Chapitres"></nav>
+        <div class="progress"><i id="progressBar"></i></div>
+      </aside>
+
+      <div class="stage">
+        <div class="chapter-meta">
+          <span id="chapterCode">CAP. I</span>
+          <span id="chapterLabel">LA CHUTE</span>
+        </div>
+        <div class="fold" id="fold">
+          <div class="fold-number" id="foldNumber">01</div>
+          <div class="chapter-copy">
+            <h2 id="chapterTitle">Entre les pages</h2>
+            <div class="chapter-text" id="chapterText"></div>
+          </div>
+        </div>
+        <div class="stage-object" id="stageObject" aria-hidden="true"></div>
+      </div>
+
+      <footer class="story-footer">
+        <button id="previous" aria-label="Chapitre précédent">← PRÉCÉDENT</button>
+        <p id="readout">0 / 4</p>
+        <button id="next" aria-label="Chapitre suivant">SUITE →</button>
+      </footer>
+    </section>
+
+    <aside class="annotation" id="annotation" hidden>
+      <button id="closeAnnotation" aria-label="Fermer l'annotation">×</button>
+      <small>TRACE SENSORIELLE</small>
+      <p id="annotationText"></p>
+    </aside>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
