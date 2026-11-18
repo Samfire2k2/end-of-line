@@ -73,7 +73,7 @@ function showChapter(index){
   text.innerHTML=chapter.text.map(paragraph=>`<p>${paragraph}</p>`).join('');
   document.getElementById('stageObject').innerHTML=chapter.object;
   document.getElementById('progressBar').style.height=`${((index+1)/chapters.length)*100}%`;
-  document.getElementById('readout').textContent=`${index} / ${chapters.length-1}`;
+  document.getElementById('readout').textContent=`${index + 1} / ${chapters.length}`;
   [...nav.children].forEach((button,i)=>button.classList.toggle('active',i===index));
   document.getElementById('previous').disabled=index===0;
   document.getElementById('next').disabled=index===chapters.length-1;
