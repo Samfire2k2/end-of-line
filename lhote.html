@@ -445,68 +445,86 @@
 
   /* ========== OPTIMISATION PDF/IMPRESSION ========== */
   @media print {
-    /* Enlever les backgrounds complexes */
+    /* Forcer l'impression en couleur */
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
+    /* Garder le background sombre et les effets */
     body::before,
     body::after {
-      display: none !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
     }
 
-    /* Enlever tous les éléments fixed */
-    .noise,
-    .symbiote-blob,
-    .blob-1,
-    .blob-2,
-    .blob-3,
-    .tendrils-canvas,
-    .cursor-glow,
-    .tendril-line,
-    .ink-splatter {
-      display: none !important;
-    }
-
-    /* Enlever les pseudo-éléments complexes */
-    p::before,
-    p::after,
-    .title::after,
-    .web-overlay,
-    .web-overlay::before,
-    .web-overlay::after {
-      display: none !important;
-    }
-
-    /* Désactiver toutes les animations */
-    * {
-      animation: none !important;
-      transition: none !important;
-    }
-
-    /* Couleurs optimisées pour l'impression */
-    html, body {
-      background: white;
-      color: #000;
-      font-size: 12pt;
+    body {
+      background: var(--darker) !important;
+      color: #d7eef9 !important;
+      font-size: 11pt;
       line-height: 1.6;
     }
 
+    /* Enlever les éléments inutiles à l'impression */
+    .tendrils-canvas,
+    .cursor-glow,
+    .pdf-download-btn {
+      display: none !important;
+    }
+
+    /* Garder les blobs visuels mais les optimiser */
+    .symbiote-blob,
+    .noise {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    /* Enlever les pseudo-éléments complexes des paragraphes */
+    p::before,
+    p::after {
+      display: none !important;
+    }
+
+    /* Garder la décoration du titre */
+    .title::after {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    /* Garder l'overlay web */
+    .web-overlay {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    .web-overlay::before,
+    .web-overlay::after {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    /* Titre en couleur */
     .title {
-      color: #000;
-      text-shadow: none;
-      font-size: 24pt;
-      font-weight: bold;
+      color: var(--cold) !important;
+      text-shadow: 0 0 20px rgba(155,230,255,0.65) !important;
+      font-size: 20pt;
       margin-bottom: 1.5em;
     }
 
-    /* Texte clair et lisible */
+    /* Textes colorés */
     .voice-normal {
-      color: #333;
-      text-shadow: none;
+      color: #b8cdd8 !important;
     }
 
-    .voice-inner,
+    .voice-inner {
+      color: var(--cold) !important;
+      text-shadow: 0 0 8px rgba(155,230,255,0.65) !important;
+    }
+
     .scream {
-      color: #000;
-      text-shadow: none;
-      font-weight: normal;
+      color: #eef4ff !important;
+      text-shadow: 0 0 12px rgba(155,230,255,0.8) !important;
     }
 
     .voice-inner::before {
@@ -514,24 +532,24 @@
     }
 
     .silence {
-      color: #666;
-      text-shadow: none;
+      color: var(--violet-dim) !important;
+      text-shadow: 0 0 10px rgba(155,230,255,0.35) !important;
       margin: 1.5em 0;
     }
 
     .end {
-      color: #333;
+      color: #8aaabb !important;
     }
 
     .end .final-line {
-      color: #000;
-      text-shadow: none;
-      font-weight: bold;
+      color: var(--cold) !important;
+      text-shadow: 0 0 15px rgba(122,75,255,0.55) !important;
+      font-weight: 400;
     }
 
     hr.divider {
-      border-top: 1px solid #999;
-      box-shadow: none;
+      border-top: 1px solid rgba(122,75,255,0.28) !important;
+      box-shadow: 0 0 12px rgba(6,8,12,0.6) !important;
       margin: 1.5em 0;
     }
 
@@ -550,7 +568,6 @@
       margin-bottom: 1em;
     }
 
-    /* Éviter les coupures */
     .silence {
       page-break-inside: avoid;
     }
@@ -561,7 +578,6 @@
       margin: 1.5cm;
     }
 
-    /* Enlever les liens bleus pour l'impression */
     a {
       color: inherit;
       text-decoration: none;

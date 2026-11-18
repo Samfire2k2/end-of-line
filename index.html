@@ -1716,6 +1716,9 @@
         .favorite-btn:active {
             transform: scale(0.9);
         }
+        /* Library controls */
+        .library-tools{max-width:1100px;margin:0 auto 10px;padding:0 30px;position:relative;z-index:2}.library-panel{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:18px;border:1px solid rgba(0,153,255,.25);border-radius:14px;background:rgba(7,17,32,.72)}.library-copy{font-size:.88rem;color:#b8b8d5}.library-copy strong{display:block;color:#fff;font-family:'Orbitron',sans-serif;font-size:1rem;margin-bottom:4px}.library-actions,.mood-filters{display:flex;flex-wrap:wrap;gap:8px}.library-actions{justify-content:flex-end}.library-btn,.mood-filter{border:1px solid rgba(0,153,255,.55);background:transparent;color:#b8b8d5;border-radius:999px;padding:8px 12px;font:600 .75rem 'Space Mono',monospace;cursor:pointer}.library-btn:hover,.mood-filter:hover,.mood-filter.active{background:#0099ff;color:#06111e}.mood-filters{margin-top:12px}.library-status{margin:14px 0 0;color:#8bcfff;font:400 .78rem 'Space Mono',monospace}.story-meta{display:flex;flex-wrap:wrap;gap:6px;margin:-8px 0 18px}.story-meta span{border:1px solid rgba(0,153,255,.32);border-radius:999px;padding:4px 7px;color:#8bcfff;font:400 .68rem 'Space Mono',monospace}.texte-card[hidden]{display:none!important}.resume-story{display:none;margin-top:8px;color:#9fe4ff;font:400 .76rem 'Space Mono',monospace}.resume-story.show{display:block}.featured-card{grid-column:1/-1;border-color:#00d9ff;background:linear-gradient(120deg,rgba(0,153,255,.18),rgba(10,26,47,.92))}.featured-card .card-title::before{content:'À découvrir · ';font-size:.42em;color:#00d9ff;vertical-align:middle}.reading-preferences{position:fixed;right:18px;bottom:18px;z-index:50;border:1px solid rgba(0,153,255,.5);border-radius:12px;background:#081829;padding:10px;box-shadow:0 10px 30px rgba(0,0,0,.35)}.reading-preferences summary{cursor:pointer;color:#9fe4ff;font:600 .72rem 'Space Mono',monospace}.reading-preferences label{display:flex;gap:8px;align-items:center;color:#b8b8d5;font-size:.78rem;margin-top:9px}.reading-preferences input{accent-color:#0099ff}@media(max-width:650px){.library-tools{padding:0 16px}.library-panel{grid-template-columns:1fr}.library-actions{justify-content:flex-start}.reading-preferences{right:10px;bottom:10px}}
+        body.high-contrast{background:#000!important;color:#fff!important}body.high-contrast .texte-card,body.high-contrast .library-panel{background:#080808!important;border-color:#fff!important}body.high-contrast .card-title,body.high-contrast .library-copy strong{color:#fff!important}body.high-contrast .card-description,body.high-contrast .library-copy{color:#fff!important}.reduce-motion *, .reduce-motion *::before, .reduce-motion *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
     </style>
 </head>
 <body>
@@ -1763,6 +1766,12 @@
 
     <!-- READING PROGRESS BAR -->
     <div class="reading-progress"></div>
+    <details class="reading-preferences">
+        <summary>Lecture</summary>
+        <label>Taille <input id="readerSize" type="range" min="90" max="125" value="100"></label>
+        <label><input id="readerContrast" type="checkbox"> Contraste renforcé</label>
+        <label><input id="readerMotion" type="checkbox"> Réduire les mouvements</label>
+    </details>
 
     <!-- SEARCH & FILTER CONTAINER -->
     <div class="search-container" id="searchContainer">
@@ -1774,7 +1783,7 @@
     <div class="feedback-overlay" id="feedbackOverlay" onclick="closeFeedback()"></div>
     <div class="feedback-modal" id="feedbackModal">
         <span onclick="closeFeedback()" style="position: absolute; top: 10px; right: 15px; cursor: pointer; color: #0099ff; font-size: 1.5em;">×</span>
-        <h3>📮 Envoyer un feedback</h3>
+        <h3>◉ Envoyer un feedback</h3>
         <input type="email" id="feedbackEmail" placeholder="Votre email (optionnel)">
         <textarea id="feedbackText" placeholder="Votre message..."></textarea>
         <div class="feedback-buttons">
@@ -1797,6 +1806,14 @@
         </section>
 
         <div class="divider"></div>
+        <section class="library-tools" aria-label="Explorer les textes">
+            <div class="library-panel">
+                <div class="library-copy"><strong>La bibliothèque</strong>Choisis une humeur, cherche un titre, ou laisse le hasard décider.</div>
+                <div class="library-actions"><button class="library-btn" id="randomStory" type="button">Texte au hasard</button><button class="library-btn" id="resumeStory" type="button" hidden>Reprendre la lecture</button></div>
+            </div>
+            <div class="mood-filters" id="moodFilters" aria-label="Filtrer par ambiance"></div>
+            <p class="library-status" id="libraryStatus" aria-live="polite"></p>
+        </section>
         <div class="textes-grid" id="textes">
             <!-- Texte 1 -->
             <div class="texte-card">
@@ -1887,6 +1904,52 @@
                     <a href="lhote.html" class="card-link">→ LIRE</a>
                 </div>
             </div>
+
+            <!-- Texte 10 -->
+            <div class="texte-card">
+                <div class="card-content">
+                    <div class="card-number">[ 10 ]</div>
+                    <h2 class="card-title">Sur les lattes blanchies</h2>
+                    <p class="card-description">Une rencontre adolescente sur un banc, entre silences, questions maladroites et confiance fragile. Une conversation sur ce que l'on montre aux autres, ce que l'on garde pour soi et la possibilité de recommencer.</p>
+                    <a href="Sur_les_lattes_blanchies.html" class="card-link">→ LIRE</a>
+                </div>
+            </div>
+
+            <!-- Texte 11 -->
+            <div class="texte-card">
+                <div class="card-content">
+                    <div class="card-number">[ 11 ]</div>
+                    <h2 class="card-title">Les fantômes de Neon City</h2>
+                    <p class="card-description">Dans une ville saturée de signaux, Ash et Raven tentent de se retrouver après une blessure impossible à effacer. Un récit de science-fiction intime sur les limites, le silence, la culpabilité et la reconstruction.</p>
+                    <a href="lesfantomesdeneoncity.html" class="card-link">→ LIRE</a>
+                </div>
+            </div>
+
+            <!-- Texte 12 -->
+            <div class="texte-card">
+                <div class="card-content">
+                    <div class="card-number">[ 12 ]</div>
+                    <h2 class="card-title">Les braises sous la cendre</h2>
+                    <p class="card-description">Après une séparation, les souvenirs continuent de brûler sous les gestes ordinaires. Un texte sur l'absence, les traces laissées par l'amour et ce que l'on découvre quand une histoire est déjà terminée.</p>
+                    <a href="lesbraisesouslacendre.html" class="card-link">→ LIRE</a>
+                </div>
+            </div>
+            <div class="texte-card">
+                <div class="card-content">
+                    <div class="card-number">[ 13 ]</div>
+                    <h2 class="card-title">Ce que dit le beurre</h2>
+                    <p class="card-description">Un dimanche, le beurre noisette cesse de parler à la place de deux êtres qui se sont longtemps aimés par les assiettes.</p>
+                    <a href="cequeditlebeurre.html" class="card-link">→ LIRE</a>
+                </div>
+            </div>
+            <div class="texte-card">
+                <div class="card-content">
+                    <div class="card-number">[ 14 ]</div>
+                    <h2 class="card-title">Entre les pages</h2>
+                    <p class="card-description">Une archive vivante de mémoire familiale: une feuille de sauge, des livres conservés et les saisons que portent les souvenirs.</p>
+                    <a href="Entre-Les-Pages/" class="card-link">→ OUVRIR</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1953,7 +2016,7 @@
             <h2 style="font-family: 'Orbitron', sans-serif; font-size: 2.2em; color: #0099ff; margin-bottom: 40px; text-align: center;">Par les chiffres</h2>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-number">9</div>
+                    <div class="stat-number">14</div>
                     <div class="stat-label">Textes</div>
                 </div>
                 <div class="stat-card">
@@ -2821,6 +2884,50 @@
         // ========== AUDIO TOGGLES IN NAVBAR ==========
         // SFX always enabled by default
         sfx.enabled = true;
+
+        // ========== LIBRARY EXPERIENCE ==========
+        (function () {
+            const library = [
+                ['La dernière page', 'intime', 'nostalgique', '12 min'], ['01 - Entre deux états', 'dystopique', 'étrange', '18 min'],
+                ['De cire et de sang', 'intime', 'étrange', '15 min'], ['Réflɘxions', 'dystopique', 'étrange', '10 min'],
+                ['À contre-saison', 'lumineux', 'intime', '9 min'], ['Idée fixe', 'intime', 'nostalgique', '11 min'],
+                ['Le Walkman', 'lumineux', 'nostalgique', '9 min'], ['La chaleur du marbre', 'étrange', 'intime', '14 min'],
+                ["L'hôte", 'intime', 'étrange', '10 min'], ['Sur les lattes blanchies', 'lumineux', 'intime', '8 min'],
+                ['Les fantômes de Neon City', 'dystopique', 'intime', '16 min'], ['Les braises sous la cendre', 'nostalgique', 'intime', '10 min'],
+                ['Ce que dit le beurre', 'lumineux', 'intime', '7 min'],
+                ['Entre les pages', 'nostalgique', 'intime', '12 min']
+            ];
+            const cards = Array.from(document.querySelectorAll('.texte-card'));
+            const filters = document.getElementById('moodFilters');
+            const status = document.getElementById('libraryStatus');
+            const moods = ['tous', 'intime', 'étrange', 'nostalgique', 'dystopique', 'lumineux'];
+            let activeMood = 'tous';
+            cards.forEach(function(card) {
+                const title = card.querySelector('.card-title').textContent.trim();
+                const data = library.find(function(item) { return item[0] === title; }) || [title, 'intime', '8 min'];
+                card.dataset.moods = data.slice(1, -1).join(' ');
+                const meta = document.createElement('div'); meta.className = 'story-meta';
+                [data[1], data[2], data[data.length - 1]].filter(Boolean).forEach(function(label) { const tag = document.createElement('span'); tag.textContent = label; meta.appendChild(tag); });
+                card.querySelector('.card-description').after(meta);
+                if (title === 'Ce que dit le beurre') card.classList.add('featured-card');
+                const link = card.querySelector('.card-link');
+                link.addEventListener('click', function() { localStorage.setItem('lastStory', JSON.stringify({ title: title, href: link.getAttribute('href') })); });
+            });
+            function updateLibrary() {
+                const visible = cards.filter(function(card) { const show = activeMood === 'tous' || card.dataset.moods.split(' ').includes(activeMood); card.hidden = !show; return show; }).length;
+                status.textContent = visible + ' texte' + (visible > 1 ? 's' : '') + ' à découvrir' + (activeMood === 'tous' ? '.' : ' · humeur : ' + activeMood + '.');
+            }
+            moods.forEach(function(mood) { const button = document.createElement('button'); button.type = 'button'; button.className = 'mood-filter' + (mood === activeMood ? ' active' : ''); button.textContent = mood; button.addEventListener('click', function() { activeMood = mood; filters.querySelectorAll('button').forEach(function(item) { item.classList.toggle('active', item === button); }); updateLibrary(); }); filters.appendChild(button); });
+            document.getElementById('randomStory').addEventListener('click', function() { const available = cards.filter(function(card) { return !card.hidden; }); const pick = available[Math.floor(Math.random() * available.length)]; pick.scrollIntoView({ behavior: 'smooth', block: 'center' }); pick.classList.add('featured-card'); setTimeout(function() { if (pick.querySelector('.card-title').textContent.trim() !== 'Ce que dit le beurre') pick.classList.remove('featured-card'); }, 1200); });
+            const last = JSON.parse(localStorage.getItem('lastStory') || 'null'); const resume = document.getElementById('resumeStory');
+            if (last && last.href) { resume.hidden = false; resume.textContent = 'Reprendre : ' + last.title; resume.addEventListener('click', function() { location.href = last.href; }); }
+            const size = document.getElementById('readerSize'), contrast = document.getElementById('readerContrast'), motion = document.getElementById('readerMotion');
+            size.value = localStorage.getItem('libraryFontSize') || 100; document.documentElement.style.fontSize = size.value + '%';
+            size.addEventListener('input', function() { document.documentElement.style.fontSize = size.value + '%'; localStorage.setItem('libraryFontSize', size.value); });
+            contrast.checked = localStorage.getItem('libraryContrast') === 'true'; document.body.classList.toggle('high-contrast', contrast.checked); contrast.addEventListener('change', function() { document.body.classList.toggle('high-contrast', contrast.checked); localStorage.setItem('libraryContrast', contrast.checked); });
+            motion.checked = localStorage.getItem('libraryMotion') === 'true'; document.documentElement.classList.toggle('reduce-motion', motion.checked); motion.addEventListener('change', function() { document.documentElement.classList.toggle('reduce-motion', motion.checked); localStorage.setItem('libraryMotion', motion.checked); });
+            updateLibrary();
+        }());
 
     </script>
 </body>
