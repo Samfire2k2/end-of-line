@@ -1,7 +1,5 @@
 const chapters = [
   {
-    label: "LA CHUTE",
-    title: "Entre les pages",
     visual: "leaf",
     text: [
       `Le recueil est tombé de l’étagère un mardi de novembre, alors que je rangeais la librairie de ma grand-mère. Il s’est ouvert tout seul, comme on ouvre les bras. Entre deux pages, une feuille de <mark data-note="sauge">sauge</mark> séchée, grise et fragile, avait gardé la forme exacte de sa main.`,
@@ -9,8 +7,6 @@ const chapters = [
     ]
   },
   {
-    label: "LE PARFUM",
-    title: "Une porte murée",
     visual: "door",
     text: [
       `J’ai approché la feuille de mon visage. Le parfum était intact, poivré, un peu amer, et il a fait ce que seules les odeurs savent faire : il a ouvert une porte que je croyais murée. J’ai revu la cuisine aux carreaux jaunes, le thé qui fumait, sa voix qui lisait à haute voix pendant que la pluie battait les vitres.`,
@@ -18,8 +14,6 @@ const chapters = [
     ]
   },
   {
-    label: "LA VISITE",
-    title: "Une vieille cliente",
     visual: "rain",
     text: [
       `Alors la <mark data-note="mélancolie">mélancolie</mark> est entrée. Je l’ai reconnue sans peine, c’est une vieille cliente. Elle ne frappe jamais, elle s’installe au fond de la boutique et feuillette les rayons sans rien acheter.`,
@@ -27,8 +21,6 @@ const chapters = [
     ]
   },
   {
-    label: "LA TRACE",
-    title: "Ce qui reste",
     visual: "page",
     text: [
       `Sur la page, face à la feuille, un vers que grand-mère avait souligné au crayon, d’une main tremblante. Je n’ai pas osé le recopier ici. Il disait en substance que ce qui a été aimé ne disparaît pas, et qu’il change simplement de saison.`,
