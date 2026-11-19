@@ -73,24 +73,18 @@ function renderContextObject(chapter) {
 
 chapters.forEach((chapter, index) => {
   const navLink = document.createElement("a");
-  navLink.href = `#chapter-${index + 1}`;
+  navLink.href = `#passage-${index + 1}`;
   navLink.innerHTML = `<span>${String(index + 1).padStart(2, "0")}</span><b>${chapter.label}</b>`;
   chapterNav.appendChild(navLink);
 
-  const section = document.createElement("section");
-  section.className = "chapter";
-  section.id = `chapter-${index + 1}`;
-  section.dataset.chapter = String(index);
-  section.innerHTML = `
-    <div class="chapter-meta">
-      <span>${chapter.code}</span>
-      <span>${chapter.label}</span>
-    </div>
-    <h2>${chapter.title}</h2>
-    <div class="chapter-text">
-      ${chapter.text.map(paragraph => `<p>${paragraph}</p>`).join("")}
-    </div>`;
-  chaptersContainer.appendChild(section);
+  const passage = document.createElement("div");
+  passage.className = "passage";
+  passage.id = `passage-${index + 1}`;
+  passage.dataset.chapter = String(index);
+  passage.innerHTML = `
+    ${index === 0 ? `<h2>${chapter.title}</h2>` : `<h3>${chapter.title}</h3>`}
+    ${chapter.text.map(paragraph => `<p>${paragraph}</p>`).join("")}`;
+  chaptersContainer.appendChild(passage);
 
   const object = document.createElement("div");
   object.className = "context-object";
@@ -153,7 +147,7 @@ const chapterObserver = new IntersectionObserver(entries => {
   threshold: [0.15, 0.35, 0.55]
 });
 
-document.querySelectorAll(".chapter").forEach(section => chapterObserver.observe(section));
+document.querySelectorAll(".passage").forEach(passage => chapterObserver.observe(passage));
 setActiveChapter(0);
 
 function updateClock() {
