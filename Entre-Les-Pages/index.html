@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#111111">
+  <meta name="theme-color" content="#f2efe6">
   <meta name="description" content="Entre les pages — fragments, mémoire et archives familiales.">
-  <title>Entre les pages — Édition rouge</title>
+  <title>Entre les pages — Lecture continue</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -46,29 +46,11 @@
       <aside class="index">
         <p>INDEX</p>
         <nav id="chapterNav" aria-label="Chapitres"></nav>
-        <div class="progress"><i id="progressBar"></i></div>
       </aside>
-
-      <div class="stage">
-        <div class="chapter-meta">
-          <span id="chapterCode">CAP. I</span>
-          <span id="chapterLabel">LA CHUTE</span>
-        </div>
-        <div class="fold" id="fold">
-          <div class="fold-number" id="foldNumber">01</div>
-          <div class="chapter-copy">
-            <h2 id="chapterTitle">Entre les pages</h2>
-            <div class="chapter-text" id="chapterText"></div>
-          </div>
-        </div>
-        <div class="stage-object" id="stageObject" aria-hidden="true"></div>
+      <div class="reading-layout">
+        <article class="chapters" id="chapters"></article>
+        <aside class="context-objects" id="contextObjects" aria-hidden="true"></aside>
       </div>
-
-      <footer class="story-footer">
-        <button id="previous" aria-label="Chapitre précédent">← PRÉCÉDENT</button>
-        <p id="readout">1 / 5</p>
-        <button id="next" aria-label="Chapitre suivant">SUITE →</button>
-      </footer>
     </section>
 
     <aside class="annotation" id="annotation" hidden>
