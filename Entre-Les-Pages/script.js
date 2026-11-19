@@ -1,6 +1,5 @@
 const chapters = [
   {
-    code: "CAP. I",
     label: "LA CHUTE",
     title: "Entre les pages",
     visual: "leaf",
@@ -10,7 +9,6 @@ const chapters = [
     ]
   },
   {
-    code: "CAP. II",
     label: "LE PARFUM",
     title: "Une porte murée",
     visual: "door",
@@ -20,7 +18,6 @@ const chapters = [
     ]
   },
   {
-    code: "CAP. III",
     label: "LA VISITE",
     title: "Une vieille cliente",
     visual: "rain",
@@ -30,7 +27,6 @@ const chapters = [
     ]
   },
   {
-    code: "CAP. IV",
     label: "LA TRACE",
     title: "Ce qui reste",
     visual: "page",
