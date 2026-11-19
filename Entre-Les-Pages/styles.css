@@ -209,8 +209,7 @@ button { font: inherit; }
 
 .story {
   position: relative;
-  display: grid;
-  grid-template-columns: 176px minmax(0, 1fr);
+  display: block;
   min-height: 100svh;
   background: var(--paper);
 }
@@ -254,10 +253,11 @@ button { font: inherit; }
 
 .reading-layout {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 680px) minmax(180px, 280px);
+  display: block;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
   justify-content: center;
-  gap: 6vw;
   min-width: 0;
   padding: 68px 5vw 160px;
 }
@@ -314,11 +314,7 @@ mark {
 }
 
 .context-objects {
-  position: sticky;
-  top: 150px;
-  align-self: start;
-  height: 420px;
-  pointer-events: none;
+  display: none;
 }
 
 .context-object {
@@ -452,14 +448,11 @@ mark {
   .landing-copy { left: 6%; width: 78%; }
   .landing h1 { font-size: clamp(58px, 14vw, 110px); }
   .specimen { right: 2%; opacity: 0.25; }
-  .story { grid-template-columns: 74px minmax(0, 1fr); }
   .index { padding: 34px 8px; }
   .index > p { writing-mode: vertical-rl; }
   .index nav a { justify-content: center; }
   .index nav a b { display: none; }
   .reading-layout {
-    grid-template-columns: minmax(0, 620px) 180px;
-    gap: 2vw;
     padding-left: 4vw;
     padding-right: 4vw;
   }
