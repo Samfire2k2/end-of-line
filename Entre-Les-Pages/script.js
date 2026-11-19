@@ -21,7 +21,6 @@ const notes = {
   poésie: "Ce qui ne tient nulle part ailleurs trouve ici sa place."
 };
 
-const archive = document.getElementById("archive");
 const landing = document.getElementById("landing");
 const story = document.getElementById("story");
 const chaptersContainer = document.getElementById("chapters");
@@ -71,13 +70,6 @@ document.getElementById("enter").addEventListener("click", () => {
   }, 500);
 });
 
-document.getElementById("identity").addEventListener("click", () => {
-  story.hidden = true;
-  landing.hidden = false;
-  landing.classList.remove("exit");
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
-
 document.getElementById("closeAnnotation").addEventListener("click", () => {
   annotation.hidden = true;
 });
@@ -87,14 +79,6 @@ chaptersContainer.addEventListener("click", event => {
   if (!mark) return;
   annotationText.textContent = notes[mark.dataset.note];
   annotation.hidden = false;
-});
-
-document.getElementById("environment").addEventListener("click", event => {
-  const button = event.currentTarget;
-  const active = button.getAttribute("aria-pressed") !== "true";
-  button.setAttribute("aria-pressed", String(active));
-  archive.classList.toggle("rain", active);
-  button.querySelector("span").textContent = active ? "01" : "00";
 });
 
 function setActiveChapter(index) {
@@ -116,13 +100,3 @@ const chapterObserver = new IntersectionObserver(entries => {
 document.querySelectorAll(".passage").forEach(passage => chapterObserver.observe(passage));
 setActiveChapter(0);
 
-function updateClock() {
-  const now = new Date();
-  document.getElementById("clock").textContent =
-    [now.getHours(), now.getMinutes(), now.getSeconds()]
-      .map(value => String(value).padStart(2, "0"))
-      .join(":");
-}
-
-updateClock();
-setInterval(updateClock, 1000);
