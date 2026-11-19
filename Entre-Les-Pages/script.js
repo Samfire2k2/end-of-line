@@ -28,9 +28,6 @@ const chapters = [
     ]
   },
   {
-    code: "CAP. V",
-    label: "LE GESTE",
-    title: "Ne pas vendre",
     visual: "note",
     text: [
       `J’ai refermé le livre avec précaution, en remettant la sauge à sa place. Puis j’ai posé le recueil en vitrine, sous la lampe, avec une petite étiquette de ma main.`,
